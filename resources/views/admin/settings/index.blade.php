@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Select Sender</label>
+                                <label>Default Sender</label>
                                 <select class="form-control" name="current_sender">
                                     @foreach($senders as $sender)
                                         <option value="{{$sender->id}}" {{option('current_sender','')==$sender->id?'selected':''}}>{{$sender->number}}</option>
