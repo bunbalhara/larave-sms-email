@@ -21,7 +21,7 @@
     <div id="app" class="auth_area">
         <div class="authApp">
             <a href="{{route('home')}}" class="logo">
-                <img src="{{asset('assets/img/logo.png')}}" alt="logo">
+                <img src="{{asset('assets/img/logo.png')}}" alt="logo" style="max-width:250px;">
             </a>
             <div class="main_area">
                 @yield('content')
