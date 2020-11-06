@@ -10,6 +10,10 @@ class Sender extends Model
 {
     use HasFactory;
 
+    public function message(){
+        return $this->hasMany('App\Models\Message');
+    }
+
     public static function store($request){
         $sender = new self();
         $validation = $sender->validate($request);
