@@ -54,7 +54,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($messages as $message)
-                                    @include('admin.users.table-row')
+                                    @include('admin.messages.table-row')
                                 @endforeach
                                 </tbody>
                             </table>

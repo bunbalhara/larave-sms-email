@@ -102,6 +102,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 window.pAjax = function (url) {
   var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var successCallback = arguments.length > 2 ? arguments[2] : undefined;
+  var errorCallback = arguments.length > 3 ? arguments[3] : undefined;
   $.ajax({
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -113,19 +114,24 @@ window.pAjax = function (url) {
     contentType: false,
     cache: false,
     success: function success(res) {
-      if ($.isEmptyObject(res.errors)) {
-        successCallback(res);
-      } else {
+      if (!$.isEmptyObject(res.errors)) {
         for (var key in res.errors) {
           console.log(key);
           console.log(res.errors[key]);
           itoastr('error', res.errors[key]);
-          $("input[name=\"".concat(key, "\"]")).invalid();
+          $("[name=\"".concat(key, "\"]")).invalid();
         }
       }
+
+      successCallback(res);
     },
     error: function error(err) {
       console.log(err);
+      itoastr('error', 'Something went wrong');
+
+      if (errorCallback) {
+        errorCallback(err);
+      }
     }
   });
 };

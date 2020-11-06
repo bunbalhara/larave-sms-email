@@ -1,8 +1,13 @@
 @extends('layouts.master')
 
 @section('title', 'Admin Dashboard')
-@section('style')
 
+@section('style')
+    <style>
+        .table tr.selected{
+            background-color: #0a6aa1;
+        }
+    </style>
 @endsection
 @section('breadcrumb')
     <div class="mr-auto">
@@ -30,9 +35,166 @@
     </div>
     <div class="m-portlet m-portlet--mobile tab_area area-active" id="reports_area">
         <div class="m-portlet__body">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card rounded mt-4">
+                            <div class="card-header">
+                                <h4>Users</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="responsive">
+                                    <table class="table" id="user-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="no-search no-sort"><input type="checkbox" class="select-all"/></th>
+                                                <th>Name</th>
+                                                <th>Phone Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($users as $user)
+                                                <tr class="">
+                                                    <td><input type="checkbox" class="select-item" data-id="{{$user->id}}"/></td>
+                                                    <td>{{$user->name}}</td>
+                                                    <td>{{$user->phone}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card rounded mt-4">
+                            <div class="card-header rounded-top"><h4>Send SMS message</h4></div>
+                            <div class="card-body">
+                                <div class="col-12 pt-4">
+                                    <div class="row">
+                                        <div class="control-label col-lg-4 d-flex align-items-center">Default Sender:</div>
+                                        <div class="col-lg-8">
+                                            <div class="form-control" id="default_sender">
+                                                {!! $defaultSender->number??'<span class="text-danger">Default Sender is not defined</span>' !!}
+                                            </div>
+                                        </div>
+                                        <!-- Default unchecked -->
+                                        <div class="col-12 py-4">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="useOtherSender">
+                                                <label class="custom-control-label" for="useOtherSender">Use other sender</label>
+                                            </div>
+                                        </div>
 
+                                        <div class="w-100 col-12 d-none" id="all-senders">
+                                            <div class="row">
+                                                <div class="control-label col-lg-4 d-flex align-items-center">Select a sender:</div>
+                                                <div class="col-lg-8">
+                                                    <select class="form-control" name="sender">
+                                                        @foreach($senders as $sender)
+                                                            <option value="{{$sender->id}}">{{$sender->number}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-4">
+                                            <div class="form-group">
+                                                <label>Message</label>
+                                                <textarea class="form-control message-box" name="message" rows="10"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-4">
+                                            <div class="pull-right">
+                                                <button class="btn  m-btn--square  btn-outline-danger m-btn m-btn--custom clear-message">
+                                                    Clear
+                                                </button>
+                                                <button type="submit" class="btn m-btn--square create-item btn-outline-info m-btn m-btn--custom submit-message">
+                                                    <i class="fa fa-paper-plane "></i> Submit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 @section('script')
+    <script>
+        $(document).ready(function (){
+            let defaultSender = '{{$defaultSender->id}}';
+            let sender = defaultSender;
+            let ids = [];
+            let rows = [];
+
+            $('#useOtherSender').change(function (){
+                let checked = $(this).prop('checked');
+                $('#default_sender').disable(checked)
+                if(checked){
+                    $('#all-senders').show()
+                    sender = $('#all-senders').find('select').val()
+                }else {
+                    $('#all-senders').hide();
+                    sender = defaultSender;
+                }
+            })
+
+            $('#all-senders').find('select').change(function (){
+                sender = $(this).val();
+            })
+
+            $('#user-table').dataTable({
+                order:[],
+                columnDefs: [
+                    {targets: 'no-sort', orderable: false,},
+                    {targets: 'no-search', searchable: false,},
+                ],
+            })
+
+            $('.select-all').change(function (){
+                $('.select-item').prop('checked', $(this).prop('checked'))
+                checkSelectedItems();
+            })
+
+            $('.select-item').change(function (){
+                checkSelectedItems();
+            })
+
+            function checkSelectedItems(){
+                ids = [];
+                rows = [];
+                $('#user-table').find('.select-item').each((index, item)=>{
+                    if($(item).prop('checked')){
+                        console.log($(item).data('id'))
+                        ids.push($(item).data('id'));
+                        rows.push($(item).parents('tr'));
+                        $(item).parents('tr').addClass('selected')
+                    }else {
+                        $(item).parents('tr').removeClass('selected')
+                    }
+                })
+            }
+
+            $('.submit-message').click(function (e){
+                e.preventDefault();
+                let formData = new FormData();
+                formData.append('sender', sender)
+                formData.append('receivers', ids.join(','))
+                formData.append('message', $('[name="message"]').val())
+                let html = $(this).html();
+                $(this).loading();
+                pAjax('{{route('admin.message.send')}}', formData, res=>{
+                    if(res.status){
+                        itoastr('success', res.message)
+                    }
+                    $(this).loading(false, html);
+                })
+            })
+        })
+    </script>
 @endsection

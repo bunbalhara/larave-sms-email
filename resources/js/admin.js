@@ -1,6 +1,6 @@
 
 
-window.pAjax = function (url, data = null, successCallback) {
+window.pAjax = function (url, data = null, successCallback, errorCallback) {
     $.ajax({
         headers:{
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -12,19 +12,22 @@ window.pAjax = function (url, data = null, successCallback) {
         contentType: false,
         cache: false,
         success: (res)=>{
-            if($.isEmptyObject(res.errors)){
-                successCallback(res)
-            }else {
+            if(!$.isEmptyObject(res.errors)){
                 for (let key in res.errors){
                     console.log(key)
                     console.log(res.errors[key])
                     itoastr('error', res.errors[key]);
-                    $(`input[name="${key}"]`).invalid();
+                    $(`[name="${key}"]`).invalid();
                 }
             }
+            successCallback(res)
         },
         error: err => {
             console.log(err);
+            itoastr('error', 'Something went wrong')
+            if(errorCallback){
+                errorCallback(err)
+            }
         }
     })
 }
@@ -62,9 +65,11 @@ $.fn.extend({
         if(this.hasClass('d-none'))
         this.removeClass('d-none')
     },
+
     check:function(checked = true){
         this.prop('checked', checked)
     },
+
     formData: function(){
         let formData = new FormData();
         let inputs = this.find('input');

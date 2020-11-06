@@ -27,6 +27,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
 
     Route::get('new-message', 'SmsController@newMessage')->name('new-message');
     Route::group(['as'=>'message.', 'prefix'=>'message'], function(){
+        Route::post('send','SmsController@sendSms')->name('send');
         Route::post('delete','SmsController@delete')->name('delete');
         Route::get('/','SmsController@index')->name('index');
     });

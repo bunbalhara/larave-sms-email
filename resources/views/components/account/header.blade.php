@@ -9,7 +9,7 @@
                     <div class="m-stack__item m-stack__item--middle m-brand__logo">
                         <a href="{{route('home')}}" class="m-brand__logo-wrapper">
 {{--                            Your Logo Here--}}
-                            <img src="{{asset('assets/img/logo.png')}}" alt="logo" class="maxw-100">
+                            <img src="{{asset('assets/img/logo.png')}}" alt="logo" style="max-width: 191px; width: 100%">
                             {{-- <img alt="Logo" src="{{asset('assets/img/logo.png')}}" class="w-100 pt-1"/> --}}
                         </a>
                     </div>
