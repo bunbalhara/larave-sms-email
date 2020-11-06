@@ -100,8 +100,8 @@
                                         </div>
                                         <div class="col-12 pt-4">
                                             <div class="form-group">
-                                                <label>Message</label>
-                                                <textarea class="form-control message-box" name="message" rows="10"></textarea>
+                                                <label>Message (max 160 characters)</label>
+                                                <textarea class="form-control message-box" name="message" rows="5"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12 text-center text-warning pt-4">
@@ -134,6 +134,16 @@
             let sender = defaultSender;
             let ids = [];
             let rows = [];
+
+
+            $('.message-box').bind('input propertychange', function() {
+                if($(this).val().length > 160){
+                    $(this).invalid();
+                }else {
+                    $(this).invalid(false)
+                }
+            });
+
 
             $('#useOtherSender').change(function (){
                 let checked = $(this).prop('checked');
@@ -192,6 +202,7 @@
                 let html = $(this).html();
                 $(this).loading();
                 pAjax('{{route('admin.message.send')}}', formData, res=>{
+                    console.log(res)
                     if(res.status){
                         itoastr('success', res.message)
                     }

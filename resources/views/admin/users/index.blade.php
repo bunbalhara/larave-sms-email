@@ -35,7 +35,7 @@
                    <div class="tool-bar">
                        <div class="tool-container">
                            <button class="btn btn-sm btn-cancel-add btn-outline-danger d-none"><div><i class="fa fa-arrow-left"></i>Back</div></button>
-                           <button class="btn btn-sm btn-outline-info csv-import d-none"><div><i class="fa fa-file-import"></i>Import CSV</div></button>
+                           <button class="btn btn-sm btn-outline-info csv-import"><div><i class="fa fa-file-import"></i>Import from CSV</div></button>
                            <input type="file" class="csv-file-picker" name="csv-file" accept=".xlsx,.csv" data-submit-url="{{route('admin.user.file-import')}}" hidden>
                            <button class="btn btn-sm btn-add add-new"><div><i class="fa fa-plus"></i>Add</div></button>
                            <button class="btn btn-sm btn-delete delete-all disabled"><div><i class="fa fa-trash"></i>Delete</div></button>
@@ -120,6 +120,58 @@
            </div>
         </div>
     </div>
+    <div id="submit-csv-file-dialog" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="delete-modal-content">
+                    <div class="w-100 position-absolute" style="top: 20px; right: 20px">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="text-center w-100 d-flex justify-content-around align-items-center py-5 px-1">
+                        <div class="d-flex align-items-center">
+                            <h6 class="mr-1">Name: </h6>
+                            <select name="name" class="select-box">
+                                @foreach([1,2,3,4] as $i)
+                                    <option value="{{$i-1}}" {{$i==1?'selected':''}}>{{$i}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <h6 class="mr-1">Email: </h6>
+                            <select name="email" class="select-box">
+                                @foreach([1,2,3,4] as $i)
+                                    <option value="{{$i-1}}" {{$i==2?'selected':''}}>{{$i}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <h6 class="mr-1">Phone number: </h6>
+                            <select name="phone" class="select-box">
+                                @foreach([1,2,3,4] as $i)
+                                    <option value="{{$i-1}}"  {{$i==3?'selected':''}}>{{$i}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <h6>Password: </h6>
+                            <select name="password" class="select-box">
+                                @foreach([1,2,3,4] as $i)
+                                    <option value="{{$i-1}}"  {{$i==4?'selected':''}}>{{$i}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-info csv-submit-btn">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('script')
     <script>

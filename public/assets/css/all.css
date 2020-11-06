@@ -2082,6 +2082,7 @@ input.input-box {
   border: solid 1px #808080af;
 }
 
+select.is-invalid,
 input.is-invalid {
   border: solid 1px crimson;
 }
@@ -2186,6 +2187,7 @@ input.is-invalid {
 
 .table-wrapper .btn.disabled {
   background-color: #bbbbbb;
+  cursor: not-allowed;
 }
 
 .table-wrapper .table.fixed {

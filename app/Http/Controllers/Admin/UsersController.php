@@ -20,12 +20,31 @@ class UsersController extends Controller
 
     public function fileImport(Request $request)
     {
-        $data = Excel::import(new UsersImport, $request->file('csv-file')->store('temp'));
-        return response()->json([
-            'status'=>1,
-            'data'=>$data,
-            'message'=>''
-        ]);
+
+        $path = $request->file('csv-file')->store('temp');
+
+        $match = [
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'phone'    => $request->phone,
+            'password' => $request->password,
+        ];
+
+        try {
+            Excel::import(new UsersImport($match), storage_path('app/'.$path));
+            return response()->json([
+                'status'=>1,
+                'data'=>'',
+                'message'=>'Imported Successfully!'
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'status'=>0,
+                'errors'=>['Failed to import, something went wrong'],
+                'message'=>$e->getMessage()
+            ]);
+        }
+
     }
 
     public function add(Request $request){

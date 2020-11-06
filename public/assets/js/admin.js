@@ -182,6 +182,7 @@ $.fn.extend({
   },
   formData: function formData() {
     var formData = new FormData();
+    var jsonData = {};
     var inputs = this.find('input');
     var selects = this.find('select');
     var textAreas = this.find('textarea');
@@ -199,9 +200,13 @@ $.fn.extend({
     for (var _i = 0, _forms = forms; _i < _forms.length; _i++) {
       var formItem = _forms[_i];
       formData.append(formItem.attr('name'), formItem.val());
+      jsonData[formItem.attr('name')] = formItem.val();
     }
 
-    return formData;
+    return {
+      formData: formData,
+      jsonData: jsonData
+    };
   },
   clear: function clear() {
     this.find('input').val('');
@@ -245,9 +250,26 @@ $.fn.extend({
       that.find('.csv-file-picker').change(function () {
         var submitUrl = $(this).data('submit-url');
         var formData = new FormData();
-        formData.append('csv-file', $(this).val());
-        pAjax(submitUrl, formData, function (res) {
-          console.log(res);
+        formData.append('csv-file', this.files[0]);
+        $('#submit-csv-file-dialog').modal('show');
+        var modal = $('#submit-csv-file-dialog');
+        modal.find('select').change(function () {
+          var error = false;
+          var temp = -1;
+          var $this = $(this);
+        });
+        $('.csv-submit-btn').click(function () {
+          var _modal$formData = modal.formData(),
+              formData = _modal$formData.formData;
+
+          formData.append('csv-file', that.find('.csv-file-picker')[0].files[0]);
+          pAjax(submitUrl, formData, function (res) {
+            console.log(res);
+
+            if (res.status) {
+              window.location.reload();
+            }
+          });
         });
       });
     });
@@ -260,7 +282,6 @@ $.fn.extend({
       that.find('.save-all').hide();
 
       if (csvImport) {
-        that.find('.csv-import').show();
         that.find('.btn-cancel-add').show();
       }
     });
@@ -274,7 +295,6 @@ $.fn.extend({
       that.find('.dataTables_wrapper').show();
 
       if (csvImport) {
-        that.find('.csv-import').hide();
         that.find('.btn-cancel-add').hide();
       }
     });
@@ -466,8 +486,8 @@ $.fn.extend({
       var formData = new FormData();
 
       for (var i in idsForUpdate) {
-        var _getFormData = getFormData(rowsForUpdate[i]),
-            jsonData = _getFormData.jsonData;
+        var _rowsForUpdate$i$form = rowsForUpdate[i].formData(),
+            jsonData = _rowsForUpdate$i$form.jsonData;
 
         formData.append('id[]', idsForUpdate[i]);
 
@@ -516,35 +536,6 @@ $.fn.extend({
     init();
   }
 });
-
-function getFormData(formContainer) {
-  var formData = new FormData();
-  var jsonData = {};
-  var inputs = formContainer.find('input');
-  var selects = formContainer.find('select');
-  var textAreas = formContainer.find('textarea');
-  var forms = [];
-  inputs.each(function (index, item) {
-    $(item).attr('name') && forms.push($(item));
-  });
-  selects.each(function (index, item) {
-    $(item).attr('name') && forms.push($(item));
-  });
-  textAreas.each(function (index, item) {
-    $(item).attr('name') && forms.push($(item));
-  });
-
-  for (var _i3 = 0, _forms2 = forms; _i3 < _forms2.length; _i3++) {
-    var formItem = _forms2[_i3];
-    formData.append(formItem.attr('name'), formItem.val());
-    jsonData[formItem.attr('name')] = formItem.val();
-  }
-
-  return {
-    formData: formData,
-    jsonData: jsonData
-  };
-}
 
 /***/ }),
 

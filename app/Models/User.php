@@ -53,7 +53,7 @@ class User extends Authenticatable implements HasMedia
             'username' => [
                 'source' => 'name',
                 'separator' => '',
-                'onUpdate' => false,
+                'onUpdate' => true,
                 'method'=> null,
             ]
         ];

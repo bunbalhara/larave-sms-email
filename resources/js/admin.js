@@ -69,9 +69,9 @@ $.fn.extend({
     check:function(checked = true){
         this.prop('checked', checked)
     },
-
     formData: function(){
         let formData = new FormData();
+        let jsonData = {};
         let inputs = this.find('input');
         let selects = this.find('select');
         let textAreas = this.find('textarea');
@@ -90,8 +90,10 @@ $.fn.extend({
 
         for(let formItem of forms){
             formData.append(formItem.attr('name'), formItem.val())
+            jsonData[formItem.attr('name')] = formItem.val();
         }
-        return formData;
+
+        return {formData, jsonData};
     },
     clear: function (){
       this.find('input').val('');
@@ -150,9 +152,25 @@ $.fn.extend({
             that.find('.csv-file-picker').change(function (){
                 let submitUrl = $(this).data('submit-url');
                 let formData = new FormData()
-                formData.append('csv-file', $(this).val())
-                pAjax(submitUrl, formData, (res)=>{
-                    console.log(res)
+                formData.append('csv-file', this.files[0])
+                $('#submit-csv-file-dialog').modal('show');
+                let modal = $('#submit-csv-file-dialog');
+
+                modal.find('select').change(function (){
+                    let error = false;
+                    let temp = -1;
+                    let $this = $(this)
+                })
+
+                $('.csv-submit-btn').click(function (){
+                    const {formData} = modal.formData();
+                    formData.append('csv-file', that.find('.csv-file-picker')[0].files[0])
+                    pAjax(submitUrl, formData, (res)=>{
+                        console.log(res)
+                        if(res.status){
+                            window.location.reload();
+                        }
+                    })
                 })
             });
         })
@@ -166,7 +184,6 @@ $.fn.extend({
             that.find('.delete-all').hide();
             that.find('.save-all').hide();
             if(csvImport){
-                that.find('.csv-import').show();
                 that.find('.btn-cancel-add').show();
             }
         })
@@ -180,7 +197,6 @@ $.fn.extend({
             that.find('.save-all').show();
             that.find('.dataTables_wrapper').show();
             if(csvImport){
-                that.find('.csv-import').hide();
                 that.find('.btn-cancel-add').hide();
             }
         })
@@ -358,7 +374,7 @@ $.fn.extend({
         function submitForUpdate(){
             let formData = new FormData();
             for(let i in idsForUpdate){
-               const {jsonData} =  getFormData(rowsForUpdate[i]);
+               const {jsonData} = rowsForUpdate[i].formData();
                 formData.append('id[]', idsForUpdate[i])
                 for(let key in jsonData){
                     formData.append(`${key}[]`, jsonData[key])
@@ -399,30 +415,3 @@ $.fn.extend({
         init();
     }
 })
-
-function getFormData(formContainer){
-    let formData = new FormData();
-    let jsonData = {};
-    let inputs = formContainer.find('input');
-    let selects = formContainer.find('select');
-    let textAreas = formContainer.find('textarea');
-    let forms = [];
-    inputs.each((index, item)=>{
-        $(item).attr('name') && forms.push($(item))
-    })
-
-    selects.each((index, item)=>{
-        $(item).attr('name') && forms.push($(item))
-    })
-
-    textAreas.each((index, item)=>{
-        $(item).attr('name') && forms.push($(item))
-    })
-
-    for(let formItem of forms){
-        formData.append(formItem.attr('name'), formItem.val())
-        jsonData[formItem.attr('name')] = formItem.val();
-    }
-
-    return {formData, jsonData};
-}
