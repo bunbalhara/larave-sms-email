@@ -127,7 +127,7 @@
 @section('script')
     <script>
         $(document).ready(function (){
-            let defaultSender = '{{$defaultSender->id}}';
+            let defaultSender = '{{$defaultSender->id??''}}';
             let sender = defaultSender;
             let ids = [];
             let rows = [];
