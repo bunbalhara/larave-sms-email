@@ -104,6 +104,9 @@
                                                 <textarea class="form-control message-box" name="message" rows="10"></textarea>
                                             </div>
                                         </div>
+                                        <div class="col-12 text-center text-warning pt-4">
+                                            <i class="fas fa-exclamation-triangle"></i> <span>Make sure you are set up correct Twilio account credentials and the sender and receiver phone numbers is valid.</span>
+                                        </div>
                                         <div class="col-12 pt-4">
                                             <div class="pull-right">
                                                 <button class="btn  m-btn--square  btn-outline-danger m-btn m-btn--custom clear-message">
