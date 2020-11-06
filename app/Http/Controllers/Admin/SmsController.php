@@ -27,7 +27,7 @@ class SmsController extends Controller
         });
 
         $current_sender_id = option('current_sender',null);
-
+        $defaultSender = null;
         if($current_sender_id) $defaultSender = Sender::find($current_sender_id);
 
         $senders = Sender::all();
