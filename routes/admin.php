@@ -25,15 +25,31 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
         Route::get('/','SenderController@index')->name('index');
     });
 
+    Route::group(['as'=>'recipient.', 'prefix'=>'recipient'], function(){
+        Route::post('add','RecipientController@add')->name('add');
+        Route::post('delete','RecipientController@delete')->name('delete');
+        Route::post('file-import', 'RecipientController@fileImport')->name('file-import');
+        Route::get('/','RecipientController@index')->name('index');
+    });
+
+
     Route::get('new-message', 'SmsController@newMessage')->name('new-message');
     Route::group(['as'=>'message.', 'prefix'=>'message'], function(){
         Route::post('send','SmsController@sendSms')->name('send');
+        Route::post('status-callback','SmsController@statusCallback')->name('status-callback');
         Route::post('delete','SmsController@delete')->name('delete');
         Route::get('/','SmsController@index')->name('index');
     });
 
     Route::group(['as'=>'setting.', 'prefix'=>'setting'], function(){
         Route::post('set','SettingController@set')->name('set');
+        Route::get('get-phone-numbers','SettingController@getPhoneNumbers')->name('get-phone-numbers');
+
+        Route::get('get-services','SettingController@getServices')->name('get-services');
+        Route::post('service-name-add','SettingController@serviceNameAdd')->name('service-name-add');
+        Route::post('service-name-edit','SettingController@serviceNameEdit')->name('service-name-edit');
+        Route::post('service-name-update','SettingController@serviceNameUpdate')->name('service-name-update');
+        Route::post('service-name-delete','SettingController@serviceNameDelete')->name('service-name-delete');
         Route::get('/','SettingController@index')->name('index');
     });
 });

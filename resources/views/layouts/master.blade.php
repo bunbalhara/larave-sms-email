@@ -75,6 +75,7 @@
         </div>
     </div>
 </div>
+
 <script>
     var token = $('meta[name="csrf-token"]').attr('content');
 </script>

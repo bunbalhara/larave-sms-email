@@ -23920,7 +23920,6 @@
     var systemStackFonts = [
       '-apple-system',
       'Segoe UI',
-      'Roboto',
       'Helvetica Neue',
       'sans-serif'
     ];

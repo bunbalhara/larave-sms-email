@@ -24,13 +24,13 @@
                         <span class="m-menu__link-text">New Message</span>
                     </a>
                 </li>
-                <li class="m-menu__item {{ Request::is('admin/sender*') ? 'm-menu__item--active ' : '' }}" aria-haspopup="true">
-                    <a href="{{route('admin.sender.index')}}" class="m-menu__link ">
+                <li class="m-menu__item {{ Request::is('admin/recipient*') ? 'm-menu__item--active ' : '' }}" aria-haspopup="true">
+                    <a href="{{route('admin.recipient.index')}}" class="m-menu__link ">
                         <span class="m-menu__item-here"></span>
                         <i class="m-menu__link-icon">
-                            <img src="{{asset('assets/img/senders.svg')}}" alt="dashboard">
+                            <img src="{{asset('assets/img/recipients.svg')}}" alt="dashboard">
                         </i>
-                        <span class="m-menu__link-text">Senders</span>
+                        <span class="m-menu__link-text">Recipients</span>
                     </a>
                 </li>
                 <li class="m-menu__item {{ Request::is('admin/user*') ? 'm-menu__item--active ' : '' }}" aria-haspopup="true">

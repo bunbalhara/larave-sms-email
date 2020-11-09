@@ -99,6 +99,18 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 window.pAjax = function (url) {
   var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var successCallback = arguments.length > 2 ? arguments[2] : undefined;
@@ -114,12 +126,19 @@ window.pAjax = function (url) {
     contentType: false,
     cache: false,
     success: function success(res) {
+      console.log(res);
+
       if (!$.isEmptyObject(res.errors)) {
         for (var key in res.errors) {
-          console.log(key);
-          console.log(res.errors[key]);
           itoastr('error', res.errors[key]);
-          $("[name=\"".concat(key, "\"]")).invalid();
+          var name = key.split('.')[0];
+          var order = key.split('.')[1];
+
+          if (order) {
+            $($("[name=\"".concat(name, "[]\"]"))[order]).invalid();
+          } else {
+            $("[name=\"".concat(key, "\"]")).invalid();
+          }
         }
       }
 
@@ -134,6 +153,14 @@ window.pAjax = function (url) {
       }
     }
   });
+};
+
+window.fLog = function (formData) {
+  var data = {};
+  formData.forEach(function (value, key) {
+    data[key] = value;
+  });
+  console.log(data);
 };
 
 $.fn.extend({
@@ -213,206 +240,309 @@ $.fn.extend({
     this.find('input').removeClass('is-invalid');
   },
   crud: function crud(options) {
-    var csvImport = options && options.csvImport || false;
-    var dataTable = options && options.dataTable || true;
-    var dataTableOption = options && options.dataTableOption || {};
-    var markIndex = options && options.markIndex || true;
-    var addable = options && options.addable || true;
-    var editable = options && options.editable || true;
-    var deletable = options && options.deletable || true;
-    var deleteUrl = options && options.urls["delete"] || '';
-    var editUrl = options && options.urls.edit || '';
-    var updateUrl = options && options.urls.update || '';
-    var indexColumnNumber = options && options.indexColumnNumber || 0;
-    var apiProcessing = false;
-    var updating = false;
-    var that = this;
-    var ids;
-    var rows;
-    var table;
-    var idsForUpdate;
-    var rowsForUpdate;
+    var crud = new CRUD(_objectSpread({
+      container: this
+    }, options));
+    crud.initialize();
+    return crud;
+  }
+});
 
-    function init() {
-      ids = [];
-      rows = [];
-      idsForUpdate = [];
-      rowsForUpdate = [];
-      that.find('.delete-all').disable();
-      that.find('.edit-all').disable();
-      that.find('.save-all').disable();
-      that.find('.select-all').check(false);
-      dataTable && table && table.fnDraw();
-    }
+var CRUD = /*#__PURE__*/function () {
+  function CRUD(options) {
+    _classCallCheck(this, CRUD);
 
-    csvImport && that.find('.csv-import').click(function () {
-      that.find('.csv-file-picker').click();
-      that.find('.csv-file-picker').change(function () {
-        var submitUrl = $(this).data('submit-url');
-        var formData = new FormData();
-        formData.append('csv-file', this.files[0]);
-        $('#submit-csv-file-dialog').modal('show');
-        var modal = $('#submit-csv-file-dialog');
-        modal.find('select').change(function () {
-          var error = false;
-          var temp = -1;
-          var $this = $(this);
-        });
-        $('.csv-submit-btn').click(function () {
-          var _modal$formData = modal.formData(),
-              formData = _modal$formData.formData;
+    Object.assign(this, {
+      csvImport: false,
+      dataTable: true,
+      dataTableOption: {},
+      markIndex: true,
+      addable: true,
+      addFormSubmit: null,
+      multiSubmitForAdd: false,
+      editable: true,
+      deletable: true,
+      deleteUrl: null,
+      editUrl: null,
+      updateUrl: null,
+      indexColumnNumber: 0,
+      apiProcessing: false,
+      updating: false,
+      showTableWithAddForm: false,
+      tableFetchUrl: null,
+      container: null,
+      fnEdit: null,
+      ids: [],
+      rows: [],
+      table: null,
+      idsForUpdate: [],
+      rowsForUpdate: []
+    }, options);
+  }
 
-          formData.append('csv-file', that.find('.csv-file-picker')[0].files[0]);
-          pAjax(submitUrl, formData, function (res) {
-            console.log(res);
+  _createClass(CRUD, [{
+    key: "init",
+    value: function init() {
+      var _this = this;
 
+      this.ids = [];
+      this.rows = [];
+      this.idsForUpdate = [];
+      this.rowsForUpdate = [];
+      this.container.find('.delete-all').disable();
+      this.container.find('.edit-all').disable();
+      this.container.find('.save-all').disable();
+      this.container.find('.select-all').check(false);
+      var $this = this;
+
+      if (this.tableFetchUrl) {
+        // Fetch table data
+        this.container.find('tbody').append("<tr><td class=\"text-center\" colspan=\"".concat(this.container.find('thead>tr:last th').length, "\"><i class=\"fa fa-spinner fa-spin fa-2x fa-fw text-info\" style=\"font-size: 70px\"></i></td></tr>"));
+        $.ajax({
+          type: 'get',
+          url: $this.tableFetchUrl,
+          success: function success(res) {
             if (res.status) {
-              window.location.reload();
+              if (res.view !== "") {
+                $this.container.find('tbody').html(res.view);
+              } else {
+                $this.container.find('tbody').html("<tr><td class=\"text-center\" colspan=\"".concat(_this.container.find('thead>tr:last th').length, "\">There is no available data</td></tr>"));
+              }
+
+              $this.markIndexNumbers();
             }
+          },
+          error: function error(err) {
+            return console.log(err);
+          }
+        });
+      }
+    }
+  }, {
+    key: "initialize",
+    value: function initialize() {
+      var $this = this;
+      this.csvImport && this.container.find('.csv-import').click(function () {
+        $this.container.find('.csv-file-picker').click();
+        $this.container.find('.csv-file-picker').change(function () {
+          var submitUrl = $(this).data('submit-url');
+          var formData = new FormData();
+          formData.append('csv-file', this.files[0]);
+          $('#submit-csv-file-dialog').modal('show');
+          var modal = $('#submit-csv-file-dialog');
+          $('.csv-submit-btn').click(function () {
+            var _modal$formData = modal.formData(),
+                formData = _modal$formData.formData;
+
+            formData.append('csv-file', $this.container.find('.csv-file-picker')[0].files[0]);
+            pAjax(submitUrl, formData, function (res) {
+              if (res.status) {
+                window.location.reload();
+              }
+            });
           });
         });
       });
-    });
-    addable && that.find('.add-new').click(function () {
-      that.find('.add-form-container').show();
-      that.find('.dataTables_wrapper').hide();
-      that.find('.add-new').hide();
-      that.find('.edit-all').hide();
-      that.find('.delete-all').hide();
-      that.find('.save-all').hide();
+      this.addable && this.container.find('.add-new').click(function () {
+        $this.container.find('.add-form-container').show();
 
-      if (csvImport) {
-        that.find('.btn-cancel-add').show();
-      }
-    });
-    addable && that.find('.btn-cancel-add').click(function (e) {
-      e.preventDefault();
-      that.find('.add-form-container').hide();
-      that.find('.add-new').show();
-      that.find('.edit-all').show();
-      that.find('.delete-all').show();
-      that.find('.save-all').show();
-      that.find('.dataTables_wrapper').show();
-
-      if (csvImport) {
-        that.find('.btn-cancel-add').hide();
-      }
-    });
-    addable && that.find('.add-form').find('input').change(function () {
-      that.find('.create-item').loading(false);
-      $(this).invalid(false);
-    });
-    addable && that.find('.add-form').submit(function (e) {
-      e.preventDefault();
-      that.find('.create-item').loading();
-      var formData = new FormData(this);
-      var form = $(this);
-      pAjax($(this).attr('action'), formData, function (res) {
-        apiProcessing = true;
-
-        if (res.status) {
-          itoastr('success', 'Created successfully');
-          that.find('.create-item').loading(false);
-
-          if (dataTable) {
-            table.fnAddData(res.data);
-          } else {
-            that.find('tbody').append(res.view);
-          }
-
-          form.clear();
+        if (!$this.showTableWithAddForm) {
+          $this.container.find('.dataTables_wrapper').hide();
+          $this.container.find('.add-new').hide();
+          $this.container.find('.edit-all').hide();
+          $this.container.find('.delete-all').hide();
+          $this.container.find('.save-all').hide();
         }
 
-        apiProcessing = false;
-        init();
+        if ($this.csvImport) {
+          $this.container.find('.btn-cancel-add').show();
+        }
       });
-    });
-    that.find('.select-all').click(function () {
-      that.find('.select-item:enabled').prop('checked', $(this).prop('checked'));
-      checkSelectedItems();
-    });
-    $(document).on('change', '.select-item', function () {
-      checkSelectedItems();
-    });
-    $(document).on('click', '.delete-item', function () {
-      ids = [$(this).data('id')];
-      rows = [$(this).parents('tr')];
-    });
-    $(document).on('click', '.delete-all, .delete-item', function () {
-      if (!$(this).hasClass('disabled')) {
-        $('#delete-confirm-modal').modal('show');
-      }
-    });
-    editable && $(document).on('click', '.edit-all', function () {
-      if (!$(this).hasClass('disabled')) {
-        renderEditRow();
-      }
-    });
-    editable && $(document).on('click', '.edit-item', function () {
-      if (!$(this).hasClass('disabled')) {
-        ids = [$(this).data('id')];
-        rows = [$(this).parents('tr')];
-        renderEditRow();
-      }
-    });
-    $(document).on('click', '.save-all', function () {
-      if (!$(this).hasClass('disabled')) {
-        checkSelectedItems();
-        submitForUpdate();
-      }
-    });
-    $(document).on('click', '.update-item', function () {
-      if (!$(this).hasClass('disabled')) {
-        idsForUpdate = [$(this).data('id')];
-        rowsForUpdate = [$(this).parents('tr')];
-        submitForUpdate();
-      }
-    });
-    $('.delete-confirm-btn').click(function () {
-      var formData = new FormData();
-      formData.append('ids', ids.join(','));
-      pAjax(deleteUrl, formData, function (res) {
-        if (res.status) {
-          var _iterator = _createForOfIteratorHelper(rows),
-              _step;
+      $this.addable && $this.container.find('.btn-cancel-add').click(function (e) {
+        e.preventDefault();
+        $this.container.find('.add-form-container').hide();
+        $this.container.find('.add-new').show();
+        $this.container.find('.edit-all').show();
+        $this.container.find('.delete-all').show();
+        $this.container.find('.save-all').show();
+        $this.container.find('.dataTables_wrapper').show();
 
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var row = _step.value;
+        if ($this.csvImport) {
+          $this.container.find('.btn-cancel-add').hide();
+        }
+      }); //make invalid fields valid when it's value is changed.
 
-              if (dataTable) {
-                table.fnDeleteRow(row.data(row));
+      $this.addable && $this.container.on('change keyup', 'input', function () {
+        $this.container.find('.create-item').loading(false);
+        $(this).invalid(false);
+      }); // add form submit
+
+      $this.addable && $this.container.find('.add-form').submit(function (e) {
+        e.preventDefault();
+
+        if ($this.addFormSubmit) {
+          $this.addFormSubmit($this.table, this);
+        } else {
+          $this.container.find('.create-item').loading();
+          var formData = new FormData(this);
+          var form = $(this);
+          $this.container.find('input').attr('disabled', true);
+          $this.container.find('select').attr('disabled', true);
+          $this.container.find('textarea').attr('disabled', true);
+          pAjax($(this).attr('action'), formData, function (res) {
+            $this.apiProcessing = true;
+
+            if (res.status) {
+              $this.container.find('.create-item').loading(false);
+
+              if ($this.multiSubmitForAdd) {
+                console.log('add form response', res);
               } else {
-                row.remove();
+                if ($this.dataTable) {
+                  $this.table.fnAddData(res.data);
+                } else {
+                  $this.container.find('tbody').append(res.view);
+                }
               }
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
-          }
 
-          $('#delete-confirm-modal').modal('hide');
-          init();
-          itoastr('success', 'Deleted Successfully!');
+              if (res.message) {
+                itoastr('success', res.message);
+              } else {
+                itoastr('success', 'Created successfully');
+              }
+
+              form.clear();
+            }
+
+            $this.container.find('input').attr('disabled', false);
+            $this.container.find('select').attr('disabled', false);
+            $this.container.find('textarea').attr('disabled', false);
+            $this.apiProcessing = false;
+            $this.container.find('.create-item').loading(false);
+            $this.init();
+          });
         }
       });
-    });
+      this.container.find('.select-all').click(function () {
+        $this.container.find('.select-item:enabled').prop('checked', $(this).prop('checked'));
+        $this.checkSelectedItems();
+      });
+      $(this.container).on('change', '.select-item', function () {
+        $this.checkSelectedItems();
+      });
+      $(this.container).on('click', '.delete-item', function () {
+        $this.ids = [$(this).data('id')];
+        $this.rows = [$(this).parents('tr')];
+      });
+      $(this.container).on('click', '.delete-all, .delete-item', function () {
+        if (!$(this).hasClass('disabled')) {
+          $('#delete-confirm-modal').modal('show');
+        }
+      });
+      $this.editable && $(document).on('click', '.edit-all', function () {
+        if (!$(this).hasClass('disabled')) {
+          $this.renderEditRow();
+        }
+      });
+      $this.editable && $($this.container).on('click', '.edit-item', function () {
+        if ($this.fnEdit) {
+          $this.fnEdit($this, this);
+        } else {
+          if (!$(this).hasClass('disabled')) {
+            $this.ids = [$(this).data('id')];
+            $this.rows = [$(this).parents('tr')];
+            $this.renderEditRow();
+          }
+        }
+      });
+      $($this.container).on('click', '.save-all', function () {
+        if (!$(this).hasClass('disabled')) {
+          $this.checkSelectedItems();
+          $this.submitForUpdate();
+        }
+      });
+      $($this.container).on('click', '.update-item', function () {
+        if (!$(this).hasClass('disabled')) {
+          $this.idsForUpdate = [$(this).data('id')];
+          $this.rowsForUpdate = [$(this).parents('tr')];
+          $this.submitForUpdate();
+        }
+      }); // submit delete
 
-    function checkSelectedItems() {
+      $('.delete-confirm-btn').click(function () {
+        var formData = new FormData();
+        formData.append('ids', $this.ids.join(','));
+        $('.delete-confirm-btn').loading();
+        pAjax($this.deleteUrl, formData, function (res) {
+          if (res.status) {
+            var _iterator = _createForOfIteratorHelper($this.rows),
+                _step;
+
+            try {
+              for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                var row = _step.value;
+
+                if ($this.dataTable) {
+                  $this.table.fnDeleteRow(row.data(row));
+                } else {
+                  row.remove();
+                }
+              }
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
+            }
+
+            $('.delete-confirm-btn').loading(false);
+            $('#delete-confirm-modal').modal('hide');
+            $this.init();
+
+            if (res.message) {
+              itoastr('success', res.message);
+            } else {
+              itoastr('success', 'Deleted Successfully!');
+            }
+          }
+        });
+      });
+      console.log($this.dataTable);
+
+      if ($this.dataTable) {
+        $this.table = $this.dataTable && $this.container.find('table').dataTable({
+          order: [],
+          columnDefs: [{
+            targets: 'no-sort',
+            orderable: false
+          }, {
+            targets: 'no-search',
+            searchable: false
+          }],
+          drawCallback: function drawCallback() {
+            $this.dataTableUpdate();
+          }
+        });
+      }
+
+      $this.init();
+    }
+  }, {
+    key: "checkSelectedItems",
+    value: function checkSelectedItems() {
       var disabled = true;
       var saveAllButtonDisabled = true;
-      ids = [];
-      rows = [];
-      idsForUpdate = [];
-      rowsForUpdate = [];
-      that.find('.select-item').each(function (index, item) {
+      this.ids = [];
+      this.rows = [];
+      this.idsForUpdate = [];
+      this.rowsForUpdate = [];
+      var $this = this;
+      this.container.find('.select-item').each(function (index, item) {
         if ($(item).prop('checked') && !$(item).prop('disabled')) {
           disabled = false;
           $(item).parents('tr').find('.edit-item').disable();
           $(item).parents('tr').find('.delete-item').disable();
-          ids.push($(item).data('id'));
-          rows.push($(item).parents('tr'));
+          $this.ids.push($(item).data('id'));
+          $this.rows.push($(item).parents('tr'));
         } else {
           $(item).parents('tr').find('.edit-item').disable(false);
           $(item).parents('tr').find('.delete-item').disable(false);
@@ -420,38 +550,46 @@ $.fn.extend({
 
         if ($(item).parents('tr').find('.update-item').length === 1) {
           saveAllButtonDisabled = false;
-          idsForUpdate.push($(item).data('id'));
-          rowsForUpdate.push($(item).parents('tr'));
+          $this.idsForUpdate.push($(item).data('id'));
+          $this.rowsForUpdate.push($(item).parents('tr'));
         }
       });
-      that.find('.delete-all').disable(disabled);
-      that.find('.edit-all').disable(disabled);
-      that.find('.save-all').disable(saveAllButtonDisabled);
-    }
+      this.container.find('.delete-all').disable(disabled);
+      this.container.find('.edit-all').disable(disabled);
+      this.container.find('.save-all').disable(saveAllButtonDisabled);
+    } // mark index numbers to table.
 
-    function markIndexNumbers() {
-      that.find('tbody').find('tr').each(function (index, item) {
-        updating = true;
-        $($(item).find('td')[indexColumnNumber]).text(index + 1);
+  }, {
+    key: "markIndexNumbers",
+    value: function markIndexNumbers() {
+      var $this = this;
+      this.container.find('tbody').find('tr').each(function (index, item) {
+        $this.updating = true;
+
+        if ($(item).find('td').length > 3) {
+          $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);
+        }
       });
     }
-
-    function renderEditRow() {
-      if (editable) {
+  }, {
+    key: "renderEditRow",
+    value: function renderEditRow() {
+      if (this.editable) {
         var formData = new FormData();
-        formData.append('ids', ids.join(','));
-        pAjax(editUrl, formData, function (res) {
+        formData.append('ids', this.ids.join(','));
+        var $this = this;
+        pAjax(this.editUrl, formData, function (res) {
           if (res.status) {
-            apiProcessing = true;
+            $this.apiProcessing = true;
 
             var _loop = function _loop(i) {
-              var row = rows[i];
+              var row = $this.rows[i];
 
-              if (dataTable) {
-                var oldData = table.fnGetData(table.fnGetPosition(row[0]));
-                table.fnUpdate(res.data[i], table.fnGetPosition(row[0]));
+              if ($this.dataTable) {
+                var oldData = $this.table.fnGetData($this.table.fnGetPosition(row[0]));
+                $this.table.fnUpdate(res.data[i], $this.table.fnGetPosition(row[0]));
                 row.find('.cancel-item').click(function () {
-                  table.fnUpdate(oldData, table.fnGetPosition(row[0]));
+                  $this.table.fnUpdate(oldData, $this.table.fnGetPosition(row[0]));
                 });
               } else {
                 var oldHtml = row.html();
@@ -462,49 +600,52 @@ $.fn.extend({
               }
             };
 
-            for (var i in rows) {
+            for (var i in $this.rows) {
               _loop(i);
             }
 
-            apiProcessing = false;
-            init();
+            $this.apiProcessing = false;
+            $this.init();
           }
         });
       }
     }
-
-    function dataTableUpdate() {
-      if (!updating && !apiProcessing) {
-        markIndex && markIndexNumbers();
-        checkSelectedItems();
+  }, {
+    key: "dataTableUpdate",
+    value: function dataTableUpdate() {
+      if (!this.updating && !this.apiProcessing) {
+        this.markIndex && this.markIndexNumbers();
+        this.checkSelectedItems();
       }
 
-      updating = false;
+      this.updating = false;
     }
-
-    function submitForUpdate() {
+  }, {
+    key: "submitForUpdate",
+    value: function submitForUpdate() {
       var formData = new FormData();
 
-      for (var i in idsForUpdate) {
-        var _rowsForUpdate$i$form = rowsForUpdate[i].formData(),
-            jsonData = _rowsForUpdate$i$form.jsonData;
+      for (var i in this.idsForUpdate) {
+        var _this$rowsForUpdate$i = this.rowsForUpdate[i].formData(),
+            jsonData = _this$rowsForUpdate$i.jsonData;
 
-        formData.append('id[]', idsForUpdate[i]);
+        formData.append('id[]', this.idsForUpdate[i]);
 
         for (var key in jsonData) {
           formData.append("".concat(key, "[]"), jsonData[key]);
         }
       }
 
-      pAjax(updateUrl, formData, function (res) {
-        apiProcessing = true;
+      var $this = this;
+      pAjax(this.updateUrl, formData, function (res) {
+        $this.apiProcessing = true;
 
         if (res.status) {
-          for (var _i2 in rowsForUpdate) {
-            var row = rowsForUpdate[_i2];
+          for (var _i2 in $this.rowsForUpdate) {
+            var row = $this.rowsForUpdate[_i2];
 
-            if (dataTable) {
-              table.fnUpdate(res.data[_i2], table.fnGetPosition(row[0]));
+            if ($this.dataTable) {
+              $this.table.fnUpdate(res.data[_i2], $this.table.fnGetPosition(row[0]));
             } else {
               row.before(res.view[_i2]);
               row.remove();
@@ -512,30 +653,14 @@ $.fn.extend({
           }
         }
 
-        apiProcessing = false;
-        init();
+        $this.apiProcessing = false;
+        $this.init();
       });
     }
+  }]);
 
-    if (dataTable) {
-      table = dataTable && that.find('table').dataTable({
-        order: [],
-        columnDefs: [{
-          targets: 'no-sort',
-          orderable: false
-        }, {
-          targets: 'no-search',
-          searchable: false
-        }],
-        drawCallback: function drawCallback() {
-          dataTableUpdate();
-        }
-      });
-    }
-
-    init();
-  }
-});
+  return CRUD;
+}();
 
 /***/ }),
 

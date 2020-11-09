@@ -49,15 +49,17 @@
                                             <tr>
                                                 <th class="no-search no-sort"><input type="checkbox" class="select-all"/></th>
                                                 <th>Name</th>
+                                                <th>Country</th>
                                                 <th>Phone Number</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($users as $user)
+                                            @foreach($recipients as $recipient)
                                                 <tr class="">
-                                                    <td><input type="checkbox" class="select-item" data-id="{{$user->id}}"/></td>
-                                                    <td>{{$user->name}}</td>
-                                                    <td>{{$user->phone}}</td>
+                                                    <td><input type="checkbox" class="select-item" data-id="{{$recipient->id}}"/></td>
+                                                    <td>{{$recipient->name}}</td>
+                                                    <td>{{$recipient->country}} <img src="{{asset('assets/img/flags/'.$recipient->country.'.png')}}"/></td>
+                                                    <td>{{$recipient->phone_number}}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -75,7 +77,7 @@
                                         <div class="control-label col-lg-4 d-flex align-items-center">Default Sender:</div>
                                         <div class="col-lg-8">
                                             <div class="form-control" id="default_sender">
-                                                {!! $defaultSender->number??'<span class="text-danger">Default Sender is not defined</span>' !!}
+
                                             </div>
                                         </div>
                                         <!-- Default unchecked -->
@@ -91,9 +93,6 @@
                                                 <div class="control-label col-lg-4 d-flex align-items-center">Select a sender:</div>
                                                 <div class="col-lg-8">
                                                     <select class="form-control" name="sender">
-                                                        @foreach($senders as $sender)
-                                                            <option value="{{$sender->id}}">{{$sender->number}}</option>
-                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -129,12 +128,36 @@
 @endsection
 @section('script')
     <script>
+        let defaultServiceSid = '{{option('default_sender', '')}}';
+        if(defaultServiceSid === ''){
+            $('#default_sender').html('<span class="text-danger">Default Sender is not defined</span>')
+        }else {
+            $('#default_sender').html('<div class="w-100 text-center text-info"><i class="fa fa-spinner fa-spin fa-1x fa-fw"></i></div>')
+        }
+        $.ajax({
+            type:'get',
+            url:"{{route('admin.setting.get-services')}}",
+            success:res=>{
+                if(res.status){
+                    let services = res.data.services;
+                    for(let service of services){
+                        if(service.sid === defaultServiceSid){
+                            $('#default_sender').text(service.alphaSenders[0].alphaSender)
+                        }
+
+                        $('select[name="sender"]').append(`<option value="${service.sid}">${service.alphaSenders[0].alphaSender}</option>`)
+                    }
+                }
+            },
+            error:err=>{
+                console.log(err)
+            }
+        })
+
         $(document).ready(function (){
-            let defaultSender = '{{$defaultSender->id??''}}';
-            let sender = defaultSender;
+            let sender = defaultServiceSid;
             let ids = [];
             let rows = [];
-
 
             $('.message-box').bind('input propertychange', function() {
                 if($(this).val().length > 160){
@@ -153,7 +176,7 @@
                     sender = $('#all-senders').find('select').val()
                 }else {
                     $('#all-senders').hide();
-                    sender = defaultSender;
+                    sender = defaultServiceSid;
                 }
             })
 
@@ -196,7 +219,7 @@
             $('.submit-message').click(function (e){
                 e.preventDefault();
                 let formData = new FormData();
-                formData.append('sender', sender)
+                formData.append('serviceSid', sender)
                 formData.append('receivers', ids.join(','))
                 formData.append('message', $('[name="message"]').val())
                 let html = $(this).html();

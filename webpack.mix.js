@@ -14,10 +14,13 @@ const mix = require('laravel-mix');
 mix.sass('resources/sass/back.scss', 'public/assets/css/dev/back.css');
 mix.sass('resources/sass/front.scss', 'public/assets/css/dev/front.css');
 mix.sass('resources/sass/both.scss', 'public/assets/css/dev/both.css');
+mix.sass('resources/sass/app.scss', 'public/assets/css/app.css').version();
+mix.sass('resources/sass/recipient.scss', 'public/assets/css/recipient.css').version();
 
 mix.js('resources/js/app.js', 'public/assets/js/app.js').version();
 mix.js('resources/js/admin.js', 'public/assets/js/admin.js').version();
-mix.sass('resources/sass/app.scss', 'public/assets/css/app.css').version();
+mix.js('resources/js/recipient.js', 'public/assets/js/recipient.js').version();
+
 //front all css
 
 mix.styles([

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSendersTable extends Migration
+class CreateRecipientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateSendersTable extends Migration
      */
     public function up()
     {
-        Schema::create('senders', function (Blueprint $table) {
+        Schema::create('recipients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('number');
-            $table->string('comment')->nullable();
-            $table->integer('sent_messages')->default(0);
+            $table->string('country');
+            $table->string('phone_number');
+            $table->boolean('subscribed')->default(true);
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -29,6 +30,6 @@ class CreateSendersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('senders');
+        Schema::dropIfExists('recipients');
     }
 }

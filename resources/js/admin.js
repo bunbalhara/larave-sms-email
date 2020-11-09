@@ -1,5 +1,3 @@
-
-
 window.pAjax = function (url, data = null, successCallback, errorCallback) {
     $.ajax({
         headers:{
@@ -12,12 +10,17 @@ window.pAjax = function (url, data = null, successCallback, errorCallback) {
         contentType: false,
         cache: false,
         success: (res)=>{
+            console.log(res)
             if(!$.isEmptyObject(res.errors)){
                 for (let key in res.errors){
-                    console.log(key)
-                    console.log(res.errors[key])
                     itoastr('error', res.errors[key]);
-                    $(`[name="${key}"]`).invalid();
+                    let name = key.split('.')[0];
+                    let order = key.split('.')[1]
+                    if(order){
+                        $($(`[name="${name}[]"]`)[order]).invalid()
+                    }else {
+                        $(`[name="${key}"]`).invalid();
+                    }
                 }
             }
             successCallback(res)
@@ -30,6 +33,14 @@ window.pAjax = function (url, data = null, successCallback, errorCallback) {
             }
         }
     })
+}
+
+window.fLog = function (formData){
+    let data = {}
+    formData.forEach((value,key) => {
+        data[key] = value;
+    });
+    console.log(data)
 }
 
 $.fn.extend({
@@ -100,73 +111,91 @@ $.fn.extend({
       this.find('input').removeClass('is-invalid');
     },
     crud:function (options){
+        let crud = new CRUD({container: this, ...options})
+        crud.initialize();
+        return crud;
+    }
+})
 
-        let csvImport = options && options.csvImport || false;
+class CRUD {
 
-        let dataTable = options && options.dataTable || true;
+    constructor(options) {
 
-        let dataTableOption = options && options.dataTableOption || {};
+        Object.assign(this, {
+            csvImport:false,
+            dataTable:true,
+            dataTableOption:{},
+            markIndex:true,
+            addable:true,
+            addFormSubmit:null,
+            multiSubmitForAdd:false,
+            editable:true,
+            deletable:true,
+            deleteUrl:null,
+            editUrl:null,
+            updateUrl:null,
+            indexColumnNumber:0,
+            apiProcessing:false,
+            updating:false,
+            showTableWithAddForm:false,
+            tableFetchUrl:null,
+            container:null,
+            fnEdit: null,
+            ids:[],
+            rows:[],
+            table:null,
+            idsForUpdate:[],
+            rowsForUpdate:[],
+        }, options);
 
-        let markIndex = options && options.markIndex || true;
+    }
 
-        let addable = options && options.addable || true;
-
-        let editable = options && options.editable  || true;
-
-        let deletable = options && options.deletable  || true;
-
-        let deleteUrl = options && options.urls.delete || '';
-
-        let editUrl = options && options.urls.edit || '';
-
-        let updateUrl = options && options.urls.update || '';
-
-        let indexColumnNumber = options && options.indexColumnNumber || 0;
-
-        let apiProcessing = false
-
-        let updating = false;
-
-        let that = this;
-        let ids;
-        let rows;
-        let table;
-        let idsForUpdate;
-        let rowsForUpdate;
-
-        function init(){
-            ids = [];
-            rows = [];
-            idsForUpdate = [];
-            rowsForUpdate = [];
-            that.find('.delete-all').disable()
-            that.find('.edit-all').disable()
-            that.find('.save-all').disable()
-            that.find('.select-all').check(false);
-            dataTable && table && table.fnDraw();
+    init(){
+        this.ids = [];
+        this.rows = [];
+        this.idsForUpdate = [];
+        this.rowsForUpdate = [];
+        this.container.find('.delete-all').disable()
+        this.container.find('.edit-all').disable()
+        this.container.find('.save-all').disable()
+        this.container.find('.select-all').check(false);
+        let $this = this;
+        if(this.tableFetchUrl){
+            // Fetch table data
+            this.container.find('tbody').append(`<tr><td class="text-center" colspan="${this.container.find('thead>tr:last th').length}"><i class="fa fa-spinner fa-spin fa-2x fa-fw text-info" style="font-size: 70px"></i></td></tr>`);
+            $.ajax({
+                type:'get',
+                url: $this.tableFetchUrl,
+                success:res=>{
+                    if(res.status){
+                        if(res.view !== ""){
+                            $this.container.find('tbody').html(res.view)
+                        }else {
+                            $this.container.find('tbody').html(`<tr><td class="text-center" colspan="${this.container.find('thead>tr:last th').length}">There is no available data</td></tr>`)
+                        }
+                        $this.markIndexNumbers();
+                    }
+                },
+                error:err=>console.log(err)
+            })
         }
+    }
 
-
-        csvImport && that.find('.csv-import').click(function (){
-            that.find('.csv-file-picker').click();
-            that.find('.csv-file-picker').change(function (){
+    initialize(){
+        let $this = this;
+        this.csvImport && this.container.find('.csv-import').click(function (){
+            $this.container.find('.csv-file-picker').click();
+            $this.container.find('.csv-file-picker').change(function (){
                 let submitUrl = $(this).data('submit-url');
                 let formData = new FormData()
                 formData.append('csv-file', this.files[0])
                 $('#submit-csv-file-dialog').modal('show');
                 let modal = $('#submit-csv-file-dialog');
 
-                modal.find('select').change(function (){
-                    let error = false;
-                    let temp = -1;
-                    let $this = $(this)
-                })
-
                 $('.csv-submit-btn').click(function (){
                     const {formData} = modal.formData();
-                    formData.append('csv-file', that.find('.csv-file-picker')[0].files[0])
+                    formData.append('csv-file', $this.container.find('.csv-file-picker')[0].files[0])
                     pAjax(submitUrl, formData, (res)=>{
-                        console.log(res)
                         if(res.status){
                             window.location.reload();
                         }
@@ -175,243 +204,285 @@ $.fn.extend({
             });
         })
 
-
-        addable && that.find('.add-new').click(function (){
-            that.find('.add-form-container').show();
-            that.find('.dataTables_wrapper').hide();
-            that.find('.add-new').hide();
-            that.find('.edit-all').hide();
-            that.find('.delete-all').hide();
-            that.find('.save-all').hide();
-            if(csvImport){
-                that.find('.btn-cancel-add').show();
+        this.addable && this.container.find('.add-new').click(function (){
+            $this.container.find('.add-form-container').show();
+            if(!$this.showTableWithAddForm) {
+                $this.container.find('.dataTables_wrapper').hide();
+                $this.container.find('.add-new').hide();
+                $this.container.find('.edit-all').hide();
+                $this.container.find('.delete-all').hide();
+                $this.container.find('.save-all').hide();
+            }
+            if($this.csvImport){
+                $this.container.find('.btn-cancel-add').show();
             }
         })
 
-        addable && that.find('.btn-cancel-add').click(function (e){
+        $this.addable && $this.container.find('.btn-cancel-add').click(function (e){
             e.preventDefault();
-            that.find('.add-form-container').hide();
-            that.find('.add-new').show();
-            that.find('.edit-all').show();
-            that.find('.delete-all').show();
-            that.find('.save-all').show();
-            that.find('.dataTables_wrapper').show();
-            if(csvImport){
-                that.find('.btn-cancel-add').hide();
+            $this.container.find('.add-form-container').hide();
+            $this.container.find('.add-new').show();
+            $this.container.find('.edit-all').show();
+            $this.container.find('.delete-all').show();
+            $this.container.find('.save-all').show();
+            $this.container.find('.dataTables_wrapper').show();
+            if($this.csvImport){
+                $this.container.find('.btn-cancel-add').hide();
             }
         })
 
-        addable && that.find('.add-form').find('input').change(function (){
-            that.find('.create-item').loading(false);
+        //make invalid fields valid when it's value is changed.
+        $this.addable && $this.container.on('change keyup', 'input', function (){
+            $this.container.find('.create-item').loading(false);
             $(this).invalid(false)
         })
 
-        addable && that.find('.add-form').submit(function (e){
+        // add form submit
+        $this.addable && $this.container.find('.add-form').submit(function (e){
             e.preventDefault();
-            that.find('.create-item').loading();
-            let formData = new FormData(this);
-            let form = $(this);
-            pAjax($(this).attr('action'),formData,(res)=>{
-                apiProcessing = true;
-                if(res.status){
-                    itoastr('success','Created successfully')
-                    that.find('.create-item').loading(false);
-                    if(dataTable){
-                        table.fnAddData(res.data)
-                    }else {
-                        that.find('tbody').append(res.view);
+            if($this.addFormSubmit){
+                $this.addFormSubmit($this.table, this)
+            }else {
+                $this.container.find('.create-item').loading();
+                let formData = new FormData(this);
+                let form = $(this);
+                $this.container.find('input').attr('disabled', true)
+                $this.container.find('select').attr('disabled', true)
+                $this.container.find('textarea').attr('disabled', true)
+                pAjax($(this).attr('action'),formData,(res)=>{
+                    $this.apiProcessing = true;
+                    if(res.status){
+                        $this.container.find('.create-item').loading(false);
+                        if($this.multiSubmitForAdd){
+                            console.log('add form response', res)
+                        }else {
+                            if($this.dataTable){
+                                $this.table.fnAddData(res.data)
+                            }else {
+                                $this.container.find('tbody').append(res.view);
+                            }
+                        }
+                        if(res.message){
+                            itoastr('success', res.message)
+                        }else {
+                            itoastr('success','Created successfully')
+                        }
+                        form.clear();
                     }
-                    form.clear();
-                }
-                apiProcessing = false;
-                init();
-            })
+                    $this.container.find('input').attr('disabled', false)
+                    $this.container.find('select').attr('disabled', false)
+                    $this.container.find('textarea').attr('disabled', false)
+                    $this.apiProcessing = false;
+                    $this.container.find('.create-item').loading(false);
+                    $this.init();
+                })
+            }
         })
 
-        that.find('.select-all').click(function (){
-            that.find('.select-item:enabled').prop('checked', $(this).prop('checked'))
-            checkSelectedItems()
+        this.container.find('.select-all').click(function (){
+            $this.container.find('.select-item:enabled').prop('checked', $(this).prop('checked'))
+            $this.checkSelectedItems()
         })
 
-        $(document).on('change','.select-item', function (){
-            checkSelectedItems()
+        $(this.container).on('change','.select-item', function (){
+            $this.checkSelectedItems()
         })
 
-        $(document).on('click','.delete-item', function (){
-           ids = [$(this).data('id')];
-           rows = [$(this).parents('tr')];
+
+        $(this.container).on('click','.delete-item', function (){
+            $this.ids = [$(this).data('id')];
+            $this.rows = [$(this).parents('tr')];
         });
 
-        $(document).on('click', '.delete-all, .delete-item', function (){
+        $(this.container).on('click', '.delete-all, .delete-item', function (){
             if(!$(this).hasClass('disabled')){
                 $('#delete-confirm-modal').modal('show');
             }
         })
 
-        editable && $(document).on('click', '.edit-all', function (){
+        $this.editable && $(document).on('click', '.edit-all', function (){
             if(!$(this).hasClass('disabled')){
-                renderEditRow();
+                $this.renderEditRow();
             }
         })
 
-        editable && $(document).on('click','.edit-item', function (){
-            if(!$(this).hasClass('disabled')){
-                ids = [$(this).data('id')];
-                rows = [$(this).parents('tr')];
-                renderEditRow();
+        $this.editable && $($this.container).on('click','.edit-item', function (){
+            if($this.fnEdit){
+                $this.fnEdit($this, this)
+            }else {
+                if(!$(this).hasClass('disabled')){
+                    $this.ids = [$(this).data('id')];
+                    $this.rows = [$(this).parents('tr')];
+                    $this.renderEditRow();
+                }
             }
         })
 
-        $(document).on('click', '.save-all', function (){
+        $($this.container).on('click', '.save-all', function (){
             if(!$(this).hasClass('disabled')){
-                checkSelectedItems();
-                submitForUpdate();
+                $this.checkSelectedItems();
+                $this.submitForUpdate();
             }
         })
 
-        $(document).on('click','.update-item', function (){
+        $($this.container).on('click','.update-item', function (){
             if(!$(this).hasClass('disabled')){
-                idsForUpdate = [$(this).data('id')];
-                rowsForUpdate = [$(this).parents('tr')];
-                submitForUpdate();
+                $this.idsForUpdate = [$(this).data('id')];
+                $this.rowsForUpdate = [$(this).parents('tr')];
+                $this.submitForUpdate();
             }
         })
 
+        // submit delete
         $('.delete-confirm-btn').click(function (){
             let formData = new FormData();
-            formData.append('ids', ids.join(','));
-            pAjax(deleteUrl, formData,(res)=>{
+            formData.append('ids', $this.ids.join(','));
+            $('.delete-confirm-btn').loading();
+            pAjax($this.deleteUrl, formData,(res)=>{
                 if(res.status){
-                    for (let row of rows){
-                        if(dataTable){
-                            table.fnDeleteRow(row.data(row))
+                    for (let row of $this.rows){
+                        if($this.dataTable){
+                            $this.table.fnDeleteRow(row.data(row))
                         }else {
                             row.remove();
                         }
                     }
+
+                    $('.delete-confirm-btn').loading(false);
                     $('#delete-confirm-modal').modal('hide');
-                    init();
-                    itoastr('success','Deleted Successfully!')
+                    $this.init();
+                    if(res.message){
+                        itoastr('success',res.message)
+                    }else {
+                        itoastr('success','Deleted Successfully!')
+                    }
                 }
             })
         })
 
-        function checkSelectedItems(){
-            let disabled = true;
-            let saveAllButtonDisabled = true;
-            ids = [];
-            rows = [];
-            idsForUpdate = [];
-            rowsForUpdate = [];
-            that.find('.select-item').each((index, item)=>{
-                if($(item).prop('checked') && !$(item).prop('disabled')){
-                    disabled = false;
-                    $(item).parents('tr').find('.edit-item').disable();
-                    $(item).parents('tr').find('.delete-item').disable();
-                    ids.push($(item).data('id'));
-                    rows.push($(item).parents('tr'));
-                }else {
-                    $(item).parents('tr').find('.edit-item').disable(false);
-                    $(item).parents('tr').find('.delete-item').disable(false);
-                }
-                if($(item).parents('tr').find('.update-item').length === 1){
-                    saveAllButtonDisabled = false;
-                    idsForUpdate.push($(item).data('id'));
-                    rowsForUpdate.push($(item).parents('tr'));
-                }
-            })
-            that.find('.delete-all').disable(disabled)
-            that.find('.edit-all').disable(disabled)
-            that.find('.save-all').disable(saveAllButtonDisabled)
-        }
+        console.log($this.dataTable)
 
-
-        function markIndexNumbers(){
-            that.find('tbody').find('tr').each((index, item)=>{
-                updating = true;
-                $($(item).find('td')[indexColumnNumber]).text(index + 1);
-            })
-        }
-
-        function renderEditRow(){
-            if(editable){
-                let formData = new FormData();
-                formData.append('ids', ids.join(','));
-                pAjax(editUrl, formData, res=>{
-                    if(res.status){
-                        apiProcessing = true;
-                        for (let i in rows){
-                            let row = rows[i]
-                            if(dataTable){
-                                let oldData = table.fnGetData(table.fnGetPosition(row[0]))
-                                table.fnUpdate(res.data[i], table.fnGetPosition(row[0]))
-                                row.find('.cancel-item').click(function (){
-                                    table.fnUpdate(oldData, table.fnGetPosition(row[0]))
-                                })
-                            }else {
-                                let oldHtml = row.html();
-                                row.html(res.view[i])
-                                row.find('.cancel-item').click(function (){
-                                    row.html(oldHtml)
-                                });
-                            }
-                        }
-                        apiProcessing = false;
-                        init();
-                    }
-                })
-            }
-        }
-
-        function dataTableUpdate() {
-            if(!updating && !apiProcessing){
-                markIndex && markIndexNumbers();
-                checkSelectedItems();
-            }
-            updating = false;
-        }
-
-        function submitForUpdate(){
-            let formData = new FormData();
-            for(let i in idsForUpdate){
-               const {jsonData} = rowsForUpdate[i].formData();
-                formData.append('id[]', idsForUpdate[i])
-                for(let key in jsonData){
-                    formData.append(`${key}[]`, jsonData[key])
-                }
-            }
-            pAjax(updateUrl, formData,(res)=>{
-                apiProcessing = true;
-                if(res.status){
-                    for (let i in rowsForUpdate){
-                        let row = rowsForUpdate[i]
-                        if(dataTable){
-                            table.fnUpdate(res.data[i], table.fnGetPosition(row[0]))
-                        }else {
-                            row.before(res.view[i]);
-                            row.remove();
-                        }
-                    }
-
-                }
-                apiProcessing = false;
-                init();
-            })
-        }
-
-        if (dataTable){
-            table = dataTable && that.find('table').dataTable({
+        if ($this.dataTable){
+            $this.table = $this.dataTable && $this.container.find('table').dataTable({
                 order: [],
                 columnDefs: [
                     {targets: 'no-sort', orderable: false,},
                     {targets: 'no-search', searchable: false,},
                 ],
                 drawCallback: function(  ) {
-                    dataTableUpdate()
+                    $this.dataTableUpdate()
                 }
             })
         }
 
-        init();
+        $this.init();
     }
-})
+
+    checkSelectedItems(){
+        let disabled = true;
+        let saveAllButtonDisabled = true;
+        this.ids = [];
+        this.rows = [];
+        this.idsForUpdate = [];
+        this.rowsForUpdate = [];
+        let $this = this;
+        this.container.find('.select-item').each((index, item)=>{
+            if($(item).prop('checked') && !$(item).prop('disabled')){
+                disabled = false;
+                $(item).parents('tr').find('.edit-item').disable();
+                $(item).parents('tr').find('.delete-item').disable();
+                $this.ids.push($(item).data('id'));
+                $this.rows.push($(item).parents('tr'));
+            }else {
+                $(item).parents('tr').find('.edit-item').disable(false);
+                $(item).parents('tr').find('.delete-item').disable(false);
+            }
+            if($(item).parents('tr').find('.update-item').length === 1){
+                saveAllButtonDisabled = false;
+                $this.idsForUpdate.push($(item).data('id'));
+                $this.rowsForUpdate.push($(item).parents('tr'));
+            }
+        })
+        this.container.find('.delete-all').disable(disabled)
+        this.container.find('.edit-all').disable(disabled)
+        this.container.find('.save-all').disable(saveAllButtonDisabled)
+    }
+
+    // mark index numbers to table.
+    markIndexNumbers(){
+        let $this = this;
+        this.container.find('tbody').find('tr').each((index, item)=>{
+            $this.updating = true;
+            if($(item).find('td').length > 3){
+                $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);
+            }
+        })
+    }
+
+    renderEditRow(){
+        if(this.editable){
+            let formData = new FormData();
+            formData.append('ids', this.ids.join(','));
+            let $this = this;
+            pAjax(this.editUrl, formData, res=>{
+                if(res.status){
+                    $this.apiProcessing = true;
+                    for (let i in $this.rows){
+                        let row = $this.rows[i]
+                        if($this.dataTable){
+                            let oldData = $this.table.fnGetData($this.table.fnGetPosition(row[0]))
+                            $this.table.fnUpdate(res.data[i], $this.table.fnGetPosition(row[0]))
+                            row.find('.cancel-item').click(function (){
+                                $this.table.fnUpdate(oldData, $this.table.fnGetPosition(row[0]))
+                            })
+                        }else {
+                            let oldHtml = row.html();
+                            row.html(res.view[i])
+                            row.find('.cancel-item').click(function (){
+                                row.html(oldHtml)
+                            });
+                        }
+                    }
+                    $this.apiProcessing = false;
+                    $this.init();
+                }
+            })
+        }
+    }
+
+    dataTableUpdate() {
+        if(!this.updating && !this.apiProcessing){
+            this.markIndex && this.markIndexNumbers();
+            this.checkSelectedItems();
+        }
+        this.updating = false;
+    }
+
+    submitForUpdate(){
+        let formData = new FormData();
+        for(let i in this.idsForUpdate){
+            const {jsonData} = this.rowsForUpdate[i].formData();
+            formData.append('id[]', this.idsForUpdate[i])
+            for(let key in jsonData){
+                formData.append(`${key}[]`, jsonData[key])
+            }
+        }
+        let $this = this;
+        pAjax(this.updateUrl, formData,(res)=>{
+            $this.apiProcessing = true;
+            if(res.status){
+                for (let i in $this.rowsForUpdate){
+                    let row = $this.rowsForUpdate[i]
+                    if($this.dataTable){
+                        $this.table.fnUpdate(res.data[i], $this.table.fnGetPosition(row[0]))
+                    }else {
+                        row.before(res.view[i]);
+                        row.remove();
+                    }
+                }
+            }
+            $this.apiProcessing = false;
+            $this.init();
+        })
+    }
+}

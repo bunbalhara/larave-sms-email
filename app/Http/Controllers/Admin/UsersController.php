@@ -24,10 +24,7 @@ class UsersController extends Controller
         $path = $request->file('csv-file')->store('temp');
 
         $match = [
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'phone'    => $request->phone,
-            'password' => $request->password,
+            'phone_number'     => 0
         ];
 
         try {

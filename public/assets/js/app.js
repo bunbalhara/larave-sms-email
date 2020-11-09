@@ -37365,10 +37365,21 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/sass/recipient.scss":
+/*!***************************************!*\
+  !*** ./resources/sass/recipient.scss ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!***********************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/back.scss ./resources/sass/front.scss ./resources/sass/both.scss ./resources/sass/app.scss ***!
-  \***********************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/back.scss ./resources/sass/front.scss ./resources/sass/both.scss ./resources/sass/app.scss ./resources/sass/recipient.scss ***!
+  \*******************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -37376,7 +37387,8 @@ __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\js\app.js */"./r
 __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\back.scss */"./resources/sass/back.scss");
 __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\front.scss */"./resources/sass/front.scss");
 __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\both.scss */"./resources/sass/both.scss");
-module.exports = __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\recipient.scss */"./resources/sass/recipient.scss");
 
 
 /***/ })
