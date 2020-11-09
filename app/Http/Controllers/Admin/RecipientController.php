@@ -15,7 +15,6 @@ class RecipientController extends Controller
     public function index(){
 
         $recipients = Recipient::all();
-
         return view('admin.recipients.index', compact('recipients'));
     }
 
@@ -28,10 +27,11 @@ class RecipientController extends Controller
     public function fileImport(Request $request)
     {
 
+        $tag = $request->tag;
         $path = $request->file('csv-file')->store('temp');
 
         try {
-            Excel::import(new RecipientsImport(), storage_path('app/'.$path));
+            Excel::import(new RecipientsImport($tag), storage_path('app/'.$path));
             return response()->json([
                 'status'=>1,
                 'data'=>'',

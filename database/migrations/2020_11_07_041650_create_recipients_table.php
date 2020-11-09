@@ -18,6 +18,7 @@ class CreateRecipientsTable extends Migration
             $table->string('name');
             $table->string('country');
             $table->string('phone_number');
+            $table->string('tag');
             $table->boolean('subscribed')->default(true);
             $table->timestamps();
         });

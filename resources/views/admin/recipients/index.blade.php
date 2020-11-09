@@ -90,6 +90,7 @@
                                     <th>Name</th>
                                     <th>Country</th>
                                     <th>Phone Number</th>
+                                    <th>Tag</th>
                                     <th class="no-search">Subscribed</th>
                                     <th class="action no-sort">Action</th>
                                 </tr>
@@ -116,8 +117,16 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="text-center w-100 d-flex justify-content-around align-items-center py-5 px-1 text-center">
-                        <h4>Are you really want to submit it?</h4>
+                    <div class="text-center w-100 pt-5 px-1">
+                        <h4 class=" text-center">Are you really want to submit it?</h4>
+                        <div class="col-12 py-4">
+                            <div class="col-6 offset-3">
+                                <div class="form-group">
+                                    <label>Put a tag</label>
+                                    <input name="tag" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex flex-row justify-content-center align-items-center">
                         <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Cancel</button>
@@ -127,7 +136,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('script')
     <script src="{{asset('assets/js/recipient.js')}}"></script>

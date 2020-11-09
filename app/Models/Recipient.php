@@ -14,8 +14,8 @@ class Recipient extends Model
         'name',
         'phone_number',
         'country',
+        'tag'
     ];
-
     public static function store($request){
         $recipient = new self();
         $validation = $recipient->validate($request);
@@ -59,6 +59,7 @@ class Recipient extends Model
             $this->name,
             $this->country.'<img src="'.asset('assets/img/flags/'.$this->country.'.png').'">',
             $this->phone_number,
+            $this->tag,
             '<span class="badge badge-success">Yes</span>',
             '<div class="w-100 d-flex justify-content-around align-items-center">
                 <button class="btn btn-sm btn-view view-item '.($this->messageCount()==0?'disabled':'').'"  data-id="'.$this->id.'">

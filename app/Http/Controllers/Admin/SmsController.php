@@ -25,7 +25,11 @@ class SmsController extends Controller
 
     public function newMessage(){
         $recipients = Recipient::all();
-        return view('admin.messages.new', compact('recipients'));
+
+        $countries = Recipient::distinct()->get(['country'])->pluck('country');
+        $tags = Recipient::distinct()->get(['tag'])->pluck('tag');
+
+        return view('admin.messages.new', compact('recipients','countries','tags'));
     }
 
     public function sendSms(Request $request){

@@ -276,7 +276,8 @@ var CRUD = /*#__PURE__*/function () {
       rows: [],
       table: null,
       idsForUpdate: [],
-      rowsForUpdate: []
+      rowsForUpdate: [],
+      fnFilter: null
     }, options);
   }
 
@@ -328,17 +329,25 @@ var CRUD = /*#__PURE__*/function () {
           var submitUrl = $(this).data('submit-url');
           var formData = new FormData();
           formData.append('csv-file', this.files[0]);
-          $('#submit-csv-file-dialog').modal('show');
           var modal = $('#submit-csv-file-dialog');
+          modal.modal('show');
+          modal.on("hide.bs.modal", function () {
+            $this.container.find('.csv-file-picker').val('');
+          });
           $('.csv-submit-btn').click(function () {
             var _modal$formData = modal.formData(),
                 formData = _modal$formData.formData;
 
+            var btn = $(this);
+            btn.loading();
             formData.append('csv-file', $this.container.find('.csv-file-picker')[0].files[0]);
+            fLog(formData);
             pAjax(submitUrl, formData, function (res) {
               if (res.status) {
                 window.location.reload();
               }
+
+              btn.loading(false);
             });
           });
         });
@@ -375,6 +384,9 @@ var CRUD = /*#__PURE__*/function () {
       $this.addable && $this.container.on('change keyup', 'input', function () {
         $this.container.find('.create-item').loading(false);
         $(this).invalid(false);
+      });
+      $this.container.on('click', '.data-table-filter', function () {
+        $this.fnFilter($this, $this.table);
       }); // add form submit
 
       $this.addable && $this.container.find('.add-form').submit(function (e) {

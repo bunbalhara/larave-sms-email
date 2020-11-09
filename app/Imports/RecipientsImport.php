@@ -9,6 +9,17 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 class RecipientsImport implements ToModel
 {
 
+    private $tag;
+
+    /**
+     * RecipientsImport constructor.
+     */
+    public function __construct($tag)
+    {
+        $this->tag = $tag;
+    }
+
+
     /**
     * @param array $row
     *
@@ -23,12 +34,23 @@ class RecipientsImport implements ToModel
             $phoneNumber = '+'.$row[0];
         }
 
-        $country = PhoneNumber::make($phoneNumber)->getCountry();
+        try {
+            $country = PhoneNumber::make($phoneNumber)->getCountry();
 
-        return new Recipient([
-            'name'=>$country.':'.$phoneNumber,
-            'country'=> $country,
-            'phone_number'=>$phoneNumber,
-        ]);
+            return new Recipient([
+                'name'=>$country.':'.$phoneNumber,
+                'country'=> $country,
+                'tag'=>$this->tag??'-',
+                'phone_number'=>$phoneNumber,
+            ]);
+
+        }catch (\Exception $exception){
+            return new Recipient([
+                'name'=>"Invalid phone number",
+                'country'=> 0,
+                'tag'=>$this->tag??'-',
+                'phone_number'=>$phoneNumber,
+            ]);
+        }
     }
 }

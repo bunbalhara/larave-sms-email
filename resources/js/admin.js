@@ -146,6 +146,7 @@ class CRUD {
             table:null,
             idsForUpdate:[],
             rowsForUpdate:[],
+            fnFilter:null
         }, options);
 
     }
@@ -189,16 +190,23 @@ class CRUD {
                 let submitUrl = $(this).data('submit-url');
                 let formData = new FormData()
                 formData.append('csv-file', this.files[0])
-                $('#submit-csv-file-dialog').modal('show');
                 let modal = $('#submit-csv-file-dialog');
-
+                modal.modal('show');
+                modal.on("hide.bs.modal", function () {
+                    $this.container.find('.csv-file-picker').val('');
+                });
                 $('.csv-submit-btn').click(function (){
                     const {formData} = modal.formData();
+                    let btn = $(this);
+                    btn.loading();
                     formData.append('csv-file', $this.container.find('.csv-file-picker')[0].files[0])
+
+                    fLog(formData)
                     pAjax(submitUrl, formData, (res)=>{
                         if(res.status){
                             window.location.reload();
                         }
+                        btn.loading(false);
                     })
                 })
             });
@@ -235,6 +243,10 @@ class CRUD {
         $this.addable && $this.container.on('change keyup', 'input', function (){
             $this.container.find('.create-item').loading(false);
             $(this).invalid(false)
+        })
+
+        $this.container.on('click', '.data-table-filter', function (){
+            $this.fnFilter($this, $this.table)
         })
 
         // add form submit

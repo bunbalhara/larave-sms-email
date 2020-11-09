@@ -37,12 +37,43 @@
         <div class="m-portlet__body">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-7">
                         <div class="card rounded mt-4">
                             <div class="card-header">
                                 <h4>Users</h4>
                             </div>
                             <div class="card-body">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Country</label>
+                                                <select class="form-control" id="pick-country">
+                                                    <option value="all">All</option>
+                                                    @foreach($countries as $country)
+                                                        <option value="{{$country}}">{{$country}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Tag</label>
+                                                <select class="form-control" id="pick-tag">
+                                                    <option value="all">All</option>
+                                                    @foreach($tags as $tag)
+                                                        @if($tag && $tag != "-")
+                                                            <option value="{{$tag}}">{{$tag}}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
                                 <div class="responsive">
                                     <table class="table" id="user-table">
                                         <thead>
@@ -51,6 +82,7 @@
                                                 <th>Name</th>
                                                 <th>Country</th>
                                                 <th>Phone Number</th>
+                                                <th>Tag</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -60,6 +92,7 @@
                                                     <td>{{$recipient->name}}</td>
                                                     <td>{{$recipient->country}} <img src="{{asset('assets/img/flags/'.strtolower($recipient->country).'.png')}}"/></td>
                                                     <td>{{$recipient->phone_number}}</td>
+                                                    <td>{{$recipient->tag??''}}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -68,7 +101,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="card rounded mt-4">
                             <div class="card-header rounded-top"><h4>Send SMS message</h4></div>
                             <div class="card-body">
@@ -128,6 +161,22 @@
 @endsection
 @section('script')
     <script>
+        $.fn.dataTable.ext.search.push(
+            function( settings, data, dataIndex ) {
+                let country = $('#pick-country').val();
+                let tag = $('#pick-tag').val();
+                if(country === 'all' && tag === 'all'){
+                    return  true
+                }else if (country === 'all'){
+                    return  data[4] === tag
+                }else if(tag === 'all'){
+                    return  data[2].includes(country)
+                }else {
+                    return  data[2].includes(country) && data[4] === tag;
+                }
+            }
+        );
+
         let defaultServiceSid = '{{option('default_sender', '')}}';
         if(defaultServiceSid === ''){
             $('#default_sender').html('<span class="text-danger">Default Sender is not defined</span>')
@@ -184,7 +233,7 @@
                 sender = $(this).val();
             })
 
-            $('#user-table').dataTable({
+            let table = $('#user-table').dataTable({
                 order:[],
                 columnDefs: [
                     {targets: 'no-sort', orderable: false,},
@@ -192,8 +241,16 @@
                 ],
             })
 
+            $(document).on('change', '#pick-country, #pick-tag', function (){
+                table.fnDraw();
+            })
+
+
             $('.select-all').change(function (){
-                $('.select-item').prop('checked', $(this).prop('checked'))
+                let filteredRows = table.$('tr', {"filter":"applied"});
+                filteredRows.each((index, item)=>{
+                    $(item).find('.select-item').prop('checked', $(this).prop('checked'))
+                })
                 checkSelectedItems();
             })
 
@@ -204,14 +261,13 @@
             function checkSelectedItems(){
                 ids = [];
                 rows = [];
-                $('#user-table').find('.select-item').each((index, item)=>{
-                    if($(item).prop('checked')){
-                        console.log($(item).data('id'))
-                        ids.push($(item).data('id'));
-                        rows.push($(item).parents('tr'));
-                        $(item).parents('tr').addClass('selected')
+                table.fnGetNodes().forEach((item)=>{
+                    if($(item).find('.select-item').prop('checked')){
+                        ids.push($(item).find('.select-item').data('id'));
+                        rows.push($(item));
+                        $(item).addClass('selected')
                     }else {
-                        $(item).parents('tr').removeClass('selected')
+                        $(item).removeClass('selected')
                     }
                 })
             }
