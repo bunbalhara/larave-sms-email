@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+Route::post('/admin/message/status-callback','Admin\SmsController@statusCallback')->name('admin.message.status-callback');
+
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middleware'=>['auth','role:admin']], function(){
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
@@ -36,7 +39,6 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
     Route::get('new-message', 'SmsController@newMessage')->name('new-message');
     Route::group(['as'=>'message.', 'prefix'=>'message'], function(){
         Route::post('send','SmsController@sendSms')->name('send');
-        Route::post('status-callback','SmsController@statusCallback')->name('status-callback');
         Route::post('delete','SmsController@delete')->name('delete');
         Route::get('/','SmsController@index')->name('index');
     });

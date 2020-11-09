@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
 
@@ -55,7 +56,7 @@ class SmsController extends Controller
                         [
                             'messagingServiceSid' => $request->serviceSid,
                             'body' => $message,
-                            "statusCallback" => 'http://sms.webbb.site/admin/message/status-callback'
+                            "statusCallback" => 'https://sms.webbb.site/admin/message/status-callback'
                         ]
                     );
 
@@ -96,9 +97,11 @@ class SmsController extends Controller
     }
 
     public function statusCallback(Request $request){
+        Log::info("Status Callback Function");
         $message = Message::where('message_sid', $request->MessageSid)->first();
         $message->status = $request->SmsStatus;
         $message->save();
+        return "success";
     }
 
     public function delete(Request $request){
