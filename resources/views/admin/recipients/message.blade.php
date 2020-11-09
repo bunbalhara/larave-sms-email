@@ -34,7 +34,7 @@
                 <div class="table-wrapper">
                     <div class="tool-bar">
                         <div class="tool-container">
-                            <a href="{{route('admin.message.index')}}" class="btn btn-sm btn-outline-danger"><div><i class="fa fa-arrow-left"></i>Back</div></a>
+                            <a href="{{route('admin.recipient.index')}}" class="btn btn-sm btn-outline-danger"><div><i class="fa fa-arrow-left"></i>Back</div></a>
                             <button class="btn btn-sm btn-delete delete-all disabled"><div><i class="fa fa-trash"></i>Delete messages</div></button>
                         </div>
                     </div>
@@ -64,8 +64,8 @@
                                         </td>
                                         <td>{{$message->content}}</td>
                                         <td><span class="@if($message->status=='delivered') text-success @elseif($message->status=='pending') text-warning @else text-danger @endif">{{$message->status??''}}</span></td>
+                                        <td><div><div>{{date('Y-m-d h:m:s', strtotime($message->delivered??time()))}}</div></div></td>
                                         <td>{!! $message->error_code?'<a href="https://www.twilio.com/docs/api/errors/'.$message->error_code.'" target="_blank" class="text-danger">Error:'.$message->error_code.'</a>':'-' !!}</td>
-                                        <div>{{date('Y-m-d h:m:s', strtotime($message[0]->delivered??time()))}}</div>
                                         <td>
                                             <div class="w-100 d-flex justify-content-around align-items-center">
                                                 <button class="btn btn-sm btn-delete delete-item" data-id="{{$message->id}}">

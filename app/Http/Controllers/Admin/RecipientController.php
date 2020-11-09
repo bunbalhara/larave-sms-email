@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Imports\RecipientsImport;
+use App\Models\Message;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -16,6 +17,12 @@ class RecipientController extends Controller
         $recipients = Recipient::all();
 
         return view('admin.recipients.index', compact('recipients'));
+    }
+
+    public function message(Request  $request){
+        $recipientId = $request->recipientId;
+        $messages = Message::where('recipient_id', $recipientId)->get();
+        return view('admin.recipients.message', compact('messages'));
     }
 
     public function fileImport(Request $request)

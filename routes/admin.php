@@ -32,6 +32,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
         Route::post('add','RecipientController@add')->name('add');
         Route::post('delete','RecipientController@delete')->name('delete');
         Route::post('file-import', 'RecipientController@fileImport')->name('file-import');
+        Route::get('message','RecipientController@message')->name('message');
         Route::get('/','RecipientController@index')->name('index');
     });
 
