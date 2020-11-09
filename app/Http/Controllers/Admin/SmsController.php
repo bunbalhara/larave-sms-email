@@ -13,8 +13,7 @@ class SmsController extends Controller
 {
 
     public function index(){
-        $messages = Message::all();
-
+        $messages = Message::all()->groupBy('group_id');
         return view('admin.messages.index', compact('messages'));
     }
 
@@ -45,7 +44,7 @@ class SmsController extends Controller
 
             $service = $client->messaging->v1->services($request->serviceSid)->fetch();
             $alphaSenders =  $client->messaging->v1->services($request->serviceSid)->alphaSenders->read();
-
+            $groupId = uniqid('msg_');
             $count = 0;
             try {
                 foreach( $recipients as $recipient )
@@ -61,6 +60,7 @@ class SmsController extends Controller
                     );
 
                     $newMessage = new Message();
+                    $newMessage->group_id = $groupId;
                     $newMessage->message_sid = $result->sid;
                     $newMessage->service_sid = $request->serviceSid;
                     $newMessage->service_name = $service->friendlyName;
@@ -103,7 +103,7 @@ class SmsController extends Controller
 
     public function delete(Request $request){
         $ids = explode(',', $request->ids);
-        Message::destroy($ids);
+        Message::whereIn('group_id', $ids)->delete();
         return response()->json(['status'=>1]);
     }
 }

@@ -69,9 +69,7 @@
     <script>
         $(document).ready(function (){
             $('.crud-table').crud({
-                urls:{
-                    delete:'{{route('admin.message.delete')}}',
-                },
+                deleteUrl:'{{route('admin.message.delete')}}',
                 addable: false,
             });
         })

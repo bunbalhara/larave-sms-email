@@ -9,12 +9,8 @@ class Message extends Model
 {
     use HasFactory;
 
-    public function sender()
+    public function recipient()
     {
-        return $this->belongsTo('App\Models\Sender');
-    }
-
-    public function receivers(){
-        return User::whereIn('id', explode(',', $this->receivers))->get();
+        return $this->belongsTo('App\Models\Recipient');
     }
 }

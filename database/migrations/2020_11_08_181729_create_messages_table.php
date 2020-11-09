@@ -16,6 +16,7 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('recipient_id');
+            $table->string('group_id');
             $table->string('message_sid');
             $table->string('service_sid');
             $table->string('service_name');
