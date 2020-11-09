@@ -97,8 +97,6 @@ class SmsController extends Controller
     }
 
     public function statusCallback(Request $request){
-        Log::info("Status Callback Function");
-        Log::info($request->MessageSid);
         $message = Message::where('message_sid', $request->MessageSid)->first();
         $message->status = $request->SmsStatus;
         $message->save();
