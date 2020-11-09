@@ -57,7 +57,7 @@
                                             <div class="col-md-5">
                                                 <div class="form-group">
                                                     <label>Phone Number (required) </label>
-                                                    <input id="phone" class="form-control" type="text" name="phone_number[]" placeholder="Phone Number">
+                                                    <input class="form-control phone-number" type="text" name="phone_number[]" placeholder="Phone Number">
                                                 </div>
                                                 <div id="phone"></div>
                                             </div>

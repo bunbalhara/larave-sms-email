@@ -30,77 +30,78 @@
     </div>
     <div class="m-portlet m-portlet--mobile tab_area area-active" id="reports_area">
         <div class="m-portlet__body">
-            <div class="row m-row--no-padding m-row--col-separator-xl">
-                <div class="col-md-12 col-lg-6 col-xl-3">
-                    <div class="m-widget24">
-                        <div class="m-widget24__item">
-                            <h4 class="m-widget24__title">
-                                Total Frofit
-                            </h4>
-                            <br>
-                            <span class="m-widget24__desc">
-                                All Customs Value
-                            </span>
-                            <span class="m-widget24__stats m--font-brand">
-                                $18M
-                            </span>
-                            <div class="m--space-10"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-6 col-xl-3">
 
-                    <div class="m-widget24">
-                        <div class="m-widget24__item">
-                            <h4 class="m-widget24__title">
-                                New Feedbacks
-                            </h4>
-                            <br>
-                            <span class="m-widget24__desc">
-													Customer Review
-												</span>
-                            <span class="m-widget24__stats m--font-info">
-													1349
-												</span>
-                            <div class="m--space-10"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-6 col-xl-3">
-                    <div class="m-widget24">
-                        <div class="m-widget24__item">
-                            <h4 class="m-widget24__title">
-                                New Orders
-                            </h4>
-                            <br>
-                            <span class="m-widget24__desc">
-													Fresh Order Amount
-												</span>
-                            <span class="m-widget24__stats m--font-danger">
-													567
-												</span>
-                            <div class="m--space-10"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-6 col-xl-3">
-                    <div class="m-widget24">
-                        <div class="m-widget24__item">
-                            <h4 class="m-widget24__title">
-                                New Users
-                            </h4>
-                            <br>
-                            <span class="m-widget24__desc">
-													Joined New User
-												</span>
-                            <span class="m-widget24__stats m--font-success">
-													276
-												</span>
-                            <div class="m--space-10"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="row m-row--no-padding m-row--col-separator-xl">--}}
+{{--                <div class="col-md-12 col-lg-6 col-xl-3">--}}
+{{--                    <div class="m-widget24">--}}
+{{--                        <div class="m-widget24__item">--}}
+{{--                            <h4 class="m-widget24__title">--}}
+{{--                                Total Frofit--}}
+{{--                            </h4>--}}
+{{--                            <br>--}}
+{{--                            <span class="m-widget24__desc">--}}
+{{--                                All Customs Value--}}
+{{--                            </span>--}}
+{{--                            <span class="m-widget24__stats m--font-brand">--}}
+{{--                                $18M--}}
+{{--                            </span>--}}
+{{--                            <div class="m--space-10"></div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-md-12 col-lg-6 col-xl-3">--}}
+
+{{--                    <div class="m-widget24">--}}
+{{--                        <div class="m-widget24__item">--}}
+{{--                            <h4 class="m-widget24__title">--}}
+{{--                                New Feedbacks--}}
+{{--                            </h4>--}}
+{{--                            <br>--}}
+{{--                            <span class="m-widget24__desc">--}}
+{{--													Customer Review--}}
+{{--												</span>--}}
+{{--                            <span class="m-widget24__stats m--font-info">--}}
+{{--													1349--}}
+{{--												</span>--}}
+{{--                            <div class="m--space-10"></div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-md-12 col-lg-6 col-xl-3">--}}
+{{--                    <div class="m-widget24">--}}
+{{--                        <div class="m-widget24__item">--}}
+{{--                            <h4 class="m-widget24__title">--}}
+{{--                                New Orders--}}
+{{--                            </h4>--}}
+{{--                            <br>--}}
+{{--                            <span class="m-widget24__desc">--}}
+{{--													Fresh Order Amount--}}
+{{--												</span>--}}
+{{--                            <span class="m-widget24__stats m--font-danger">--}}
+{{--													567--}}
+{{--												</span>--}}
+{{--                            <div class="m--space-10"></div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-md-12 col-lg-6 col-xl-3">--}}
+{{--                    <div class="m-widget24">--}}
+{{--                        <div class="m-widget24__item">--}}
+{{--                            <h4 class="m-widget24__title">--}}
+{{--                                New Users--}}
+{{--                            </h4>--}}
+{{--                            <br>--}}
+{{--                            <span class="m-widget24__desc">--}}
+{{--													Joined New User--}}
+{{--												</span>--}}
+{{--                            <span class="m-widget24__stats m--font-success">--}}
+{{--													276--}}
+{{--												</span>--}}
+{{--                            <div class="m--space-10"></div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             <div class="row mt-5">
                 <div class="col-lg-6">

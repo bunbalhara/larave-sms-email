@@ -2,9 +2,7 @@ window.intlTelInput = require('intl-tel-input');
 
 $(document).ready(function (){
 
-    const input = document.getElementById("phone");
-
-    intlTelInput(input, {
+    intlTelInput($('.phone-number')[0], {
         initialCountry:'lv',
         separateDialCode: true
     });
@@ -44,6 +42,10 @@ $(document).ready(function (){
         formItem.find('label').remove();
         $(this).parents('.form-item').clear();
         $(this).parents('.form-item').after(formItem);
+        // intlTelInput(formItem.find('.phone-number')[0], {
+        //     initialCountry:'lv',
+        //     separateDialCode: true
+        // });
         formItem.find('button').removeClass('.btn-add-more')
             .removeClass('btn-outline-success')
             .addClass('.remove-form-item')

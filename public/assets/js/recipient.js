@@ -1473,8 +1473,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 window.intlTelInput = __webpack_require__(/*! intl-tel-input */ "./node_modules/intl-tel-input/index.js");
 $(document).ready(function () {
-  var input = document.getElementById("phone");
-  intlTelInput(input, {
+  intlTelInput($('.phone-number')[0], {
     initialCountry: 'lv',
     separateDialCode: true
   });
@@ -1522,7 +1521,11 @@ $(document).ready(function () {
     var formItem = $(this).parents('.form-item').clone();
     formItem.find('label').remove();
     $(this).parents('.form-item').clear();
-    $(this).parents('.form-item').after(formItem);
+    $(this).parents('.form-item').after(formItem); // intlTelInput(formItem.find('.phone-number')[0], {
+    //     initialCountry:'lv',
+    //     separateDialCode: true
+    // });
+
     formItem.find('button').removeClass('.btn-add-more').removeClass('btn-outline-success').addClass('.remove-form-item').addClass('btn-outline-danger').html('<i class="fa fa-times"></i> Remove').click(function () {
       $(this).parents('.form-item').remove();
     });
