@@ -149,36 +149,35 @@
 @endsection
 @section('script')
     <script>
-        var MorrisChartsDemo = {
-            init: function() {
-                new Morris.Line({
-                    element: "message_chart_1",
-                    data: [
-                        {
-                            date: "2020-11-5",
-                            message: 2276,
-                        },
-                    ],
-                    xkey: "date",
-                    ykeys: ["message"],
-                    labels: ["Messages"]
-                }),
-                new Morris.Line({
-                    element: "message_chart_2",
-                    data: [
-                        {
-                            date: "2020-11-5",
-                            message: 2276,
-                        },
-                    ],
-                    xkey: "date",
-                    ykeys: ["message"],
-                    labels: ["Messages"]
-                })
-            }
-        };
-        jQuery(document).ready(function() {
-            MorrisChartsDemo.init()
+        $(document).ready(function() {
+            $.ajax({
+                type:'get',
+                url:'{{route("admin.dashboard.get-message-data")}}',
+                success: res => {
+                    console.log(res)
+                    if(res.status){
+                        let MorrisChartsDemo = {
+                            init: function() {
+                                new Morris.Line({
+                                    element: "message_chart_1",
+                                    data:res.data.data1,
+                                    xkey: "date",
+                                    ykeys: ["message"],
+                                    labels: ["Messages"]
+                                }),
+                                new Morris.Line({
+                                    element: "message_chart_2",
+                                    data:res.data.data2,
+                                    xkey: "date",
+                                    ykeys: ["message"],
+                                    labels: ["Messages"]
+                                })
+                            }
+                        };
+                        MorrisChartsDemo.init()
+                    }
+                }
+            })
         });
     </script>
 @endsection

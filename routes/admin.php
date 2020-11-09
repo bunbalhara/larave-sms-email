@@ -8,6 +8,7 @@ Route::post('/admin/message/status-callback','Admin\SmsController@statusCallback
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middleware'=>['auth','role:admin']], function(){
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('/dashboard/get-message-data', 'DashboardController@getMessageData')->name('dashboard.get-message-data');
 
     Route::group(['as'=>'user.', 'prefix'=>'user'], function(){
         Route::post('add', 'UsersController@add')->name('add');

@@ -288,6 +288,9 @@
                     $(this).loading(false, html);
                 })
             })
+            $('.clear-message').click(function (){
+                $('textarea[name="message"]').val('')
+            })
         })
     </script>
 @endsection
