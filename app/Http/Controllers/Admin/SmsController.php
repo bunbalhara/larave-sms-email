@@ -62,7 +62,7 @@ class SmsController extends Controller
 
                     $newMessage = new Message();
                     $newMessage->message_sid = $result->sid;
-                    $newMessage->service_sid = $result->messaging_service_sid;
+                    $newMessage->service_sid = $request->serviceSid;
                     $newMessage->service_name = $service->friendlyName;
                     $newMessage->sender_number = $result->to;
                     $newMessage->sender_name = $alphaSenders[0]->alphaSender;
