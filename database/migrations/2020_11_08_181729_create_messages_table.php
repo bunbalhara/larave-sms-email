@@ -15,13 +15,19 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('recipient_id');
+            $table->string('message_sid');
             $table->string('service_sid');
             $table->string('service_name');
             $table->string('sender_number');
             $table->string('sender_name');
-            $table->string('receivers');
             $table->string('content');
+            $table->string('status')->default('pending');
             $table->dateTime('delivered');
+            $table->foreign('recipient_id')
+                ->references('id')
+                ->on('recipients')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

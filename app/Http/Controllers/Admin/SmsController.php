@@ -5,10 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\Recipient;
-use App\Models\Sender;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
 
@@ -43,33 +40,37 @@ class SmsController extends Controller
         if ( $validator->passes() ) {
             $client = new Client( $twilio_account_sid, $twilio_account_token );
             $numbers_in_arrays = explode( ',' , $request->receivers );
-            $users = Recipient::whereIn('id', $numbers_in_arrays)->get();
+            $recipients = Recipient::whereIn('id', $numbers_in_arrays)->get();
             $message = $request->message;
+
+            $service = $client->messaging->v1->services($request->serviceSid)->fetch();
+            $alphaSenders =  $client->messaging->v1->services($request->serviceSid)->alphaSenders->read();
 
             $count = 0;
             try {
-                foreach( $users as $user )
+                foreach( $recipients as $recipient )
                 {
                     $count++;
-                    $client->messages->create(
-                        $user->phone_number,
+                    $result = $client->messages->create(
+                        $recipient->phone_number,
                         [
                             'messagingServiceSid' => $request->serviceSid,
                             'body' => $message,
-                            "statusCallback" => 'http://localhost:8000/admin/message/status-callback'
+                            "statusCallback" => 'http://sms.webbb.site/admin/message/status-callback'
                         ]
                     );
-                }
 
-//                $newMessage = new Message();
-//                $newMessage->service_sid = $request->serviceSid;
-//                $newMessage->service_name = $request->serviceName;
-//                $newMessage->sender_number = $request->senderPhoneNumber;
-//                $newMessage->sender_name = $request->senderName;
-//                $newMessage->receivers = $request->receivers;
-//                $newMessage->content = $message;
-//                $newMessage->delivered = date('Y-m-d h:m:s');
-//                $newMessage->save();
+                    $newMessage = new Message();
+                    $newMessage->message_sid = $result->sid;
+                    $newMessage->service_sid = $result->messaging_service_sid;
+                    $newMessage->service_name = $service->friendlyName;
+                    $newMessage->sender_number = $result->to;
+                    $newMessage->sender_name = $alphaSenders[0]->alphaSender;
+                    $newMessage->recipient_id = $recipient->id;
+                    $newMessage->content = $message;
+                    $newMessage->delivered = date('Y-m-d h:m:s');
+                    $newMessage->save();
+                }
 
                 return response()->json([
                     'status' => 1,
@@ -95,7 +96,9 @@ class SmsController extends Controller
     }
 
     public function statusCallback(Request $request){
-        Log::info(json_encode($request->all()));
+        $message = Message::where('message_sid', $request->MessageSid)->first();
+        $message->status = $request->SmsStatus;
+        $message->save();
     }
 
     public function delete(Request $request){
