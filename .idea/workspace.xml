@@ -24,11 +24,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/recipient.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/recipient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/recipient.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/recipient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/recipients/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/recipients/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/messages/new.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/messages/new.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +223,7 @@
       <workItem from="1604282875122" duration="984000" />
       <workItem from="1604502411693" duration="143138000" />
       <workItem from="1604774622881" duration="20382000" />
-      <workItem from="1604818914918" duration="47814000" />
+      <workItem from="1604818914918" duration="48307000" />
     </task>
     <servers />
   </component>

@@ -58,7 +58,7 @@
                                                 <tr class="">
                                                     <td><input type="checkbox" class="select-item" data-id="{{$recipient->id}}"/></td>
                                                     <td>{{$recipient->name}}</td>
-                                                    <td>{{$recipient->country}} <img src="{{asset('assets/img/flags/'.$recipient->country.'.png')}}"/></td>
+                                                    <td>{{$recipient->country}} <img src="{{asset('assets/img/flags/'.strtolower($recipient->country).'.png')}}"/></td>
                                                     <td>{{$recipient->phone_number}}</td>
                                                 </tr>
                                             @endforeach
