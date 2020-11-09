@@ -22,9 +22,11 @@ class SettingController extends Controller
 
     public function __construct()
     {
-        $twilio_account_sid = option('twilio_account_sid');
-        $twilio_account_token = option('twilio_account_token');
-        $this->twilioClient = new Client($twilio_account_sid, $twilio_account_token);
+        $twilio_account_sid = option('twilio_account_sid', null);
+        $twilio_account_token = option('twilio_account_token', null);
+        if($twilio_account_sid && $twilio_account_token){
+            $this->twilioClient = new Client($twilio_account_sid, $twilio_account_token);
+        }
     }
 
     public function index(){
