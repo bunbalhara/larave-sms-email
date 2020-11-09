@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
 
@@ -16,6 +15,12 @@ class SmsController extends Controller
     public function index(){
         $messages = Message::all()->groupBy('group_id');
         return view('admin.messages.index', compact('messages'));
+    }
+
+    public function detail(Request $request){
+        $group_id = $request->get('msgId');
+        $messages = Message::where('group_id', $group_id)->get();
+        return view('admin.messages.detail', compact('messages'));
     }
 
     public function newMessage(){
@@ -97,9 +102,9 @@ class SmsController extends Controller
     }
 
     public function statusCallback(Request $request){
-        Log::info($request->MessageSid.'---'.$request->ErrorCode??'No Error');
         $message = Message::where('message_sid', $request->MessageSid)->first();
         $message->status = $request->SmsStatus;
+        $message->error_code = $request->ErrorCode??'';
         $message->save();
         return "success";
     }
@@ -108,5 +113,11 @@ class SmsController extends Controller
         $ids = explode(',', $request->ids);
         Message::whereIn('group_id', $ids)->delete();
         return response()->json(['status'=>1]);
+    }
+
+    public function deleteMessage(Request  $request){
+        $ids = explode(',', $request->ids);
+        Message::destroy($ids);
+        return response()->json(['status'=>1,'message'=>count($ids).' messages deleted!']);
     }
 }

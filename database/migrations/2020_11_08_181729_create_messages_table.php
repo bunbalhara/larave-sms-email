@@ -23,6 +23,7 @@ class CreateMessagesTable extends Migration
             $table->string('sender_number');
             $table->string('sender_name');
             $table->string('content');
+            $table->integer('error_code')->nullable();
             $table->string('status')->default('pending');
             $table->dateTime('delivered');
             $table->foreign('recipient_id')

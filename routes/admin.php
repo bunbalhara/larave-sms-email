@@ -40,6 +40,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
     Route::group(['as'=>'message.', 'prefix'=>'message'], function(){
         Route::post('send','SmsController@sendSms')->name('send');
         Route::post('delete','SmsController@delete')->name('delete');
+        Route::post('delete-message','SmsController@deleteMessage')->name('delete-message');
+        Route::get('detail','SmsController@detail')->name('detail');
         Route::get('/','SmsController@index')->name('index');
     });
 

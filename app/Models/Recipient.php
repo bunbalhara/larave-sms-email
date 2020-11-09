@@ -70,8 +70,8 @@ class Recipient extends Model
             </div>'];
     }
 
-    public function messageCount(){
-        return 0;
+    public function message(){
+        return $this->hasMany('App\Models\Message');
     }
 
 }

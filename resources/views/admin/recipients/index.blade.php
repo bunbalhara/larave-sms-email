@@ -25,7 +25,7 @@
 @section('content')
     <div class="tabs-wrapper">
         <ul class="tab-nav">
-            <li class="tab-item"><a class="tab-link tab-active" data-area="#reports" href="#/reports">Users</a></li>
+            <li class="tab-item"><a class="tab-link tab-active" data-area="#reports" href="#/reports">Recipients</a></li>
         </ul>
     </div>
     <div class="m-portlet m-portlet--mobile tab_area area-active" id="reports_area">
