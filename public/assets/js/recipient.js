@@ -1478,9 +1478,7 @@ $(document).ready(function () {
     separateDialCode: true
   });
   $('.crud-table').crud({
-    urls: {
-      "delete": '/admin/recipient/delete'
-    },
+    deleteUrl: '/admin/recipient/delete',
     csvImport: true,
     multiSubmitForAdd: true,
     addFormSubmit: function addFormSubmit(table, form) {

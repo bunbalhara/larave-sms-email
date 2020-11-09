@@ -8,9 +8,7 @@ $(document).ready(function (){
     });
 
     $('.crud-table').crud({
-        urls:{
-            delete:'/admin/recipient/delete',
-        },
+        deleteUrl:'/admin/recipient/delete',
         csvImport: true,
         multiSubmitForAdd: true,
         addFormSubmit: function (table, form){
