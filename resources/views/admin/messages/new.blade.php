@@ -142,10 +142,10 @@
                     let services = res.data.services;
                     for(let service of services){
                         if(service.sid === defaultServiceSid){
-                            $('#default_sender').text(service.alphaSenders[0].alphaSender)
+                            $('#default_sender').text(`${service.alphaSenders[0].alphaSender} (${service.phoneNumbers[0].phoneNumber})`)
                         }
 
-                        $('select[name="sender"]').append(`<option value="${service.sid}">${service.alphaSenders[0].alphaSender}</option>`)
+                        $('select[name="sender"]').append(`<option value="${service.sid}">${service.alphaSenders[0].alphaSender} (${service.phoneNumbers[0].phoneNumber})</option>`)
                     }
                 }
             },
