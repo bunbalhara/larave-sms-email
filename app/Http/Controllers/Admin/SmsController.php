@@ -13,6 +13,7 @@ class SmsController extends Controller
 {
 
     public function index(){
+
         $messages = Message::all()->groupBy('group_id');
         return view('admin.messages.index', compact('messages'));
     }

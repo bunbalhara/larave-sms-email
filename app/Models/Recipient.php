@@ -62,8 +62,8 @@ class Recipient extends Model
             $this->tag,
             '<span class="badge badge-success">Yes</span>',
             '<div class="w-100 d-flex justify-content-around align-items-center">
-                <button class="btn btn-sm btn-view view-item '.($this->messageCount()==0?'disabled':'').'"  data-id="'.$this->id.'">
-                    <div><i class="fa fa-eye"></i>Messages('.$this->messageCount().')</div>
+                <button class="btn btn-sm btn-view view-item '.($this->message()->count()==0?'disabled':'').'"  data-id="'.$this->id.'">
+                    <div><i class="fa fa-eye"></i>Messages('.$this->message()->count().')</div>
                 </button>
                 <button class="btn btn-sm btn-delete delete-item" data-id="'.$this->id.'">
                     <div><i class="fa fa-trash"></i> Delete</div>

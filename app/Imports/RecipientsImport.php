@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Recipient;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use function PHPUnit\Framework\stringContains;
 
 class RecipientsImport implements ToModel
 {
@@ -28,7 +29,7 @@ class RecipientsImport implements ToModel
     public function model(array $row)
     {
 
-        if(strpos($row[0],"+")){
+        if(strpos((string)$row[0],"+") >= 0){
             $phoneNumber = $row[0];
         }else{
             $phoneNumber = '+'.$row[0];
