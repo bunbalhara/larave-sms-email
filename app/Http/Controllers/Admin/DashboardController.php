@@ -32,7 +32,7 @@ class DashboardController extends Controller
         $data2 = [];
 
         foreach ($messageGroup as $item) {
-            array_push($data2, ['date' => Carbon::parse($item[0]->delivered)->format('Y-m-d'), 'message'=>count($item)]);
+            array_push($data2, ['date' => $item[0]->delivered, 'message'=>count($item)]);
         }
 
         return response()->json([

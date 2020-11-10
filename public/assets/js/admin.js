@@ -318,6 +318,8 @@ var CRUD = /*#__PURE__*/function () {
           }
         });
       }
+
+      this.markIndexNumbers();
     }
   }, {
     key: "initialize",
@@ -436,7 +438,14 @@ var CRUD = /*#__PURE__*/function () {
         }
       });
       this.container.find('.select-all').click(function () {
-        $this.container.find('.select-item:enabled').prop('checked', $(this).prop('checked'));
+        var _this2 = this;
+
+        var filteredRows = $this.table.$('tr', {
+          "filter": "applied"
+        });
+        filteredRows.each(function (index, item) {
+          $(item).find('.select-item').prop('checked', $(_this2).prop('checked'));
+        });
         $this.checkSelectedItems();
       });
       $(this.container).on('change', '.select-item', function () {
@@ -518,7 +527,6 @@ var CRUD = /*#__PURE__*/function () {
           }
         });
       });
-      console.log($this.dataTable);
 
       if ($this.dataTable) {
         $this.table = $this.dataTable && $this.container.find('table').dataTable({
@@ -548,22 +556,22 @@ var CRUD = /*#__PURE__*/function () {
       this.idsForUpdate = [];
       this.rowsForUpdate = [];
       var $this = this;
-      this.container.find('.select-item').each(function (index, item) {
-        if ($(item).prop('checked') && !$(item).prop('disabled')) {
+      $this.table && $this.table.fnGetNodes().forEach(function (item) {
+        if ($(item).find('.select-item').prop('checked') && !$(item).find('.select-item').prop('disabled')) {
           disabled = false;
-          $(item).parents('tr').find('.edit-item').disable();
-          $(item).parents('tr').find('.delete-item').disable();
-          $this.ids.push($(item).data('id'));
-          $this.rows.push($(item).parents('tr'));
+          $(item).find('.edit-item').disable();
+          $(item).find('.delete-item').disable();
+          $this.ids.push($(item).find('.select-item').data('id'));
+          $this.rows.push($(item));
         } else {
-          $(item).parents('tr').find('.edit-item').disable(false);
-          $(item).parents('tr').find('.delete-item').disable(false);
+          $(item).find('.edit-item').disable(false);
+          $(item).find('.delete-item').disable(false);
         }
 
-        if ($(item).parents('tr').find('.update-item').length === 1) {
+        if ($(item).find('.update-item').length === 1) {
           saveAllButtonDisabled = false;
-          $this.idsForUpdate.push($(item).data('id'));
-          $this.rowsForUpdate.push($(item).parents('tr'));
+          $this.idsForUpdate.push($(item).find('.select-item').data('id'));
+          $this.rowsForUpdate.push($(item));
         }
       });
       this.container.find('.delete-all').disable(disabled);
@@ -575,7 +583,7 @@ var CRUD = /*#__PURE__*/function () {
     key: "markIndexNumbers",
     value: function markIndexNumbers() {
       var $this = this;
-      this.container.find('tbody').find('tr').each(function (index, item) {
+      $this.table && $this.table.fnGetNodes().forEach(function (item, index) {
         $this.updating = true;
 
         if ($(item).find('td').length > 3) {

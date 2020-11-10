@@ -180,6 +180,7 @@ class CRUD {
                 error:err=>console.log(err)
             })
         }
+        this.markIndexNumbers();
     }
 
     initialize(){
@@ -292,7 +293,10 @@ class CRUD {
         })
 
         this.container.find('.select-all').click(function (){
-            $this.container.find('.select-item:enabled').prop('checked', $(this).prop('checked'))
+            let filteredRows = $this.table.$('tr', {"filter":"applied"});
+            filteredRows.each((index, item)=>{
+                $(item).find('.select-item').prop('checked', $(this).prop('checked'))
+            })
             $this.checkSelectedItems()
         })
 
@@ -372,8 +376,6 @@ class CRUD {
             })
         })
 
-        console.log($this.dataTable)
-
         if ($this.dataTable){
             $this.table = $this.dataTable && $this.container.find('table').dataTable({
                 order: [],
@@ -382,7 +384,7 @@ class CRUD {
                     {targets: 'no-search', searchable: false,},
                 ],
                 drawCallback: function(  ) {
-                    $this.dataTableUpdate()
+                   $this.dataTableUpdate()
                 }
             })
         }
@@ -398,32 +400,36 @@ class CRUD {
         this.idsForUpdate = [];
         this.rowsForUpdate = [];
         let $this = this;
-        this.container.find('.select-item').each((index, item)=>{
-            if($(item).prop('checked') && !$(item).prop('disabled')){
+
+        $this.table && $this.table.fnGetNodes().forEach((item)=>{
+            if($(item).find('.select-item').prop('checked') && !$(item).find('.select-item').prop('disabled')){
                 disabled = false;
-                $(item).parents('tr').find('.edit-item').disable();
-                $(item).parents('tr').find('.delete-item').disable();
-                $this.ids.push($(item).data('id'));
-                $this.rows.push($(item).parents('tr'));
+                $(item).find('.edit-item').disable();
+                $(item).find('.delete-item').disable();
+                $this.ids.push($(item).find('.select-item').data('id'));
+                $this.rows.push($(item));
             }else {
-                $(item).parents('tr').find('.edit-item').disable(false);
-                $(item).parents('tr').find('.delete-item').disable(false);
+                $(item).find('.edit-item').disable(false);
+                $(item).find('.delete-item').disable(false);
             }
-            if($(item).parents('tr').find('.update-item').length === 1){
+
+            if($(item).find('.update-item').length === 1){
                 saveAllButtonDisabled = false;
-                $this.idsForUpdate.push($(item).data('id'));
-                $this.rowsForUpdate.push($(item).parents('tr'));
+                $this.idsForUpdate.push($(item).find('.select-item').data('id'));
+                $this.rowsForUpdate.push($(item));
             }
         })
+
         this.container.find('.delete-all').disable(disabled)
         this.container.find('.edit-all').disable(disabled)
         this.container.find('.save-all').disable(saveAllButtonDisabled)
+
     }
 
     // mark index numbers to table.
     markIndexNumbers(){
         let $this = this;
-        this.container.find('tbody').find('tr').each((index, item)=>{
+        $this.table && $this.table.fnGetNodes().forEach((item, index)=>{
             $this.updating = true;
             if($(item).find('td').length > 3){
                 $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);

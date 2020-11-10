@@ -177,6 +177,13 @@ input.is-invalid{
     }
 
     .dataTables_wrapper .dataTables_paginate .pagination .page-item > .page-link{
+        background-color: white;
+        border: solid 1px #5cb85c;
+        opacity: 1;
+        color: #5cb85c;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .pagination .page-item.active > .page-link{
         background-color: #5cb85c;
         opacity: 1;
         color: white;
@@ -185,6 +192,8 @@ input.is-invalid{
     .dataTables_wrapper .dataTables_paginate .pagination .page-item.disabled > .page-link{
         background-color: #bbbbbb;
         opacity: 0.6;
+        color: white;
+        border: solid 1px #bbbbbb;
     }
 }
 
