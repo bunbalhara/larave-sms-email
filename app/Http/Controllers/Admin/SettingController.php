@@ -146,7 +146,7 @@ class SettingController extends Controller
            'phone_number'=>'required' ,
             'oldPhoneNumberSid'=>'required',
             'alphaSenderSid'=>'required',
-            'service_alias'=>'required|max:11',
+            'service_alias'=>'required|max:11|regex:/^[a-zA-Z0-9 ]+$/',
         ]);
 
         if($validator->passes()){

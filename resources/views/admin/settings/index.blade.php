@@ -231,7 +231,7 @@
                     let modal = $('#editModal');
                     modal.modal('show');
                     modal.find('input[name="service_name"]').val(service.friendlyName);
-                    modal.find('input[name="service_alias"]').val(service.alphaSenders[0].alphaSender);
+                    modal.find('input[name="service_alias"]').val(service.alphaSenders[0] && service.alphaSenders[0].alphaSender || '');
                     modal.find(`select[name="phone_number"] option:contains(${service.phoneNumbers[0].phoneNumber})`).prop('selected', true);
                     modal.on('click', '.update-item', function (){
                         const {formData} = modal.formData();

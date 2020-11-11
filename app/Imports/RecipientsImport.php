@@ -29,19 +29,25 @@ class RecipientsImport implements ToModel
     public function model(array $row)
     {
 
-        if(strpos((string)$row[0],"+") >= 0){
-            $phoneNumber = $row[0];
+        $number = str_replace(" ","",$row[0]);
+        $number = str_replace("-","",$number);
+        $number = str_replace("(","",$number);
+        $number = str_replace(")","",$number);
+
+        if(strpos($number,"+") === false){
+            $phoneNumber = '+'.$number;
         }else{
-            $phoneNumber = '+'.$row[0];
+            $phoneNumber = $number;
         }
 
         try {
+
             $country = PhoneNumber::make($phoneNumber)->getCountry();
 
             return new Recipient([
                 'name'=>$country.':'.$phoneNumber,
                 'country'=> $country,
-                'tag'=>$this->tag??'-',
+                'tag'=>$this->tag,
                 'phone_number'=>$phoneNumber,
             ]);
 
