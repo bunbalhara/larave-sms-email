@@ -70,6 +70,39 @@ class RecipientController extends Controller
 
     }
 
+    public function edit(Request $request){
+        $ids = explode(',', $request->ids);
+        $recipients = Recipient::whereIn('id', $ids)->get();
+        $views = [];
+        $data = [];
+        foreach ($recipients as $recipient){
+            array_push($views, view('admin.recipients.edit-row', compact('recipient'))->render());
+            array_push($data, $recipient->dataTableEditRowData());
+        }
+        return response()->json([
+            'status'=>1,
+            'view'=> $views,
+            'data'=>$data
+        ]);
+    }
+
+    public function update(Request $request){
+        $recipients = Recipient::mUpdate($request);
+        $views = [];
+        $data = [];
+
+        foreach ($recipients as $recipient) {
+            array_push($views, view('admin.recipients.table-row', compact('recipient'))->render());
+            array_push($data, $recipient->dataTableRowData());
+        }
+
+        return response()->json([
+            'status'=>1,
+            'views'=>$views,
+            'data'=>$data
+        ]);
+    }
+
     public function delete(Request $request){
         $ids = explode(',', $request->ids);
         Recipient::destroy($ids);

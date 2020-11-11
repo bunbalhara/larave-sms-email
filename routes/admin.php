@@ -31,6 +31,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
 
     Route::group(['as'=>'recipient.', 'prefix'=>'recipient'], function(){
         Route::post('add','RecipientController@add')->name('add');
+        Route::post('edit','RecipientController@edit')->name('edit');
+        Route::post('update','RecipientController@update')->name('update');
         Route::post('delete','RecipientController@delete')->name('delete');
         Route::post('file-import', 'RecipientController@fileImport')->name('file-import');
         Route::get('message','RecipientController@message')->name('message');

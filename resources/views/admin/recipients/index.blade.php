@@ -48,13 +48,13 @@
                                 <div class="row">
                                     <div class="col-12 offset-0 col-md-9 offset-md-1">
                                         <div class="row form-item">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Name (optional) </label>
                                                     <input class="form-control" type="text" name="name[]" placeholder="Recipient Name" >
                                                 </div>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>Phone Number (required) </label>
                                                     <input class="form-control phone-number" type="text" name="phone_number[]" placeholder="Phone Number">
@@ -62,6 +62,13 @@
                                                 <div id="phone"></div>
                                             </div>
                                             <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Tag </label>
+                                                    <input class="form-control" type="text" name="tag[]" placeholder="Tag">
+                                                </div>
+                                                <div id="phone"></div>
+                                            </div>
+                                            <div class="col-md-2">
                                                 <label>&nbsp;</label>
                                                 <div class="w-100">
                                                     <button class="btn btn-add-more m-btn--square  btn-outline-success m-btn m-btn--custom pull-right" style="width: 120px">

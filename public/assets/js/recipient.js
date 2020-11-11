@@ -1479,15 +1479,19 @@ $(document).ready(function () {
   });
   $('.crud-table').crud({
     deleteUrl: '/admin/recipient/delete',
+    editUrl: '/admin/recipient/edit',
+    updateUrl: '/admin/recipient/update',
     csvImport: true,
     multiSubmitForAdd: true,
     addFormSubmit: function addFormSubmit(table, form) {
       var formData = new FormData();
       $(form).find('.create-item').loading();
       $(form).find('.form-item').each(function () {
+        var tag = $(this).find('input[name="tag[]"]').val();
         var name = $(this).find('input[name="name[]"]').val();
         var countryCode = $(this).find('.iti__selected-dial-code').text();
         var phoneNumber = $(this).find('input[name="phone_number[]"]').val().replace(/ /g, '');
+        formData.append('tag[]', tag);
         formData.append('name[]', name);
         formData.append('phone_number[]', countryCode + phoneNumber);
         $(form).find('.create-item').loading(false);

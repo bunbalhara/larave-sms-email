@@ -23,10 +23,12 @@ class Recipient extends Model
         if($validation['valid']){
             $name = $request->name;
             $phone_number = $request->phone_number;
+            $tag = $request->tag;
             foreach($phone_number as $i => $item){
                 $recipient = new self();
                 $recipient->phone_number = $item;
                 $recipient->country = PhoneNumber::make($item)->getCountry();
+                $recipient->tag = $tag[$i];
                 if($name[$i]){
                     $recipient->name = $name[$i];
                 }else{
@@ -53,6 +55,28 @@ class Recipient extends Model
         return ['valid'=> false, 'errors'=>$validator->errors()];
     }
 
+    public static function mUpdate($request)
+    {
+        $id = $request->id;
+        $phone_number = $request->phone_number;
+        $tag = $request->tag;
+        $name = $request->name;
+        $subscribed = $request->subscribed;
+
+        $recipients = self::whereIn('id', $id)->get();
+
+        foreach ($recipients as $i=> $recipient){
+            $recipient->phone_number = $phone_number[$i];
+            $recipient->tag =$tag[$i];
+            $recipient->name = $name[$i];
+            $recipient->subscribed = $subscribed[$i];
+            $recipient->save();
+            $recipients[$i] = $recipient;
+        }
+
+        return $recipients;
+    }
+
     public function dataTableRowData(){
         return ['',
             '<input type="checkbox" class="select-item" data-id="'.$this->id.'"/>',
@@ -62,11 +86,38 @@ class Recipient extends Model
             $this->tag,
             '<span class="badge badge-success">Yes</span>',
             '<div class="w-100 d-flex justify-content-around align-items-center">
-                <button class="btn btn-sm btn-view view-item '.($this->message()->count()==0?'disabled':'').'"  data-id="'.$this->id.'">
+                <a href="'.route('admin.recipient.message',['recipientId'=>$this->id]).'" class="btn btn-sm btn-edit view-item mr-1 '.($this->message()->count()==0?'disabled':'').'" data-id="{{$recipient->id}}">
                     <div><i class="fa fa-eye"></i>Messages('.$this->message()->count().')</div>
+                </a>
+                <button class="btn btn-sm btn-edit edit-item mr-1" data-id="'.$this->id.'">
+                    <div><i class="fa fa-trash"></i> Edit </div>
                 </button>
                 <button class="btn btn-sm btn-delete delete-item" data-id="'.$this->id.'">
-                    <div><i class="fa fa-trash"></i> Delete</div>
+                    <div><i class="fa fa-trash"></i> Delete </div>
+                </button>
+            </div>'];
+    }
+
+    public function dataTableEditRowData(){
+        return ['',
+            '<input type="checkbox" class="select-item" data-id="'.$this->id.'" checked disabled/>',
+            '<span hidden>'.$this->name.'</span><input class="input-box" value="'.$this->name.'" name="name"/>',
+            $this->country?$this->country.'<img src="'.asset('assets/img/flags/'.$this->country.'.png').'">':'undefined',
+            '<span hidden>'.$this->phone_number.'</span><input class="input-box"  value="'.$this->phone_number.'" name="phone_number"/>',
+            '<span hidden>'.$this->tag.'</span><input class="input-box"  value="'.$this->tag.'" name="tag" type="text"/>',
+            '<span hidden>'.($this->subscribed?'Yes':'No').'</span><select class="select-box w-100" name="subscribed">
+                <option value="1">Yes</option>
+                <option value="0" '.($this->subscribed?'':'selected').'>No</option>
+            </select>',
+            '<div class="w-100 d-flex justify-content-around align-items-center">
+                <a href="'.route('admin.recipient.message',['recipientId'=>$this->id]).'" class="btn btn-sm btn-edit view-item mr-1 '.($this->message()->count()==0?'disabled':'').'" data-id="{{$recipient->id}}">
+                    <div><i class="fa fa-eye"></i>Messages('.$this->message()->count().')</div>
+                </a>
+                <button class="btn btn-sm btn-danger cancel-item" data-id="'.$this->id.'">
+                    <div><i class="fa fa-times"></i>Close</div>
+                </button>
+                <button class="btn btn-sm btn-save update-item" data-id="'.$this->id.'">
+                    <div><i class="fa fa-save"></i> Save</div>
                 </button>
             </div>'];
     }

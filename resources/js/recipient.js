@@ -9,15 +9,19 @@ $(document).ready(function (){
 
     $('.crud-table').crud({
         deleteUrl:'/admin/recipient/delete',
+        editUrl:'/admin/recipient/edit',
+        updateUrl:'/admin/recipient/update',
         csvImport: true,
         multiSubmitForAdd: true,
         addFormSubmit: function (table, form){
             let formData = new FormData();
             $(form).find('.create-item').loading()
             $(form).find('.form-item').each(function (){
+                let tag = $(this).find('input[name="tag[]"]').val();
                 let name = $(this).find('input[name="name[]"]').val();
                 let countryCode = $(this).find('.iti__selected-dial-code').text();
                 let phoneNumber = $(this).find('input[name="phone_number[]"]').val().replace(/ /g,'');
+                formData.append('tag[]', tag);
                 formData.append('name[]', name);
                 formData.append('phone_number[]', countryCode + phoneNumber)
                 $(form).find('.create-item').loading(false)
