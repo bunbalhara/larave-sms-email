@@ -99,7 +99,7 @@ class SettingController extends Controller
     {
         $validator = Validator::make(array_merge($request->all()), [
             'service_name' => 'required',
-            'service_alias' => 'required|max:11',
+            'service_alias' => 'required|max:11|regex:/^[a-zA-Z0-9 ]+$/',
             'phone_number'=>'required',
         ]);
 
