@@ -81,7 +81,7 @@ class Recipient extends Model
         return ['',
             '<input type="checkbox" class="select-item" data-id="'.$this->id.'"/>',
             $this->name,
-            $this->country.'<img src="'.asset('assets/img/flags/'.$this->country.'.png').'">',
+            $this->country.'<img src="'.asset('assets/img/flags/'.strtolower($this->country).'.png').'">',
             $this->phone_number,
             $this->tag,
             '<span class="badge badge-success">Yes</span>',
@@ -102,7 +102,7 @@ class Recipient extends Model
         return ['',
             '<input type="checkbox" class="select-item" data-id="'.$this->id.'" checked disabled/>',
             '<span hidden>'.$this->name.'</span><input class="input-box" value="'.$this->name.'" name="name"/>',
-            $this->country?$this->country.'<img src="'.asset('assets/img/flags/'.$this->country.'.png').'">':'undefined',
+            $this->country?$this->country.'<img src="'.asset('assets/img/flags/'.strtolower($this->country).'.png').'">':'undefined',
             '<span hidden>'.$this->phone_number.'</span><input class="input-box"  value="'.$this->phone_number.'" name="phone_number"/>',
             '<span hidden>'.$this->tag.'</span><input class="input-box"  value="'.$this->tag.'" name="tag" type="text"/>',
             '<span hidden>'.($this->subscribed?'Yes':'No').'</span><select class="select-box w-100" name="subscribed">
