@@ -81,7 +81,7 @@ class Recipient extends Model
         return ['',
             '<input type="checkbox" class="select-item" data-id="'.$this->id.'"/>',
             $this->name,
-            $this->country.'<img src="'.asset('assets/img/flags/'.strtolower($this->country).'.png').'">',
+            $this->country?$this->country.'<img src="'.asset('assets/img/flags/'.strtolower($this->country).'.png').'">':'undefined',
             $this->phone_number,
             $this->tag,
             '<span class="badge badge-success">Yes</span>',

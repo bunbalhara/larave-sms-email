@@ -23,16 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/recipients/edit-row.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/RecipientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/RecipientController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Recipient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Recipient.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/recipient.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/recipient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/recipient.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/recipient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/recipients/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/recipients/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/recipients/table-row.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/recipients/table-row.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +228,7 @@
       <workItem from="1604950817979" duration="14795000" />
       <workItem from="1604978067677" duration="2198000" />
       <workItem from="1604983194059" duration="3000" />
-      <workItem from="1605052930384" duration="4736000" />
+      <workItem from="1605052930384" duration="5401000" />
     </task>
     <servers />
   </component>
