@@ -25,7 +25,9 @@ class SmsController extends Controller
     }
 
     public function newMessage(){
-        $recipients = Recipient::all();
+
+        $recipients = Recipient::where('subscribed', true)
+            ->whereNotIn('country', ['0'])->get();
 
         $countries = Recipient::distinct()->get(['country'])->pluck('country');
         $tags = Recipient::distinct()->get(['tag'])->pluck('tag');
