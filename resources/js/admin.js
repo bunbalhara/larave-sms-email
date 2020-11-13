@@ -429,12 +429,20 @@ class CRUD {
     // mark index numbers to table.
     markIndexNumbers(){
         let $this = this;
-        $this.table && $this.table.fnGetNodes().forEach((item, index)=>{
-            $this.updating = true;
-            if($(item).find('td').length > 3){
-                $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);
-            }
-        })
+        if($this.dataTable){
+            $this.table && $this.table.fnGetNodes().forEach((item, index)=>{
+                $this.updating = true;
+                if($(item).find('td').length > 3){
+                    $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);
+                }
+            })
+        }else {
+            $this.container.find('tbody tr').each((index, item)=>{
+                if($(item).find('td').length > 3){
+                    $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);
+                }
+            })
+        }
     }
 
     renderEditRow(){

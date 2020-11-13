@@ -837,6 +837,18 @@ table .checkbox {
   }
 }
 
+fieldset {
+  border: solid 1px #808080 !important;
+  border-radius: 10px !important;
+  padding: 25px !important;
+  margin: 2px;
+}
+
+fieldset legend {
+  width: 200px;
+  text-align: center;
+}
+
 .table input[type=checkbox] {
   width: 18px;
   height: 18px;

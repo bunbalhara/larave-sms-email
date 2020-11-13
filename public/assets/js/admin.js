@@ -583,13 +583,22 @@ var CRUD = /*#__PURE__*/function () {
     key: "markIndexNumbers",
     value: function markIndexNumbers() {
       var $this = this;
-      $this.table && $this.table.fnGetNodes().forEach(function (item, index) {
-        $this.updating = true;
 
-        if ($(item).find('td').length > 3) {
-          $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);
-        }
-      });
+      if ($this.dataTable) {
+        $this.table && $this.table.fnGetNodes().forEach(function (item, index) {
+          $this.updating = true;
+
+          if ($(item).find('td').length > 3) {
+            $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);
+          }
+        });
+      } else {
+        $this.container.find('tbody tr').each(function (index, item) {
+          if ($(item).find('td').length > 3) {
+            $($(item).find('td')[$this.indexColumnNumber]).text(index + 1);
+          }
+        });
+      }
     }
   }, {
     key: "renderEditRow",
@@ -691,7 +700,7 @@ var CRUD = /*#__PURE__*/function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\js\admin.js */"./resources/js/admin.js");
+module.exports = __webpack_require__(/*! E:\Working\Laravel\2020-11-04 - sms\backup\20-11-14-sms\resources\js\admin.js */"./resources/js/admin.js");
 
 
 /***/ })

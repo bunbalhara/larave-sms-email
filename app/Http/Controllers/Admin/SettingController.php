@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Sender;
-use App\Models\Service;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
-use function React\Promise\all;
 
 class SettingController extends Controller
 {
@@ -144,7 +140,6 @@ class SettingController extends Controller
            'serviceSid'=>'required',
            'service_name'=>'required',
            'phone_number'=>'required' ,
-            'oldPhoneNumberSid'=>'required',
             'alphaSenderSid'=>'required',
             'service_alias'=>'required|max:11|regex:/^[a-zA-Z0-9 ]+$/',
         ]);

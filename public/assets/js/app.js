@@ -37383,12 +37383,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\back.scss */"./resources/sass/back.scss");
-__webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\front.scss */"./resources/sass/front.scss");
-__webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\both.scss */"./resources/sass/both.scss");
-__webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\sass\recipient.scss */"./resources/sass/recipient.scss");
+__webpack_require__(/*! E:\Working\Laravel\2020-11-04 - sms\backup\20-11-14-sms\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! E:\Working\Laravel\2020-11-04 - sms\backup\20-11-14-sms\resources\sass\back.scss */"./resources/sass/back.scss");
+__webpack_require__(/*! E:\Working\Laravel\2020-11-04 - sms\backup\20-11-14-sms\resources\sass\front.scss */"./resources/sass/front.scss");
+__webpack_require__(/*! E:\Working\Laravel\2020-11-04 - sms\backup\20-11-14-sms\resources\sass\both.scss */"./resources/sass/both.scss");
+__webpack_require__(/*! E:\Working\Laravel\2020-11-04 - sms\backup\20-11-14-sms\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! E:\Working\Laravel\2020-11-04 - sms\backup\20-11-14-sms\resources\sass\recipient.scss */"./resources/sass/recipient.scss");
 
 
 /***/ })

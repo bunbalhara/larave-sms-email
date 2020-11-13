@@ -23,7 +23,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Models/Recipient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Recipient.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SettingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/UserSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/all.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/all.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/dev/back.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/dev/back.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/recipient.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/recipient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/admin.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/admin.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/settings/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/settings/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/settings/service-name-table-row.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/settings/service-name-table-row.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +205,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/assets/vendors/base" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -228,7 +242,10 @@
       <workItem from="1604950817979" duration="14795000" />
       <workItem from="1604978067677" duration="2198000" />
       <workItem from="1604983194059" duration="3000" />
-      <workItem from="1605052930384" duration="5401000" />
+      <workItem from="1605052930384" duration="11951000" />
+      <workItem from="1605121853791" duration="533000" />
+      <workItem from="1605199403253" duration="187000" />
+      <workItem from="1605294792914" duration="816000" />
     </task>
     <servers />
   </component>
@@ -272,11 +289,12 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2474" y="101" width="585" height="711" key="find.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604956676298" />
-    <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1605057449933">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1605295354907">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604283432599" />
-    <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1605057449933" />
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605295354907" />
+    <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1605060275372" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

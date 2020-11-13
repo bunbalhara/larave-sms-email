@@ -13,7 +13,7 @@
         @endif
     </td>
     <td>
-        @if(count($service['phoneNumbers']) == 0)
+        @if(count($service['alphaSenders']) == 0)
             <div class="w-100 text-center text-warning">no alpha sender</div>
         @else
             @foreach($service['alphaSenders'] as $alphaSender)

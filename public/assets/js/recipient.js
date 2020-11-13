@@ -1543,7 +1543,7 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\Working\Laravel\2020-11-04\resources\js\recipient.js */"./resources/js/recipient.js");
+module.exports = __webpack_require__(/*! E:\Working\Laravel\2020-11-04 - sms\backup\20-11-14-sms\resources\js\recipient.js */"./resources/js/recipient.js");
 
 
 /***/ })

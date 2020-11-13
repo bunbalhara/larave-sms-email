@@ -26,11 +26,64 @@
 @section('content')
     <div class="tabs-wrapper">
         <ul class="tab-nav">
-            <li class="tab-item"><a class="tab-link tab-active" data-area="#service_names" href="#/service_names">Service Names</a></li>
-            <li class="tab-item"><a class="tab-link" data-area="#setting" href="#/setting">Setting</a></li>
+            <li class="tab-item"><a class="tab-link tab-active" data-area="#setting" href="#/setting">General Setting</a></li>
+            <li class="tab-item"><a class="tab-link" data-area="#service_names" href="#/service_names">SMS Service Names</a></li>
         </ul>
     </div>
-    <div class="m-portlet m-portlet--mobile tab_area area-active" id="service_names_area">
+    <div class="m-portlet m-portlet--mobile tab_area area-active" id="setting_area">
+        <div class="m-portlet__body">
+            <div class="col-12">
+                <form id="setting-form" action="{{route('admin.setting.set')}}" method="post">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <fieldset>
+                                <legend>SMS setting:</legend>
+                                <div class="form-group">
+                                    <label>Twilio Account SID</label>
+                                    <input type="text"  value="{{option('twilio_account_sid','')}}" name="twilio_account_sid" class="form-control" placeholder="Twilio Account SID"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Twilio Account Token</label>
+                                    <input type="text"  value="{{option('twilio_account_token','')}}"  name="twilio_account_token" class="form-control" placeholder="Twilio Account Token"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Default Sender</label>
+                                    <select class="form-control" name="default_sender">
+                                    </select>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-lg-6">
+                            <fieldset>
+                                <legend>Email setting:</legend>
+                                <div class="form-group">
+                                    <label>Twilio Account SID</label>
+                                    <input type="text"  value="{{option('twilio_account_sid','')}}" name="twilio_account_sid" class="form-control" placeholder="Twilio Account SID"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Twilio Account Token</label>
+                                    <input type="text"  value="{{option('twilio_account_token','')}}"  name="twilio_account_token" class="form-control" placeholder="Twilio Account Token"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Default Sender</label>
+                                    <select class="form-control" name="default_sender">
+                                    </select>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="w-100 mt-4">
+                                <button type="submit" class="btn m-btn--square create-item  btn-outline-info m-btn m-btn--custom pull-right">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="m-portlet m-portlet--mobile tab_area" id="service_names_area">
         <div class="m-portlet__body">
             <div class="col-12">
                 <div class="crud-table">
@@ -102,44 +155,11 @@
             </div>
         </div>
     </div>
-    <div class="m-portlet m-portlet--mobile tab_area" id="setting_area">
-        <div class="m-portlet__body">
-            <div class="col-12">
-                <form id="setting-form" action="{{route('admin.setting.set')}}" method="post">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Twilio Account SID</label>
-                                <input type="text"  value="{{option('twilio_account_sid','')}}" name="twilio_account_sid" class="form-control" placeholder="Twilio Account SID"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Twilio Account Token</label>
-                                <input type="text"  value="{{option('twilio_account_token','')}}"  name="twilio_account_token" class="form-control" placeholder="Twilio Account Token"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Default Sender</label>
-                                <select class="form-control" name="default_sender">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="w-100 mt-4">
-                                <button type="submit" class="btn m-btn--square create-item  btn-outline-info m-btn m-btn--custom pull-right">
-                                    Save Changes
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <div id="editModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
+
                 <div class="delete-modal-content">
                     <div class="w-100 position-absolute" style="top: 20px; right: 20px">
                         <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
@@ -220,7 +240,7 @@
                 })
             })
 
-            $('.crud-table').crud({
+            let crudTable = $('.crud-table').crud({
                 editUrl:'{{route('admin.setting.service-name-edit')}}',
                 updateUrl:'{{route('admin.setting.service-name-update')}}',
                 deleteUrl:'{{route('admin.setting.service-name-delete')}}',
@@ -232,12 +252,12 @@
                     modal.modal('show');
                     modal.find('input[name="service_name"]').val(service.friendlyName);
                     modal.find('input[name="service_alias"]').val(service.alphaSenders[0] && service.alphaSenders[0].alphaSender || '');
-                    modal.find(`select[name="phone_number"] option:contains(${service.phoneNumbers[0].phoneNumber})`).prop('selected', true);
+                    modal.find(`select[name="phone_number"] option:contains(${service.phoneNumbers[0] && service.phoneNumbers[0].phoneNumber || ''})`).prop('selected', true);
                     modal.on('click', '.update-item', function (){
                         const {formData} = modal.formData();
                         formData.append('serviceSid', service.sid);
-                        formData.append('alphaSenderSid', service.alphaSenders[0].sid)
-                        formData.append('oldPhoneNumberSid', service.phoneNumbers[0].sid)
+                        formData.append('alphaSenderSid', service.alphaSenders[0] && service.alphaSenders[0].sid || '')
+                        formData.append('oldPhoneNumberSid', service.phoneNumbers[0] && service.phoneNumbers[0].sid || '')
                         let newPhoneNumber = modal.find(`select[name="phone_number"] option:selected`).text();
                         let $this = $(this);
                         $this.loading();
