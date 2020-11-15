@@ -58,6 +58,13 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
         Route::get('/','SmsController@index')->name('index');
     });
 
+    Route::group(['as'=>'email.', 'prefix'=>'email'], function(){
+        Route::post('delete','EmailController@delete')->name('delete');
+        Route::get('detail','EmailController@detail')->name('detail');
+        Route::get('/','EmailController@index')->name('index');
+    });
+
+
     Route::group(['as'=>'setting.', 'prefix'=>'setting'], function(){
         Route::post('set','SettingController@set')->name('set');
         Route::get('get-phone-numbers','SettingController@getPhoneNumbers')->name('get-phone-numbers');

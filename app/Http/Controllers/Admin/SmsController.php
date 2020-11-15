@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SimpleMail;
+use App\Models\Email;
 use App\Models\Message;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
@@ -55,6 +56,7 @@ class SmsController extends Controller
             'from'=>'required|email',
             'receivers' => 'required',
             'message' => 'required',
+            'subject' => 'required',
         ]);
 
         if($validator->passes()){
@@ -70,9 +72,17 @@ class SmsController extends Controller
                 $count++;
                 array_push($to, $recipient->email);
             }
+
+            $email = new Email();
+            $email->recipients = implode(',',$to);
+            $email->from = $from;
+            $email->content = $content;
+            $email->subject = $subject;
+            $email->mailer = option('mail_mailer','smtp');
+            $email->save();
+
             $newEmail = new SimpleMail($from, $subject, $content);
             Mail::to($to)->send($newEmail);
-
             return response()->json([
                 'status' => 1,
                 'data'=>$request->message,

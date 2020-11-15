@@ -4,6 +4,8 @@
     <title></title>
 </head>
 <body>
-    {!! $content !!}
+    <div style="width: 100%; height: 100%">
+        {!! $content !!}
+    </div>
 </body>
 </html>

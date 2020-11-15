@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class SimpleMail extends Mailable implements ShouldQueue
 {
@@ -28,5 +29,12 @@ class SimpleMail extends Mailable implements ShouldQueue
             ->subject($this->subject)
             ->view('admin.messages.mail.simple-mail')
             ->with(['content'=>$this->content]);
+    }
+
+    public function failed()
+    {
+        // Called when the job is failing...
+        Log::alert('error in queue mail');
+
     }
 }

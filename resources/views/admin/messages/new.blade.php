@@ -40,7 +40,7 @@
                     <div class="col-lg-7">
                         <div class="card rounded mt-4">
                             <div class="card-header">
-                                <h4>Users</h4>
+                                <h4>Recipients</h4>
                             </div>
                             <div class="card-body">
                                 <div class="col-12">

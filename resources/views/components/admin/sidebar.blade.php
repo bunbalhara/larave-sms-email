@@ -57,7 +57,16 @@
                         <i class="m-menu__link-icon">
                             <img src="{{asset('assets/img/messages.svg')}}" alt="dashboard">
                         </i>
-                        <span class="m-menu__link-text">Messages</span>
+                        <span class="m-menu__link-text">SMS Messages</span>
+                    </a>
+                </li>
+                <li class="m-menu__item {{ Request::is('admin/email*') ? 'm-menu__item--active ' : '' }}" aria-haspopup="true">
+                    <a href="{{route('admin.email.index')}}" class="m-menu__link ">
+                        <span class="m-menu__item-here"></span>
+                        <i class="m-menu__link-icon">
+                            <img src="{{asset('assets/img/messages.svg')}}" alt="dashboard">
+                        </i>
+                        <span class="m-menu__link-text">Emails</span>
                     </a>
                 </li>
                 <li class="m-menu__item {{ Request::is('admin/setting*') ? 'm-menu__item--active ' : '' }}" aria-haspopup="true">
