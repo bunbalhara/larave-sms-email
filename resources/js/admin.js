@@ -188,6 +188,7 @@ class CRUD {
     initialize(){
         let $this = this;
         this.csvImport && this.container.find('.csv-import').click(function (){
+            let tab = $(this).data('tab');
             $this.container.find('.csv-file-picker').click();
             $this.container.find('.csv-file-picker').change(function (){
                 let submitUrl = $(this).data('submit-url');
@@ -207,7 +208,7 @@ class CRUD {
                     fLog(formData)
                     pAjax(submitUrl, formData, (res)=>{
                         if(res.status){
-                            window.location.reload();
+                            window.location.href = '/admin/recipient?tab='+tab;
                         }
                         btn.loading(false);
                     })

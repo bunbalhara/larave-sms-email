@@ -330,6 +330,7 @@ var CRUD = /*#__PURE__*/function () {
     value: function initialize() {
       var $this = this;
       this.csvImport && this.container.find('.csv-import').click(function () {
+        var tab = $(this).data('tab');
         $this.container.find('.csv-file-picker').click();
         $this.container.find('.csv-file-picker').change(function () {
           var submitUrl = $(this).data('submit-url');
@@ -350,7 +351,7 @@ var CRUD = /*#__PURE__*/function () {
             fLog(formData);
             pAjax(submitUrl, formData, function (res) {
               if (res.status) {
-                window.location.reload();
+                window.location.href = '/admin/recipient?tab=' + tab;
               }
 
               btn.loading(false);
