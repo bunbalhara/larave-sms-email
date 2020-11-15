@@ -22,20 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/email/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/email/table-row.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SmsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SmsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Mail/SimpleMail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Mail/SimpleMail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Email.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Email.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_15_155702_create_emails_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_15_155702_create_emails_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/messages/mail/simple-mail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/messages/mail/simple-mail.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/messages/new-email.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/messages/new-email.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/messages/new.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/messages/new.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/admin/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/admin/sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.php" afterDir="false" />
-    </list>
+    <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -249,7 +236,7 @@
       <workItem from="1605199403253" duration="187000" />
       <workItem from="1605294792914" duration="7013000" />
       <workItem from="1605333771077" duration="35823000" />
-      <workItem from="1605451005172" duration="9597000" />
+      <workItem from="1605451005172" duration="9948000" />
     </task>
     <servers />
   </component>
