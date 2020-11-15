@@ -349,7 +349,8 @@ var CRUD = /*#__PURE__*/function () {
             formData.append('csv-file', $this.container.find('.csv-file-picker')[0].files[0]);
             fLog(formData);
             pAjax(submitUrl, formData, function (res) {
-              if (res.status) {// window.location.reload();
+              if (res.status) {
+                window.location.reload();
               }
 
               btn.loading(false);

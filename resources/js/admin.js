@@ -207,7 +207,7 @@ class CRUD {
                     fLog(formData)
                     pAjax(submitUrl, formData, (res)=>{
                         if(res.status){
-                            // window.location.reload();
+                            window.location.reload();
                         }
                         btn.loading(false);
                     })

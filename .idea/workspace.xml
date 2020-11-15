@@ -22,7 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="" />
+    <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/admin.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -237,7 +240,7 @@
       <workItem from="1605294792914" duration="7013000" />
       <workItem from="1605333771077" duration="35823000" />
       <workItem from="1605451005172" duration="14936000" />
-      <workItem from="1605472257182" duration="5554000" />
+      <workItem from="1605472257182" duration="5972000" />
     </task>
     <servers />
   </component>
@@ -287,11 +290,11 @@
     </state>
     <state x="554" y="101" width="893" height="711" key="find.popup/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605393328683" />
     <state x="2474" y="101" width="893" height="711" key="find.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1605312240528" />
-    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1605478587972">
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1605479464158">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604283432599" />
-    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605478587972" />
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605479464158" />
     <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1605372391736" />
   </component>
   <component name="XDebuggerManager">
