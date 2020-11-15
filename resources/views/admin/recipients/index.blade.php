@@ -124,7 +124,7 @@
                         <div class="tool-container">
                             <button class="btn btn-sm btn-cancel-add btn-outline-danger d-none"><div><i class="fa fa-arrow-left"></i>Back</div></button>
                             <button class="btn btn-sm btn-outline-info csv-import" data-tab="email"><div><i class="fa fa-file-import"></i>Import from CSV</div></button>
-                            <input type="file" name="csv-file" accept=".xlsx,.csv" data-submit-url="{{route('admin.recipient.email-file-import')}}" hidden>
+                            <input type="file" name="csv-file"  class="csv-file-picker" accept=".xlsx,.csv" data-submit-url="{{route('admin.recipient.email-file-import')}}" hidden>
                             <button class="btn btn-sm btn-add add-new"><div><i class="fa fa-plus"></i>Add</div></button>
                             <button class="btn btn-sm btn-delete delete-all disabled"><div><i class="fa fa-trash"></i>Delete</div></button>
                         </div>
