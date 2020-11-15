@@ -22,21 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/EmailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/EmailController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/RecipientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/RecipientController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SmsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SmsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Imports/RecipientsImport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Imports/RecipientsImport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Recipient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Recipient.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/recipients/email-table-row.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/recipients/email-table-row.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/recipients/emails.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/recipients/emails.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/recipients/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/recipients/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.php" afterDir="false" />
-    </list>
+    <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -251,7 +237,7 @@
       <workItem from="1605294792914" duration="7013000" />
       <workItem from="1605333771077" duration="35823000" />
       <workItem from="1605451005172" duration="14936000" />
-      <workItem from="1605472257182" duration="5190000" />
+      <workItem from="1605472257182" duration="5554000" />
     </task>
     <servers />
   </component>
