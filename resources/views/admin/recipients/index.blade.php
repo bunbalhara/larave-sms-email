@@ -26,7 +26,7 @@
     <div class="tabs-wrapper">
         <ul class="tab-nav">
             <li class="tab-item"><a class="tab-link {{($tab??'sms') == 'sms'?'tab-active':''}}" data-area="#sms_recipients" href="#/sms_recipients">SMS Recipients</a></li>
-            <li class="tab-item"><a class="tab-link {{($tab??'sms') == 'email'?'tab-active':''}}"" data-area="#email_recipients" href="#/email_recipients">Email Recipients</a></li>
+            <li class="tab-item"><a class="tab-link {{($tab??'sms') == 'email'?'tab-active':''}}" data-area="#email_recipients" href="#/email_recipients">Email Recipients</a></li>
         </ul>
     </div>
     <div class="m-portlet m-portlet--mobile tab_area  {{($tab??'sms') == 'sms'?'area-active':''}}" id="sms_recipients_area">
