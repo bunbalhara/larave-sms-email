@@ -117,7 +117,7 @@ class SmsController extends Controller
         catch(\Exception $e){
             return response()->json([
                 'state'=>1,
-                'message'=>$e->getMessage()
+                'message'=>$e->getMessgetMessage()
             ]);
         }
     }

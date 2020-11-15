@@ -14,6 +14,7 @@ class Recipient extends Model
         'name',
         'phone_number',
         'country',
+        'email',
         'tag'
     ];
     public static function store($request){
@@ -170,4 +171,8 @@ class Recipient extends Model
         return $this->hasMany('App\Models\Message');
     }
 
+    public function emailCount(){
+        $emails = Email::where('recipients', 'like', '%'.$this->email.'%')->get();
+        return count($emails);
+    }
 }

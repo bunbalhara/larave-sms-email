@@ -25,11 +25,11 @@
 @section('content')
     <div class="tabs-wrapper">
         <ul class="tab-nav">
-            <li class="tab-item"><a class="tab-link tab-active" data-area="#sms_recipients" href="#/sms_recipients">SMS Recipients</a></li>
-            <li class="tab-item"><a class="tab-link" data-area="#email_recipients" href="#/email_recipients">Email Recipients</a></li>
+            <li class="tab-item"><a class="tab-link {{($tab??'sms') == 'sms'?'tab-active':''}}" data-area="#sms_recipients" href="#/sms_recipients">SMS Recipients</a></li>
+            <li class="tab-item"><a class="tab-link {{($tab??'sms') == 'email'?'tab-active':''}}"" data-area="#email_recipients" href="#/email_recipients">Email Recipients</a></li>
         </ul>
     </div>
-    <div class="m-portlet m-portlet--mobile tab_area area-active" id="sms_recipients_area">
+    <div class="m-portlet m-portlet--mobile tab_area  {{($tab??'sms') == 'sms'?'area-active':''}}" id="sms_recipients_area">
         <div class="m-portlet__body">
             <div class="sms-crud-table">
                 <div class="table-wrapper">
@@ -116,7 +116,7 @@
         </div>
     </div>
 
-    <div class="m-portlet m-portlet--mobile tab_area" id="email_recipients_area">
+    <div class="m-portlet m-portlet--mobile tab_area  {{($tab??'sms') == 'email'?'area-active':''}}" id="email_recipients_area">
         <div class="m-portlet__body">
             <div class="email-crud-table">
                 <div class="table-wrapper">
@@ -124,7 +124,7 @@
                         <div class="tool-container">
                             <button class="btn btn-sm btn-cancel-add btn-outline-danger d-none"><div><i class="fa fa-arrow-left"></i>Back</div></button>
                             <button class="btn btn-sm btn-outline-info csv-import"><div><i class="fa fa-file-import"></i>Import from CSV</div></button>
-                            <input type="file" class="csv-file-picker" name="csv-file" accept=".xlsx,.csv" data-submit-url="{{route('admin.recipient.file-import')}}" hidden>
+                            <input type="file" class="csv-file-picker" name="csv-file" accept=".xlsx,.csv" data-submit-url="{{route('admin.recipient.email-file-import')}}" hidden>
                             <button class="btn btn-sm btn-add add-new"><div><i class="fa fa-plus"></i>Add</div></button>
                             <button class="btn btn-sm btn-delete delete-all disabled"><div><i class="fa fa-trash"></i>Delete</div></button>
                         </div>

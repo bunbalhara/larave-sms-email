@@ -41,7 +41,9 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
         Route::post('delete','RecipientController@delete')->name('delete');
 
         Route::post('file-import', 'RecipientController@fileImport')->name('file-import');
+        Route::post('email-file-import', 'RecipientController@emailFileImport')->name('email-file-import');
         Route::get('message','RecipientController@message')->name('message');
+        Route::get('email','RecipientController@email')->name('email');
         Route::get('/','RecipientController@index')->name('index');
     });
 
@@ -60,7 +62,6 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
 
     Route::group(['as'=>'email.', 'prefix'=>'email'], function(){
         Route::post('delete','EmailController@delete')->name('delete');
-        Route::get('detail','EmailController@detail')->name('detail');
         Route::get('/','EmailController@index')->name('index');
     });
 

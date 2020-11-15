@@ -13,6 +13,10 @@ class EmailController extends Controller
         return view('admin.email.index', compact('emails'));
     }
 
+    public function detail(Request $request){
+
+    }
+
     public function delete(Request $request){
         $ids = explode(',', $request->ids);
         Email::whereIn('id', $ids)->delete();
