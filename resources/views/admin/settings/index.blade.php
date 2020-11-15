@@ -3,7 +3,32 @@
 @section('title', 'Admin Dashboard')
 
 @section('style')
+    <style>
+        .setting-item{
+            border: solid 1px #8080807f!important;
+            border-radius: 5px!important;
+            padding: 15px!important;
+            margin: 2px;
+        }
 
+        .setting-item legend{
+            width: max-content;
+            text-align: center;
+        }
+
+        .setting-category{
+            border: dashed 1px #8080807f!important;
+            padding: 10px!important;
+            margin: 2px;
+        }
+
+        .setting-category legend{
+            font-size: 14px;
+            text-align: left;
+            width: max-content;
+        }
+
+    </style>
 @endsection
 @section('breadcrumb')
     <div class="mr-auto">
@@ -24,19 +49,21 @@
 @endsection
 
 @section('content')
+
     <div class="tabs-wrapper">
         <ul class="tab-nav">
             <li class="tab-item"><a class="tab-link tab-active" data-area="#setting" href="#/setting">General Setting</a></li>
             <li class="tab-item"><a class="tab-link" data-area="#service_names" href="#/service_names">SMS Service Names</a></li>
         </ul>
     </div>
+
     <div class="m-portlet m-portlet--mobile tab_area area-active" id="setting_area">
         <div class="m-portlet__body">
             <div class="col-12">
                 <form id="setting-form" action="{{route('admin.setting.set')}}" method="post">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <fieldset>
+                        <div class="col-lg-5">
+                            <fieldset class="setting-item">
                                 <legend>SMS setting:</legend>
                                 <div class="form-group">
                                     <label>Twilio Account SID</label>
@@ -53,22 +80,88 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="col-lg-6">
-                            <fieldset>
+                        <div class="col-lg-7">
+                            <fieldset class="setting-item">
                                 <legend>Email setting:</legend>
-                                <div class="form-group">
-                                    <label>Twilio Account SID</label>
-                                    <input type="text"  value="{{option('twilio_account_sid','')}}" name="twilio_account_sid" class="form-control" placeholder="Twilio Account SID"/>
+                                <div class="row">
+                                    <div class="col-lg-7">
+                                        <fieldset class="setting-category">
+                                            <legend>Mailer</legend>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-check-inline">
+                                                        <input class="mail-mailer" id="smtp" name="mail_mailer" type="radio" value="smtp" {{option('mail_mailer','smtp') == 'smtp'?'checked':''}}/>
+                                                        <label for="smtp" style="margin: 0; padding-left: 20px">SMTP</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-check-inline">
+                                                        <input id="ses" class="mail-mailer" name="mail_mailer" type="radio" value="ses" {{option('mail_mailer','smtp') == 'ses'?'checked':''}}/>
+                                                        <label for="ses" style="margin: 0; padding-left: 20px">SES</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="form-group">
+                                            <label>From Address</label>
+                                            <input type="text"  value="{{option('mail_from','')}}"  name="mail_from" class="form-control" placeholder="Default From Address"/>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Twilio Account Token</label>
-                                    <input type="text"  value="{{option('twilio_account_token','')}}"  name="twilio_account_token" class="form-control" placeholder="Twilio Account Token"/>
-                                </div>
-                                <div class="form-group">
-                                    <label>Default Sender</label>
-                                    <select class="form-control" name="default_sender">
-                                    </select>
-                                </div>
+                                <fieldset class="setting-category mail-mailer-setting smtp {{option('mail_mailer','smtp') == 'smtp'?'':'d-none'}}">
+                                    <legend>SMTP</legend>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Mail driver</label>
+                                                <input type="text"  value="{{option('mail_driver','')}}" name="mail_driver" class="form-control" placeholder="Mail Driver"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Mail host</label>
+                                                <input type="text"  value="{{option('mail_host','')}}"  name="mail_host" class="form-control" placeholder="Mail Host"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Mail Port</label>
+                                                <input type="text"  value="{{option('mail_port','')}}"  name="mail_port" class="form-control" placeholder="Mail Port"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Mail username</label>
+                                                <input type="text"  value="{{option('mail_username','')}}" name="mail_username" class="form-control" placeholder="Mail Username"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Mail Password</label>
+                                                <input type="text"  value="{{option('mail_password','')}}"  name="mail_password" class="form-control" placeholder="Mail Password"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Mail encryption</label>
+                                                <input type="text"  value="{{option('mail_encryption','')}}"  name="mail_encryption" class="form-control" placeholder="Mail Encryption"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="setting-category mail-mailer-setting ses {{option('mail_mailer','smtp') == 'ses'?'':'d-none'}}">
+                                    <legend>SES</legend>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label>SES key</label>
+                                                <input type="text"  value="{{option('ses_key','')}}" name="ses_key" class="form-control" placeholder="SES key"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>SES secret</label>
+                                                <input type="text"  value="{{option('ses_secret','')}}"  name="ses_secret" class="form-control" placeholder="SES secret"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>SES region</label>
+                                                <input type="text"  value="{{option('ses_region','')}}"  name="ses_region" class="form-control" placeholder="SES region"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
                             </fieldset>
                         </div>
                         <div class="col-lg-12">
@@ -83,6 +176,7 @@
             </div>
         </div>
     </div>
+
     <div class="m-portlet m-portlet--mobile tab_area" id="service_names_area">
         <div class="m-portlet__body">
             <div class="col-12">
@@ -191,7 +285,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('script')
@@ -229,6 +322,12 @@
         })
 
         $(document).ready(function (){
+
+            $('.mail-mailer').change(function (){
+                let mailer = $(this).val();
+                $('.mail-mailer-setting').hide();
+                $('fieldset.'+mailer).show();
+            })
 
             $('#setting-form').submit(function (e){
                 e.preventDefault();

@@ -7,6 +7,7 @@ use App\Imports\RecipientsImport;
 use App\Models\Message;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RecipientController extends Controller
@@ -14,8 +15,9 @@ class RecipientController extends Controller
 
     public function index(){
 
-        $recipients = Recipient::all();
-        return view('admin.recipients.index', compact('recipients'));
+        $recipients = Recipient::where('phone_number', '!=' ,'')->get();
+        $emailRecipients = Recipient::where('email', '!=' ,'')->get();
+        return view('admin.recipients.index', compact('recipients','emailRecipients'));
     }
 
     public function message(Request  $request){
@@ -47,7 +49,7 @@ class RecipientController extends Controller
 
     }
 
-    public function add(Request $request){
+    public function smsAdd(Request $request){
         $result = Recipient::store($request);
 
         if($result['status']){
@@ -70,37 +72,120 @@ class RecipientController extends Controller
 
     }
 
-    public function edit(Request $request){
+    public function smsEdit(Request $request){
         $ids = explode(',', $request->ids);
         $recipients = Recipient::whereIn('id', $ids)->get();
-        $views = [];
         $data = [];
         foreach ($recipients as $recipient){
-            array_push($views, view('admin.recipients.edit-row', compact('recipient'))->render());
             array_push($data, $recipient->dataTableEditRowData());
         }
         return response()->json([
             'status'=>1,
-            'view'=> $views,
             'data'=>$data
         ]);
     }
 
-    public function update(Request $request){
+    public function smsUpdate(Request $request){
         $recipients = Recipient::mUpdate($request);
-        $views = [];
         $data = [];
 
         foreach ($recipients as $recipient) {
-            array_push($views, view('admin.recipients.table-row', compact('recipient'))->render());
             array_push($data, $recipient->dataTableRowData());
         }
 
         return response()->json([
             'status'=>1,
-            'views'=>$views,
             'data'=>$data
         ]);
+    }
+
+
+    public function emailAdd(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'email.*'=>'required|email|unique:recipients,email|distinct',
+        ]);
+
+        $emails = $request->email;
+        $names = $request->name;
+        $tags = $request->tag;
+
+        $data = [];
+
+        if($validator->passes()){
+            foreach ($emails as $i => $email){
+                $recipient = new Recipient();
+                $recipient->email = $email;
+                $recipient->tag = $tags[$i];
+                $recipient->name = $names[$i];
+                $recipient->subscribed = true;
+                $recipient->save();
+
+                array_push($data, $recipient->dataTableEmailRecipientsData());
+            }
+            return response()->json([
+                'status'=>1,
+                'data'=>$data
+            ]);
+        }
+
+        return  response()->json([
+            'status'=>0,
+            'errors'=>$validator->errors(),
+            'requests'=>$request->all()
+        ]);
+    }
+
+    public function emailEdit(Request $request){
+        $ids = explode(',', $request->ids);
+        $recipients = Recipient::whereIn('id', $ids)->get();
+        $data = [];
+        foreach ($recipients as $recipient){
+            array_push($data, $recipient->dataTableEmailEditRowData());
+        }
+        return response()->json([
+            'status'=>1,
+            'data'=>$data
+        ]);
+    }
+
+    public function emailUpdate(Request $request){
+
+        $id = $request->id;
+        $emails = $request->email;
+        $tag = $request->tag;
+        $name = $request->name;
+        $subscribed = $request->subscribed;
+
+        $recipients = Recipient::whereIn('id', $id)->get();
+
+        foreach ($recipients as $i=> $recipient){
+            $recipient->email = $emails[$i];
+            $recipient->tag =$tag[$i];
+            $recipient->name = $name[$i];
+            $recipient->subscribed = $subscribed[$i];
+            $recipient->save();
+            $recipients[$i] = $recipient;
+        }
+
+        $data = [];
+
+        foreach ($recipients as $recipient) {
+            array_push($data, $recipient->dataTableEmailRecipientsData());
+        }
+
+        return response()->json([
+            'status'=>1,
+            'data'=>$data
+        ]);
+    }
+
+    public function emails(){
+
+    }
+
+    public function emailCsvImport(){
+
     }
 
     public function delete(Request $request){

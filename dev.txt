@@ -7,3 +7,8 @@
 6. php artisan storage:link
 7. npm install
 
+
+// Amazon SES setting
+https://github.com/aws/aws-sdk-php-laravel
+https://www.larablocks.com/package/aws/aws-sdk-php-laravel
+https://www.youtube.com/watch?v=IrSP7soIq3A

@@ -1477,10 +1477,10 @@ $(document).ready(function () {
     initialCountry: 'lv',
     separateDialCode: true
   });
-  $('.crud-table').crud({
+  var smsTable = $('.sms-crud-table').crud({
     deleteUrl: '/admin/recipient/delete',
-    editUrl: '/admin/recipient/edit',
-    updateUrl: '/admin/recipient/update',
+    editUrl: '/admin/recipient/sms/edit',
+    updateUrl: '/admin/recipient/sms/update',
     csvImport: true,
     multiSubmitForAdd: true,
     addFormSubmit: function addFormSubmit(table, form) {
@@ -1496,7 +1496,7 @@ $(document).ready(function () {
         formData.append('phone_number[]', countryCode + phoneNumber);
         $(form).find('.create-item').loading(false);
       });
-      pAjax('/admin/recipient/add', formData, function (res) {
+      pAjax('/admin/recipient/sms/add', formData, function (res) {
         if (res.status) {
           var _iterator = _createForOfIteratorHelper(res.data),
               _step;
@@ -1518,7 +1518,62 @@ $(document).ready(function () {
       });
     }
   });
-  $(document).on('click', '.btn-add-more', function (e) {
+  smsTable.container.on('click', '.btn-add-more', function (e) {
+    e.preventDefault();
+    var formItem = $(this).parents('.form-item').clone();
+    formItem.find('label').remove();
+    $(this).parents('.form-item').clear();
+    $(this).parents('.form-item').after(formItem); // intlTelInput(formItem.find('.phone-number')[0], {
+    //     initialCountry:'lv',
+    //     separateDialCode: true
+    // });
+
+    formItem.find('button').removeClass('.btn-add-more').removeClass('btn-outline-success').addClass('.remove-form-item').addClass('btn-outline-danger').html('<i class="fa fa-times"></i> Remove').click(function () {
+      $(this).parents('.form-item').remove();
+    });
+  });
+  var emailTable = $('.email-crud-table').crud({
+    deleteUrl: '/admin/recipient/delete',
+    editUrl: '/admin/recipient/email/edit',
+    updateUrl: '/admin/recipient/email/update',
+    csvImport: true,
+    multiSubmitForAdd: true,
+    addFormSubmit: function addFormSubmit(table, form) {
+      var formData = new FormData();
+      $(form).find('.create-item').loading();
+      $(form).find('.form-item').each(function () {
+        var tag = $(this).find('input[name="tag[]"]').val();
+        var name = $(this).find('input[name="name[]"]').val();
+        var countryCode = $(this).find('.iti__selected-dial-code').text();
+        var phoneNumber = $(this).find('input[name="email[]"]').val().replace(/ /g, '');
+        formData.append('tag[]', tag);
+        formData.append('name[]', name);
+        formData.append('email[]', countryCode + phoneNumber);
+        $(form).find('.create-item').loading(false);
+      });
+      pAjax('/admin/recipient/email/add', formData, function (res) {
+        if (res.status) {
+          var _iterator2 = _createForOfIteratorHelper(res.data),
+              _step2;
+
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var data = _step2.value;
+              table.fnAddData(data);
+              $(form).clear();
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+
+          itoastr('success', res.data.length + " recipients saved Successfully");
+        }
+      });
+    }
+  });
+  emailTable.container.on('click', '.btn-add-more', function (e) {
     e.preventDefault();
     var formItem = $(this).parents('.form-item').clone();
     formItem.find('label').remove();

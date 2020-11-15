@@ -15,10 +15,11 @@ class CreateRecipientsTable extends Migration
     {
         Schema::create('recipients', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('country');
-            $table->string('phone_number');
-            $table->string('tag');
+            $table->string('name')->nullable();
+            $table->string('country')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('tag')->nullable();
             $table->boolean('subscribed')->default(true);
             $table->timestamps();
         });

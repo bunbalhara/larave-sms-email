@@ -51,7 +51,9 @@ class SettingController extends Controller
 
         if($validator->passes()){
             foreach ($request->all() as $key=>$value){
-                option([$key => $value]);
+                if($value){
+                    option([$key => $value]);
+                }
             }
             return response()->json(['status'=>1,'data'=>$request->all(),'message'=>'']);
         }

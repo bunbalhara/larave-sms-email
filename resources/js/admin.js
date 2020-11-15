@@ -69,8 +69,10 @@ $.fn.extend({
         }
     },
     hide:function (){
-        if(!this.hasClass('d-none'))
-        this.addClass('d-none')
+        this.each((item)=>{
+            if(!$(item).hasClass('d-none'))
+                this.addClass('d-none')
+        })
     },
     show:function (){
         if(this.hasClass('d-none'))
@@ -352,28 +354,30 @@ class CRUD {
         // submit delete
         $('.delete-confirm-btn').click(function (){
             let formData = new FormData();
-            formData.append('ids', $this.ids.join(','));
-            $('.delete-confirm-btn').loading();
-            pAjax($this.deleteUrl, formData,(res)=>{
-                if(res.status){
-                    for (let row of $this.rows){
-                        if($this.dataTable){
-                            $this.table.fnDeleteRow(row.data(row))
+            if($this.ids.length > 0){
+                formData.append('ids', $this.ids.join(','));
+                $('.delete-confirm-btn').loading();
+                pAjax($this.deleteUrl, formData,(res)=>{
+                    if(res.status){
+                        for (let row of $this.rows){
+                            if($this.dataTable){
+                                $this.table.fnDeleteRow(row.data(row))
+                            }else {
+                                row.remove();
+                            }
+                        }
+
+                        $('.delete-confirm-btn').loading(false);
+                        $('#delete-confirm-modal').modal('hide');
+                        $this.init();
+                        if(res.message){
+                            itoastr('success',res.message)
                         }else {
-                            row.remove();
+                            itoastr('success','Deleted Successfully!')
                         }
                     }
-
-                    $('.delete-confirm-btn').loading(false);
-                    $('#delete-confirm-modal').modal('hide');
-                    $this.init();
-                    if(res.message){
-                        itoastr('success',res.message)
-                    }else {
-                        itoastr('success','Deleted Successfully!')
-                    }
-                }
-            })
+                })
+            }
         })
 
         if ($this.dataTable){

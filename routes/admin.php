@@ -30,19 +30,28 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin','middlewar
     });
 
     Route::group(['as'=>'recipient.', 'prefix'=>'recipient'], function(){
-        Route::post('add','RecipientController@add')->name('add');
-        Route::post('edit','RecipientController@edit')->name('edit');
-        Route::post('update','RecipientController@update')->name('update');
+        Route::post('sms/add','RecipientController@smsAdd')->name('sms-add');
+        Route::post('sms/edit','RecipientController@smsEdit')->name('sms-edit');
+        Route::post('sms/update','RecipientController@smsUpdate')->name('sms-update');
+
+        Route::post('email/add','RecipientController@emailAdd')->name('email-add');
+        Route::post('email/edit','RecipientController@emailEdit')->name('email-edit');
+        Route::post('email/update','RecipientController@emailUpdate')->name('email-update');
+
         Route::post('delete','RecipientController@delete')->name('delete');
+
         Route::post('file-import', 'RecipientController@fileImport')->name('file-import');
         Route::get('message','RecipientController@message')->name('message');
         Route::get('/','RecipientController@index')->name('index');
     });
 
 
+    Route::get('new-email', 'SmsController@newEmail')->name('new-email');
     Route::get('new-message', 'SmsController@newMessage')->name('new-message');
     Route::group(['as'=>'message.', 'prefix'=>'message'], function(){
         Route::post('send','SmsController@sendSms')->name('send');
+        Route::post('email-send','SmsController@sendEmail')->name('email-send');
+        Route::post('email-upload-image','SmsController@emailUploadImage')->name('email-upload-image');
         Route::post('delete','SmsController@delete')->name('delete');
         Route::post('delete-message','SmsController@deleteMessage')->name('delete-message');
         Route::get('detail','SmsController@detail')->name('detail');

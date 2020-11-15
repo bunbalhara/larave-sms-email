@@ -198,7 +198,11 @@ $.fn.extend({
     }
   },
   hide: function hide() {
-    if (!this.hasClass('d-none')) this.addClass('d-none');
+    var _this = this;
+
+    this.each(function (item) {
+      if (!$(item).hasClass('d-none')) _this.addClass('d-none');
+    });
   },
   show: function show() {
     if (this.hasClass('d-none')) this.removeClass('d-none');
@@ -284,7 +288,7 @@ var CRUD = /*#__PURE__*/function () {
   _createClass(CRUD, [{
     key: "init",
     value: function init() {
-      var _this = this;
+      var _this2 = this;
 
       this.ids = [];
       this.rows = [];
@@ -307,7 +311,7 @@ var CRUD = /*#__PURE__*/function () {
               if (res.view !== "") {
                 $this.container.find('tbody').html(res.view);
               } else {
-                $this.container.find('tbody').html("<tr><td class=\"text-center\" colspan=\"".concat(_this.container.find('thead>tr:last th').length, "\">There is no available data</td></tr>"));
+                $this.container.find('tbody').html("<tr><td class=\"text-center\" colspan=\"".concat(_this2.container.find('thead>tr:last th').length, "\">There is no available data</td></tr>"));
               }
 
               $this.markIndexNumbers();
@@ -438,13 +442,13 @@ var CRUD = /*#__PURE__*/function () {
         }
       });
       this.container.find('.select-all').click(function () {
-        var _this2 = this;
+        var _this3 = this;
 
         var filteredRows = $this.table.$('tr', {
           "filter": "applied"
         });
         filteredRows.each(function (index, item) {
-          $(item).find('.select-item').prop('checked', $(_this2).prop('checked'));
+          $(item).find('.select-item').prop('checked', $(_this3).prop('checked'));
         });
         $this.checkSelectedItems();
       });
@@ -492,40 +496,43 @@ var CRUD = /*#__PURE__*/function () {
 
       $('.delete-confirm-btn').click(function () {
         var formData = new FormData();
-        formData.append('ids', $this.ids.join(','));
-        $('.delete-confirm-btn').loading();
-        pAjax($this.deleteUrl, formData, function (res) {
-          if (res.status) {
-            var _iterator = _createForOfIteratorHelper($this.rows),
-                _step;
 
-            try {
-              for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                var row = _step.value;
+        if ($this.ids.length > 0) {
+          formData.append('ids', $this.ids.join(','));
+          $('.delete-confirm-btn').loading();
+          pAjax($this.deleteUrl, formData, function (res) {
+            if (res.status) {
+              var _iterator = _createForOfIteratorHelper($this.rows),
+                  _step;
 
-                if ($this.dataTable) {
-                  $this.table.fnDeleteRow(row.data(row));
-                } else {
-                  row.remove();
+              try {
+                for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                  var row = _step.value;
+
+                  if ($this.dataTable) {
+                    $this.table.fnDeleteRow(row.data(row));
+                  } else {
+                    row.remove();
+                  }
                 }
+              } catch (err) {
+                _iterator.e(err);
+              } finally {
+                _iterator.f();
               }
-            } catch (err) {
-              _iterator.e(err);
-            } finally {
-              _iterator.f();
-            }
 
-            $('.delete-confirm-btn').loading(false);
-            $('#delete-confirm-modal').modal('hide');
-            $this.init();
+              $('.delete-confirm-btn').loading(false);
+              $('#delete-confirm-modal').modal('hide');
+              $this.init();
 
-            if (res.message) {
-              itoastr('success', res.message);
-            } else {
-              itoastr('success', 'Deleted Successfully!');
+              if (res.message) {
+                itoastr('success', res.message);
+              } else {
+                itoastr('success', 'Deleted Successfully!');
+              }
             }
-          }
-        });
+          });
+        }
       });
 
       if ($this.dataTable) {

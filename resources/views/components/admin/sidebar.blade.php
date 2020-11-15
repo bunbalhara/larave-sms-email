@@ -21,7 +21,16 @@
                         <i class="m-menu__link-icon">
                             <img src="{{asset('assets/img/sms.svg')}}" alt="dashboard">
                         </i>
-                        <span class="m-menu__link-text">New Message</span>
+                        <span class="m-menu__link-text">New SMS</span>
+                    </a>
+                </li>
+                <li class="m-menu__item {{ Request::is('admin/new-email*') ? 'm-menu__item--active ' : '' }}" aria-haspopup="true">
+                    <a href="{{route('admin.new-email')}}" class="m-menu__link ">
+                        <span class="m-menu__item-here"></span>
+                        <i class="m-menu__link-icon">
+                            <img src="{{asset('assets/img/new-email.svg')}}" alt="dashboard">
+                        </i>
+                        <span class="m-menu__link-text">New Email</span>
                     </a>
                 </li>
                 <li class="m-menu__item {{ Request::is('admin/recipient*') ? 'm-menu__item--active ' : '' }}" aria-haspopup="true">

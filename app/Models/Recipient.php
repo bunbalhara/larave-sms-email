@@ -27,6 +27,7 @@ class Recipient extends Model
             foreach($phone_number as $i => $item){
                 $recipient = new self();
                 $recipient->phone_number = $item;
+                $recipient->subscribed = true;
                 $recipient->country = PhoneNumber::make($item)->getCountry();
                 $recipient->tag = $tag[$i];
                 if($name[$i]){
@@ -84,7 +85,7 @@ class Recipient extends Model
             $this->country?$this->country.'<img src="'.asset('assets/img/flags/'.strtolower($this->country).'.png').'">':'undefined',
             $this->phone_number,
             $this->tag,
-            '<span class="badge badge-success">Yes</span>',
+            $this->subscribed?'<span class="badge badge-success">Yes</span>':'<span class="badge badge-danger">No</span>',
             '<div class="w-100 d-flex justify-content-around align-items-center">
                 <a href="'.route('admin.recipient.message',['recipientId'=>$this->id]).'" class="btn btn-sm btn-edit view-item mr-1 '.($this->message()->count()==0?'disabled':'').'" data-id="{{$recipient->id}}">
                     <div><i class="fa fa-eye"></i>Messages('.$this->message()->count().')</div>
@@ -113,7 +114,50 @@ class Recipient extends Model
                 <a href="'.route('admin.recipient.message',['recipientId'=>$this->id]).'" class="btn btn-sm btn-edit view-item mr-1 '.($this->message()->count()==0?'disabled':'').'" data-id="{{$recipient->id}}">
                     <div><i class="fa fa-eye"></i>Messages('.$this->message()->count().')</div>
                 </a>
-                <button class="btn btn-sm btn-danger cancel-item" data-id="'.$this->id.'">
+                <button class="btn btn-sm btn-danger cancel-item mr-1" data-id="'.$this->id.'">
+                    <div><i class="fa fa-times"></i>Close</div>
+                </button>
+                <button class="btn btn-sm btn-save update-item" data-id="'.$this->id.'">
+                    <div><i class="fa fa-save"></i> Save</div>
+                </button>
+            </div>'];
+    }
+
+    public function dataTableEmailRecipientsData(){
+        return ['',
+            '<input type="checkbox" class="select-item" data-id="'.$this->id.'"/>',
+            $this->name,
+            $this->email,
+            $this->tag,
+            $this->subscribed?'<span class="badge badge-success">Yes</span>':'<span class="badge badge-danger">No</span>',
+            '<div class="w-100 d-flex justify-content-around align-items-center">
+                <a href="'.route('admin.recipient.message',['recipientId'=>$this->id]).'" class="btn btn-sm btn-edit view-item mr-1 '.($this->message()->count()==0?'disabled':'').'" data-id="{{$recipient->id}}">
+                    <div><i class="fa fa-eye"></i>Emails('.$this->message()->count().')</div>
+                </a>
+                <button class="btn btn-sm btn-edit edit-item mr-1" data-id="'.$this->id.'">
+                    <div><i class="fa fa-trash"></i> Edit </div>
+                </button>
+                <button class="btn btn-sm btn-delete delete-item" data-id="'.$this->id.'">
+                    <div><i class="fa fa-trash"></i> Delete </div>
+                </button>
+            </div>'];
+    }
+
+    public function dataTableEmailEditRowData(){
+        return ['',
+            '<input type="checkbox" class="select-item" data-id="'.$this->id.'" checked disabled/>',
+            '<span hidden>'.$this->name.'</span><input class="input-box" value="'.$this->name.'" name="name"/>',
+            '<span hidden>'.$this->email.'</span><input class="input-box"  value="'.$this->email.'" name="email"/>',
+            '<span hidden>'.$this->tag.'</span><input class="input-box"  value="'.$this->tag.'" name="tag" type="text"/>',
+            '<span hidden>'.($this->subscribed?'Yes':'No').'</span><select class="select-box w-100" name="subscribed">
+                <option value="1">Yes</option>
+                <option value="0" '.($this->subscribed?'':'selected').'>No</option>
+            </select>',
+            '<div class="w-100 d-flex justify-content-around align-items-center">
+                <a href="'.route('admin.recipient.message',['recipientId'=>$this->id]).'" class="btn btn-sm btn-edit view-item mr-1 '.($this->message()->count()==0?'disabled':'').'" data-id="{{$recipient->id}}">
+                    <div><i class="fa fa-eye"></i>Emails('.$this->message()->count().')</div>
+                </a>
+                <button class="btn btn-sm btn-danger cancel-item mr-1" data-id="'.$this->id.'">
                     <div><i class="fa fa-times"></i>Close</div>
                 </button>
                 <button class="btn btn-sm btn-save update-item" data-id="'.$this->id.'">

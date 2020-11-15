@@ -25,12 +25,13 @@
 @section('content')
     <div class="tabs-wrapper">
         <ul class="tab-nav">
-            <li class="tab-item"><a class="tab-link tab-active" data-area="#reports" href="#/reports">Recipients</a></li>
+            <li class="tab-item"><a class="tab-link tab-active" data-area="#sms_recipients" href="#/sms_recipients">SMS Recipients</a></li>
+            <li class="tab-item"><a class="tab-link" data-area="#email_recipients" href="#/email_recipients">Email Recipients</a></li>
         </ul>
     </div>
-    <div class="m-portlet m-portlet--mobile tab_area area-active" id="reports_area">
+    <div class="m-portlet m-portlet--mobile tab_area area-active" id="sms_recipients_area">
         <div class="m-portlet__body">
-            <div class="crud-table">
+            <div class="sms-crud-table">
                 <div class="table-wrapper">
                     <div class="tool-bar">
                         <div class="tool-container">
@@ -42,7 +43,7 @@
                         </div>
                     </div>
                     <div class="add-form-container d-none">
-                        <form class="add-form" action="{{route('admin.recipient.add')}}" method="post">
+                        <form class="add-form" action="{{route('admin.recipient.sms-add')}}" method="post">
                             @csrf
                             <div class="col-12">
                                 <div class="row">
@@ -89,7 +90,7 @@
                     </div>
                     <div class="dataTables_wrapper">
                         <div class="table-responsive">
-                            <table id="users-table" class="table dt-responsive nowrap dataTable no-footer collapsed">
+                            <table class="table dt-responsive nowrap dataTable no-footer collapsed">
                                 <thead>
                                 <tr>
                                     <th class="index no-sort">No</th>
@@ -105,6 +106,92 @@
                                 <tbody>
                                 @foreach($recipients as $recipient)
                                     @include('admin.recipients.table-row')
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-portlet m-portlet--mobile tab_area" id="email_recipients_area">
+        <div class="m-portlet__body">
+            <div class="email-crud-table">
+                <div class="table-wrapper">
+                    <div class="tool-bar">
+                        <div class="tool-container">
+                            <button class="btn btn-sm btn-cancel-add btn-outline-danger d-none"><div><i class="fa fa-arrow-left"></i>Back</div></button>
+                            <button class="btn btn-sm btn-outline-info csv-import"><div><i class="fa fa-file-import"></i>Import from CSV</div></button>
+                            <input type="file" class="csv-file-picker" name="csv-file" accept=".xlsx,.csv" data-submit-url="{{route('admin.recipient.file-import')}}" hidden>
+                            <button class="btn btn-sm btn-add add-new"><div><i class="fa fa-plus"></i>Add</div></button>
+                            <button class="btn btn-sm btn-delete delete-all disabled"><div><i class="fa fa-trash"></i>Delete</div></button>
+                        </div>
+                    </div>
+                    <div class="add-form-container d-none">
+                        <form class="add-form" action="{{route('admin.recipient.email-add')}}" method="post">
+                            @csrf
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12 offset-0 col-md-9 offset-md-1">
+                                        <div class="row form-item">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Name (optional) </label>
+                                                    <input class="form-control" type="text" name="name[]" placeholder="Recipient Name" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Email (required) </label>
+                                                    <input class="form-control phone-number" type="text" name="email[]" placeholder="Email">
+                                                </div>
+                                                <div id="phone"></div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Tag </label>
+                                                    <input class="form-control" type="text" name="tag[]" placeholder="Tag">
+                                                </div>
+                                                <div id="phone"></div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>&nbsp;</label>
+                                                <div class="w-100">
+                                                    <button class="btn btn-add-more m-btn--square  btn-outline-success m-btn m-btn--custom pull-right" style="width: 120px">
+                                                        <i class="fa fa-plus"></i> Add more
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-4">
+                                            <button type="submit" class="btn m-btn--square create-item  btn-outline-info m-btn m-btn--custom pull-right">
+                                                <i class="fa fa-save"></i> Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dataTables_wrapper">
+                        <div class="table-responsive">
+                            <table class="table dt-responsive nowrap dataTable no-footer collapsed">
+                                <thead>
+                                <tr>
+                                    <th class="index no-sort">No</th>
+                                    <th class="select no-sort"><input type="checkbox" class="select-all"></th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Tag</th>
+                                    <th class="no-search">Subscribed</th>
+                                    <th class="action no-sort">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($emailRecipients as $recipient)
+                                    @include('admin.recipients.email-table-row')
                                 @endforeach
                                 </tbody>
                             </table>
