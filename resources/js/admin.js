@@ -187,7 +187,7 @@ class CRUD {
 
     initialize(){
         let $this = this;
-        this.csvImport && this.container.find('.csv-import').click(function (){
+        this.csvImport && this.container.on('click', '.csv-import', function (){
             let tab = $(this).data('tab');
             $this.container.find('.csv-file-picker').click();
             $this.container.find('.csv-file-picker').change(function (){
