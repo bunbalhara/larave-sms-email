@@ -109,7 +109,7 @@
                                                 <input name="subject" class="form-control" placeholder="Subject"/>
                                             </div>
                                             <div class="form-group">
-                                                <label>Message (max 160 characters)</label>
+                                                <label>Message</label>
                                                 <textarea name="message" class="summernote" id="summernote"></textarea>
                                             </div>
                                         </div>

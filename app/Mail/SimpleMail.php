@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SimpleMail extends Mailable
+class SimpleMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -25,7 +25,6 @@ class SimpleMail extends Mailable
     public function build()
     {
         return $this->from($this->fromAddress)
-            ->to(['nanjingzhe425@gmail.com'])
             ->subject($this->subject)
             ->view('admin.messages.mail.simple-mail')
             ->with(['content'=>$this->content]);
