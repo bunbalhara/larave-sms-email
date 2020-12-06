@@ -23,8 +23,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/perfexsaas.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/perfexsaas.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SmsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SmsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/ConfigServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/ConfigServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/messages/new-email.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/messages/new-email.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +190,6 @@
       <path value="$PROJECT_DIR$/vendor/mtdowling/jmespath.php" />
       <path value="$PROJECT_DIR$/vendor/aws/aws-sdk-php-laravel" />
       <path value="$PROJECT_DIR$/vendor/aws/aws-sdk-php" />
-      <path value="$PROJECT_DIR$/vendor/eduardokum/laravel-mail-auto-embed" />
     </include_path>
   </component>
   <component name="ProjectId" id="1jiIrZKnuJLWgpNIeiX6DyH6XRb" />
@@ -197,7 +202,13 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../blog8" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -241,6 +252,23 @@
       <workItem from="1605333771077" duration="35823000" />
       <workItem from="1605451005172" duration="14936000" />
       <workItem from="1605472257182" duration="6987000" />
+      <workItem from="1605698490480" duration="3013000" />
+      <workItem from="1605752945811" duration="19000" />
+      <workItem from="1605926663474" duration="201000" />
+      <workItem from="1605927095822" duration="1507000" />
+      <workItem from="1605999669898" duration="25000" />
+      <workItem from="1605999715154" duration="23000" />
+      <workItem from="1606011065321" duration="2920000" />
+      <workItem from="1606147632938" duration="694000" />
+      <workItem from="1606489620241" duration="567000" />
+      <workItem from="1606492662051" duration="28000" />
+      <workItem from="1606493089845" duration="653000" />
+      <workItem from="1607125626030" duration="954000" />
+      <workItem from="1607132567795" duration="17000" />
+      <workItem from="1607132955868" duration="21000" />
+      <workItem from="1607146314267" duration="493000" />
+      <workItem from="1607150729758" duration="335000" />
+      <workItem from="1607215680452" duration="5047000" />
     </task>
     <servers />
   </component>
@@ -277,9 +305,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2005" y="147" width="1736" height="856" key="DiffContextDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604605091097" />
-    <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1604544996920">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1606150352077">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1606150352077" />
     <state x="2660" y="275" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604544996920" />
     <state x="92" y="92" width="1736" height="856" key="dock-window-1" timestamp="1605401720889">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -290,12 +319,12 @@
     </state>
     <state x="554" y="101" width="893" height="711" key="find.popup/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605393328683" />
     <state x="2474" y="101" width="893" height="711" key="find.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1605312240528" />
-    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1605479464158">
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1607225820374">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604283432599" />
-    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605479464158" />
-    <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1605372391736" />
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607225820374" />
+    <state x="2459" y="5" width="840" height="1034" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607216039259" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

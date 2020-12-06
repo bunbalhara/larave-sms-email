@@ -23,6 +23,7 @@ class ConfigServiceProvider extends ServiceProvider
     public function boot()
     {
         config([
+            'mail.from.address'=>option('mail_from', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
             'mail.default' => option('mail_mailer','smtp'),
             'mail.mailers.smtp' => [
                 'transport' => 'smtp',
@@ -35,6 +36,11 @@ class ConfigServiceProvider extends ServiceProvider
                 'auth_mode' => null,
             ],
             'mail.mailers.ses' =>[
+                'key' => option('ses_key', ''),
+                'secret' => option('ses_secret', ''),
+                'region' => option('ses_region', ''),
+            ],
+            'services.ses'=>[
                 'key' => option('ses_key', ''),
                 'secret' => option('ses_secret', ''),
                 'region' => option('ses_region', ''),

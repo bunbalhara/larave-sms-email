@@ -209,7 +209,7 @@
                 checkSelectedItems();
             })
 
-            $('.select-item').change(function (){
+            $(document).on('click', '.select-item', function (){
                 checkSelectedItems();
             })
 

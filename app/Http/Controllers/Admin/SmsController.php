@@ -59,6 +59,8 @@ class SmsController extends Controller
             'subject' => 'required',
         ]);
 
+//        return config('mail');
+
         if($validator->passes()){
             $numbers_in_arrays = explode( ',' , $request->receivers );
             $recipients = Recipient::whereIn('id', $numbers_in_arrays)->get();
