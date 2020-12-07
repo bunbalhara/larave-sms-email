@@ -85,5 +85,8 @@
             @endif
 
         </div>
+    <script>
+        window.ReactNativeWebView.postMessage("This is test message")
+    </script>
     </body>
 </html>
