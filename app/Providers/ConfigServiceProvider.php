@@ -25,6 +25,7 @@ class ConfigServiceProvider extends ServiceProvider
         config([
             'mail.from.address'=>option('mail_from', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
             'mail.default' => option('mail_mailer','smtp'),
+            'mail.driver'=> option('mail_mailer','smtp'),
             'mail.mailers.smtp' => [
                 'transport' => 'smtp',
                 'host' => option('mail_host', 'smtp.mailgun.org'),
