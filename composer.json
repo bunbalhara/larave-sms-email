@@ -23,7 +23,6 @@
         "livewire/livewire": "^2.3",
         "maatwebsite/excel": "^3.1",
         "propaganistas/laravel-phone": "^4.2",
-        "spatie/laravel-honeypot": "^3.0",
         "spatie/laravel-medialibrary": "^9.0",
         "spatie/laravel-permission": "^3.17",
         "twilio/sdk": "^6.9"

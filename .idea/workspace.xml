@@ -23,14 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd7f714e-2f82-4e14-956f-c54c4c681683" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/perfexsaas.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/perfexsaas.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SmsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SmsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/ConfigServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/ConfigServiceProvider.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/messages/new-email.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/messages/new-email.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +151,6 @@
       <path value="$PROJECT_DIR$/vendor/cviebrock/eloquent-sluggable" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/livewire/livewire" />
-      <path value="$PROJECT_DIR$/vendor/spatie/laravel-honeypot" />
       <path value="$PROJECT_DIR$/vendor/league/glide" />
       <path value="$PROJECT_DIR$/vendor/spatie/image" />
       <path value="$PROJECT_DIR$/vendor/myclabs/php-enum" />
@@ -268,7 +262,8 @@
       <workItem from="1607132955868" duration="21000" />
       <workItem from="1607146314267" duration="493000" />
       <workItem from="1607150729758" duration="335000" />
-      <workItem from="1607215680452" duration="5047000" />
+      <workItem from="1607215680452" duration="6425000" />
+      <workItem from="1607350611645" duration="303000" />
     </task>
     <servers />
   </component>
