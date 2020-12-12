@@ -21,7 +21,7 @@ class ConfigServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-//     {
+     {
 //         config([
 //             'mail.from.address'=>option('mail_from', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
 //             'mail.default' => option('mail_mailer','smtp'),
