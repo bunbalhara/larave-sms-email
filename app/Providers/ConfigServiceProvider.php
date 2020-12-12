@@ -22,29 +22,41 @@ class ConfigServiceProvider extends ServiceProvider
      */
     public function boot()
      {
+
+         $mailFrom = option('mail_from', env('MAIL_FROM_ADDRESS', 'hello@example.com'));
+         $mailMailer = option('mail_mailer','smtp');
+         $mailHost = option('mail_host', 'smtp.mailgun.org');
+         $mailPort = option('mail_port', 587);
+         $mailEncryption = option('mail_encryption', 'tls');
+         $mailUserName = option('mail_username', '');
+         $mailPassword = option('mail_password', '');
+         $sesKey = option('ses_key', '');
+         $sesSecret = option('ses_secret', '');
+         $sesRegion = option('ses_region', '');
+
         config([
-            'mail.from.address'=>option('mail_from', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
-            'mail.default' => option('mail_mailer','smtp'),
-            'mail.driver'=> option('mail_mailer','smtp'),
+            'mail.from.address'=>$mailFrom,
+            'mail.default' => $mailMailer,
+            'mail.driver'=> $mailMailer,
             'mail.mailers.smtp' => [
                 'transport' => 'smtp',
-                'host' => option('mail_host', 'smtp.mailgun.org'),
-                'port' => option('mail_port', 587),
-                'encryption' => option('mail_encryption', 'tls'),
-                'username' => option('mail_username'),
-                'password' => option('mail_password'),
+                'host' => $mailHost,
+                'port' => $mailPort,
+                'encryption' => $mailEncryption,
+                'username' => $mailUserName,
+                'password' => $mailPassword,
                 'timeout' => null,
                 'auth_mode' => null,
             ],
             'mail.mailers.ses' =>[
-                'key' => option('ses_key', ''),
-                'secret' => option('ses_secret', ''),
-                'region' => option('ses_region', ''),
+                'key' => $sesKey,
+                'secret' => $sesSecret,
+                'region' => $sesRegion,
             ],
             'services.ses'=>[
-                'key' => option('ses_key', ''),
-                'secret' => option('ses_secret', ''),
-                'region' => option('ses_region', ''),
+                'key' => $sesKey,
+                'secret' => $sesSecret,
+                'region' => $sesRegion,
             ]
         ]);
     }
