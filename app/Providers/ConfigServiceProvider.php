@@ -34,12 +34,12 @@ class ConfigServiceProvider extends ServiceProvider
          $sesSecret = option('ses_secret', '');
          $sesRegion = option('ses_region', '');
 
+
         config([
             'mail.from.address'=>$mailFrom,
             'mail.default' => $mailMailer,
             'mail.driver'=> $mailMailer,
             'mail.mailers.smtp' => [
-                'transport' => 'smtp',
                 'host' => $mailHost,
                 'port' => $mailPort,
                 'encryption' => $mailEncryption,
@@ -59,5 +59,7 @@ class ConfigServiceProvider extends ServiceProvider
                 'region' => $sesRegion,
             ]
         ]);
+
+         dd(config('mail'));
     }
 }

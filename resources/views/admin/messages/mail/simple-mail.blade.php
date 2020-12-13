@@ -55,7 +55,7 @@
         </div>
         <hr class="divider">
         <div class="footer">
-            <a href="https://multi-sender/unsubscrible?sender={{$sender}}&token={{$token}}" target="_blank" class="unsubscribe">Unsubscribe</a>
+            <a href="https://multi-sender.com/unsubscribe?sender={{$sender}}&token={{$token}}" target="_blank" class="unsubscribe">Unsubscribe</a>
         </div>
     </div>
 </body>
