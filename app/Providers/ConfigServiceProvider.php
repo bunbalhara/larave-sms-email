@@ -59,7 +59,5 @@ class ConfigServiceProvider extends ServiceProvider
                 'region' => $sesRegion,
             ]
         ]);
-
-         dd(config('mail'));
     }
 }
