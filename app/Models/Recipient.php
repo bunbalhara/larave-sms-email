@@ -175,4 +175,9 @@ class Recipient extends Model
         $emails = Email::where('recipients', 'like', '%'.$this->email.'%')->get();
         return count($emails);
     }
+
+    public function unsubscribe(){
+        $this->subscribed = false;
+        $this->save();
+    }
 }

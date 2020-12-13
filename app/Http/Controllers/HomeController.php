@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Recipient;
 use Illuminate\Http\Request;
 use Hash;
+use Illuminate\Support\Facades\Crypt;
 use Validator;
 
 class HomeController extends Controller
@@ -101,6 +103,19 @@ class HomeController extends Controller
         }
         catch(\Exception $e){
             echo json_encode($e->getMessage());
+        }
+    }
+
+    public function unsubscribe(Request $request){
+        try {
+            $token = $request->get('token');
+            $sender = $request->get('sender');
+            $email = Crypt::decryptString($token);
+            $user = Recipient::where('email', $email)->first();
+            $user->unsubscribe();
+            return view('admin.messages.mail.unsubscribe', compact('user','sender'));
+        }catch (\Exception $e){
+            redirect()->to('/');
         }
     }
 }

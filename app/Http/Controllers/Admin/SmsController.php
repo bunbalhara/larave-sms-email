@@ -73,6 +73,8 @@ class SmsController extends Controller
             {
                 $count++;
                 array_push($to, $recipient->email);
+                $newEmail = new SimpleMail($from, $subject, $content, $recipient->email);
+                Mail::to($recipient->email)->send($newEmail);
             }
 
             $email = new Email();
@@ -83,8 +85,6 @@ class SmsController extends Controller
             $email->mailer = option('mail_mailer','smtp');
             $email->save();
 
-            $newEmail = new SimpleMail($from, $subject, $content);
-            Mail::to($to)->send($newEmail);
             return response()->json([
                 'status' => 1,
                 'data'=>$request->message,

@@ -24,6 +24,9 @@ Route::group(['middleware'=>['auth','verified']], function(){
     Route::get('/{role}/profile', 'HomeController@profile')->name('profile');
     Route::post('/account/profileUpdate', 'HomeController@profileUpdate')->name('profile.update');
     Route::post('/account/passwordUpdate', 'HomeController@passwordUpdate')->name('password.update');
-
     Route::post('/uploadImage', 'HomeController@uploadImage')->name('uploadImage');
 });
+
+Route::get('/unsubscribe', 'HomeController@unsubscribe')->name('unsubscribe');
+
+Route::get('/test','TestController@index')->name('test');

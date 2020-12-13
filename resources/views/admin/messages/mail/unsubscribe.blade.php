@@ -34,29 +34,23 @@
             justify-content: center;
             padding: 50px 10%;
         }
-        .divider{
-            width: 100%;
-            background-color: grey;
-        }
-        .footer{
-            padding: 20px 10%;
-        }
-        .unsubscribe{
-            color: gray;
-            font-size: 18px;
+
+        .success-text{
+            color: #54c454;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <hr class="divider">
-        <div class="content">
-            {!! $content !!}
-        </div>
-        <hr class="divider">
-        <div class="footer">
-            <a href="https://multi-sender/unsubscrible?sender={{$sender}}&token={{$token}}" target="_blank" class="unsubscribe">Unsubscribe</a>
-        </div>
+<div class="container">
+    <div class="content">
+        <h4 class="success-text">
+            Unsubscribed successfully!
+        </h4>
+        <p>You will no longer receive email form {{$sender}}</p>
     </div>
+</div>
 </body>
+<script>
+
+</script>
 </html>
