@@ -12,7 +12,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/appstract/laravel-options" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/aws/aws-sdk-php" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/aws/aws-sdk-php-laravel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/barryvdh/laravel-ide-helper" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/barryvdh/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/brick/math" />

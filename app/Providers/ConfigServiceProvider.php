@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class ConfigServiceProvider extends ServiceProvider
@@ -37,21 +38,21 @@ class ConfigServiceProvider extends ServiceProvider
 
         config([
             'mail.from.address'=>$mailFrom,
-            'mail.default' => $mailMailer,
-            'mail.driver'=> $mailMailer,
-            'mail.mailers.smtp' => [
-                'host' => $mailHost,
-                'port' => $mailPort,
-                'encryption' => $mailEncryption,
-                'username' => $mailUserName,
-                'password' => $mailPassword,
-                'timeout' => null,
-                'auth_mode' => null,
-            ],
-            'mail.mailers.ses' =>[
-                'key' => $sesKey,
-                'secret' => $sesSecret,
-                'region' => $sesRegion,
+            'mail.mailer'=> $mailMailer,
+            'mail.mailers' => [
+                'smtp'=>[
+                    'transport'=>$mailMailer,
+                    'host' => $mailHost,
+                    'port' => $mailPort,
+                    'encryption' => $mailEncryption,
+                    'username' => $mailUserName,
+                    'password' => $mailPassword,
+                ],
+                'ses'=>[
+                    'key' => $sesKey,
+                    'secret' => $sesSecret,
+                    'region' => $sesRegion
+                ]
             ],
             'services.ses'=>[
                 'key' => $sesKey,

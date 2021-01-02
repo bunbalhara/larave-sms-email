@@ -59,7 +59,6 @@ class SmsController extends Controller
             'subject' => 'required',
         ]);
 
-//        return config('mail');
 
         if($validator->passes()){
             $numbers_in_arrays = explode( ',' , $request->receivers );
@@ -69,6 +68,7 @@ class SmsController extends Controller
             $content = $request->message;
             $count = 0;
             $to = [];
+
             foreach( $recipients as $recipient )
             {
                 $count++;
@@ -87,9 +87,13 @@ class SmsController extends Controller
 
             return response()->json([
                 'status' => 1,
-                'data'=>$request->message,
+                'data'=>[
+                    'to'=>$to,
+                    'message'=>$request->message
+                ],
                 'message'=>$count . " email sent!"
             ]);
+
         }
         return response()->json([
             'status' => 0,
